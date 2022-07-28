@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>Olá, mundo</h3>
+    <h3>mundo</h3>
 </body>
 </html>
