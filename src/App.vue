@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <calculadora-ipca />
+    <calculadora-inpc/>
   </div>
 </template>
 
@@ -20,5 +21,4 @@ export default {
 </script>
 
 <style>
-
 </style>
