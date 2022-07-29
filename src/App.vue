@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import CalculadoraInpc from './components/Inpc/CalculadoraInpc.vue'
 import ComponenteTeste from './gggggg/ComponenteTeste.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    CalculadoraInpc,
     ComponenteTeste
   }
 }
