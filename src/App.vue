@@ -6,13 +6,13 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import ComponenteTeste from './gggggg/ComponenteTeste.vue'
+import CalculadoraIpca from './Ipca/CalculadoraIpca.vue'
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
-    ComponenteTeste
+    CalculadoraIpca,
   }
 }
 </script>
