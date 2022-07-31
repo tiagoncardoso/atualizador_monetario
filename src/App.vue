@@ -1,23 +1,21 @@
 <template>
   <div id="app">
     <calculadora-ipca />
-    <calculadora-inpc/>
+    <calculadora-inpc />
   </div>
 </template>
 
 <script>
-
-import CalculadoraIpca from './components/Ipca/CalculadoraIpca.vue'
-import CalculadoraInpc from './components/Inpc/CalculadoraInpc.vue'
-
+import CalculadoraIpca from "./components/Ipca/CalculadoraIpca.vue";
+import CalculadoraInpc from "./components/Inpc/CalculadoraInpc.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     CalculadoraIpca,
     CalculadoraInpc,
-  }
-}
+  },
+};
 </script>
 
 <style>
