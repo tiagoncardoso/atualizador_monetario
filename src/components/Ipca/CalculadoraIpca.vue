@@ -9,9 +9,8 @@
             <button class="corButton">Calcular</button>
         </div> 
         <div class="result">
-            <label for="result">Resultado   </label>
+            <label for="result">Resultado </label>
             <input type="text">
-            <p></p>
         </div>
     </div>
 </template>
