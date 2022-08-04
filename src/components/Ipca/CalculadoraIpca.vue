@@ -3,7 +3,7 @@
         <h1>Calculadora IPCA </h1>
         <div class="input">
             <label for="data">Data :</label>
-            <input type="text" v-model="test1">
+            <input type="text" v-model="data">
             <label for="valor"> Valor :</label>
             <input type="text" v-model="test2">
             <button class="corButton" @click="calculo()">Calcular</button>
@@ -24,7 +24,7 @@ export default{
     name: "CalculadoraIpca",
     data() {
         return {
-            test1: '',
+            data: '',
             test2: 0,
             result: 0,
             pegando: [],
@@ -38,7 +38,7 @@ export default{
 
     methods: {
         calculo(){
-            const digitos = this.test1.split('/')
+            const digitos = this.data.split('/')
             const age = digitos[2]
             const mounth = digitos [1]
             const laco = mounth - 1
@@ -47,6 +47,8 @@ export default{
                 if(age == 1994){
                     for(laco; laco != parseFloat(mounth); laco++){
                         this.result = this.indices["1994"][laco]
+                      //  total = this.indices["1994"][laco]
+                      //  this.result = total * 100
                     }
                 }else if (age == 1995){
                     for(laco; laco != parseFloat(mounth); laco++){
@@ -157,7 +159,7 @@ export default{
                         this.result = this.indices["2021"][laco]
                     }
                 }else if(age == 2022){
-                    if(mounth >= 0 && mounth <= 6){
+                    if(mounth >= 1 && mounth <= 6){
                         for(laco; laco != parseFloat(mounth); laco++){
                             this.result = this.indices["2022"][laco]
                         }
