@@ -177,6 +177,7 @@ export default{
             let ano =  parseFloat(digitos[2])
             let mes = parseFloat(digitos [1])
             let total = 0
+            let primeiroValor = this.valor
 
             while(ano != 2023){
                 if(ano != 2022){
@@ -196,6 +197,7 @@ export default{
                 mes = 1
             }
             this.result = this.valor
+            this.valor = primeiroValor
         },
     }
 }
