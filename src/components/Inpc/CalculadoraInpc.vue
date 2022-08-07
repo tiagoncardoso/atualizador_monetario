@@ -7,12 +7,12 @@
     <input type="text" v-model="data" placeholder="Digite a data" />
 
     <label for="valor">Valor:</label>
-    <input type="text" v-model="valor" placeholder="Digite o valor"/>
+    <input type="text" v-model="valor" placeholder="Digite o valor" />
 
     <button @click="calcular()">Calcular</button>
 
     <label for="valorAtual">Valor atualizado:</label>
-    <input type="text" v-model="valorAtual"/>
+    <input type="text" v-model="valorAtual" />
     <!--{{ valores [2022][0]}}-->
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
   name: "CalculadoraInpc",
   data() {
     return {
-      data: '',
+      data: "",
       valor: 0,
       valorAtual: 0,
     };
@@ -128,206 +128,232 @@ export default {
           0.27, 0.82, 0.86, 0.38, 0.96, 0.6, 1.02, 0.88, 1.2, 1.16, 0.84, 0.73,
         ],
         "2022": [0.67, 1.0, 1.71, 1.04, 0.45, 0.62],
-      }
+      };
     },
   },
   methods: {
-    calcular() {
-      const arrayData = this.data.split("/"); //split divide a string
-      const mes = arrayData[1]; //Segunda data
-      const ano = arrayData[2]; //Terceira data
-      const repeticao = mes - 1; //repetição
+    valores(ano, mes) {
+      let repeticao = mes - 1; //repetição
 
       if (mes >= 1 && mes <= 12) {
         switch (ano) {
-
           case "1994":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["1994"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["1994"][repeticao];
             }
-          break;
+            break;
 
           case "1995":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["1995"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["1995"][repeticao];
             }
-          break;
+            break;
 
           case "1996":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["1996"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["1996"][repeticao];
             }
-          break; 
+            break;
 
           case "1997":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["1997"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["1997"][repeticao];
             }
-          break; 
+            break;
 
           case "1998":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["1998"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["1998"][repeticao];
             }
-          break; 
+            break;
 
           case "1999":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["1999"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["1999"][repeticao];
             }
-          break; 
+            break;
 
           case "2000":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2000"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2000"][repeticao];
             }
-          break; 
+            break;
 
           case "2001":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2001"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2001"][repeticao];
             }
-          break; 
+            break;
 
           case "2002":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2002"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2002"][repeticao];
             }
-          break;
-          
+            break;
+
           case "2002":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2002"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2002"][repeticao];
             }
-          break; 
+            break;
 
           case "2003":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2003"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2003"][repeticao];
             }
-          break; 
+            break;
 
           case "2004":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2004"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2004"][repeticao];
             }
-          break; 
+            break;
 
           case "2005":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2005"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2005"][repeticao];
             }
-          break; 
+            break;
 
           case "2006":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2006"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2006"][repeticao];
             }
-          break;
+            break;
 
           case "2007":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2007"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2007"][repeticao];
             }
-          break;
+            break;
 
           case "2008":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2008"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2008"][repeticao];
             }
-          break;
+            break;
 
           case "2009":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2009"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2009"][repeticao];
             }
-          break;
+            break;
 
           case "2010":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2010"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2010"][repeticao];
             }
-          break;
+            break;
 
           case "2011":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2011"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2011"][repeticao];
             }
-          break;
+            break;
 
           case "2012":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2012"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2012"][repeticao];
             }
-          break;
-
+            break;
 
           case "2013":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2013"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2013"][repeticao];
             }
-          break;
+            break;
 
           case "2014":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2014"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2014"][repeticao];
             }
-          break;
+            break;
 
           case "2015":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2015"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2015"][repeticao];
             }
-          break;
+            break;
 
           case "2016":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2016"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2016"][repeticao];
             }
-          break;
+            break;
 
           case "2017":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2017"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2017"][repeticao];
             }
-          break;
+            break;
 
           case "2018":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2018"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2018"][repeticao];
             }
-          break;
+            break;
 
           case "2019":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2019"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2019"][repeticao];
             }
-          break;
+            break;
 
           case "2020":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2020"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2020"][repeticao];
             }
-          break;
+            break;
 
           case "2021":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2021"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2021"][repeticao];
             }
-          break;
+            break;
 
           case "2022":
-            for (repeticao; repeticao != parseFloat(mes); repeticao++){
-                this.valorAtual = this.indices["2022"][repeticao]
+            for (repeticao; repeticao != parseFloat(mes); repeticao++) {
+              this.valorAtual = this.indices["2022"][repeticao];
             }
-          break;
+            break;
 
           default:
-            this.valorAtual= "Ano ou mês inválido"
+            this.valorAtual = "Ano ou mês inválido";
         }
-      }else{
-        this.valorAtual= "Tente novamente!"
+      } else {
+        this.valorAtual = "Tente novamente!";
       }
+    },
+
+    calcular() {
+      const arrayData = this.data.split("/"); //split divide a string
+      let mes = parseFloat(arrayData[1]); //Segunda data
+      let ano = parseFloat(arrayData[2]); //Terceira data
+      let resultado = 0; //atribui o valor
+      let recebeValor = this.valor;
+
+      if (ano >= 1994 && ano <= 2021) {
+        for (mes; mes <= 12; mes++) {
+          let indice = this.valores(ano, mes);
+          let resultado =
+            parseFloat(this.valor) * (parseFloat(indice) / 100) +
+            parseFloat(this.valor);
+          this.valor = resultado;
+        }
+      } else if (ano == 2022) {
+        for (mes; mes <= 6; mes++) {
+          let indice = this.valores(ano, mes);
+          let resultado =
+            parseFloat(this.valor) * (parseFloat(indice) / 100) +
+            parseFloat(this.valor);
+          this.valor = resultado;
+        }
+      } else {
+        this.valor = "Tente novamente, ano inválido!";
+      }
+
+      this.valorAtual = this.valor;
+      this.valor = recebeValor;
     },
   },
 };
