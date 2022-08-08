@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       data: "",
-      valor: 0,
+      valor: "",
       valorAtual: 0,
     };
   },
@@ -326,32 +326,34 @@ export default {
     },
 
     calcular() {
+
       const arrayData = this.data.split("/"); //split divide a string
       let mes = parseFloat(arrayData[1]); //Segunda data
       let ano = parseFloat(arrayData[2]); //Terceira data
       let resultado = 0; //atribui o valor
       let recebeValor = this.valor;
 
+      debugger
       if (ano >= 1994 && ano <= 2021) {
-        for (mes; mes <= 12; mes++) {
-          let indice = this.valores(ano, mes);
-          let resultado =
-            parseFloat(this.valor) * (parseFloat(indice) / 100) +
-            parseFloat(this.valor);
-          this.valor = resultado;
+        for (ano; ano < 2021; ano++) {
+          for (mes; mes < 12; mes++) {
+            resultado = 
+                parseFloat(this.valor) * (parseFloat(this.indices[ano][mes]) / 100) +
+                parseFloat(this.valor);
+            this.valor = parseFloat(resultado);
+          }
         }
       } else if (ano == 2022) {
-        for (mes; mes <= 6; mes++) {
-          let indice = this.valores(ano, mes);
-          let resultado =
-            parseFloat(this.valor) * (parseFloat(indice) / 100) +
+        for (mes; mes < 6; mes++) {
+          resultado =
+            parseFloat(this.valor) * (parseFloat(this.indices[ano][mes]) / 100) +
             parseFloat(this.valor);
           this.valor = resultado;
         }
       } else {
         this.valor = "Tente novamente, ano inválido!";
       }
-
+      
       this.valorAtual = this.valor;
       this.valor = recebeValor;
     },
