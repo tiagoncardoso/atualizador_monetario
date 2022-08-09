@@ -15,16 +15,17 @@
                             </div>
                             <div class="col-6 mb-4 form-group">
                                 <label for="sr-only"> Valor</label>
-                                <input class="form-control input-group-lg reg_name" type="text" v-model="valor">
+                                <Money class="form-control input-group-lg reg_name" v-model="valor" v-bind="money"/>
+                                
                             </div>
                             <div class="col-12  text-center">
                                 <button class="btn btn-primary" @click="calcular()">Calcular</button>
-                                <button class="btn btn-danger">Voltar</button>
+                                <button class="btn btn-danger" @click="limpar()">Limpar</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6 offset-3 mt-3">
-                                <input class="form-control input-group-lg reg_name" type="text" disabled v-model="result">
+                                <Money class="form-control input-group-lg reg_name" disabled v-model="result" v-bind="money"/>
                             </div>
                         </div>
                     </div>
@@ -38,14 +39,27 @@
 
 <script>
 import { indices } from "./Ipca";
+import {Money} from 'v-money'
 
 export default {
   name: "CalculadoraIpca",
+
+  components: {
+    Money
+  },
+
   data() {
     return {
       data: "0",
       valor: 0,
       result: 0,
+      money: {
+          decimal: ',',
+          thousands: '.',
+          prefix: 'R$ ',
+          precision: 2,
+          masked: false
+        }
     };
   },
   computed: {
@@ -221,6 +235,11 @@ export default {
       this.result = this.valor;
       this.valor = primeiroValor;
     },
+    limpar(){
+        this.data = "",
+        this.valor = 0,
+        this.result = 0;
+    }
   },
 };
 </script>
