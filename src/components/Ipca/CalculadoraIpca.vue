@@ -1,13 +1,13 @@
 <template>
     <div class="app">
         
-        <div class="row bg-dark">
+        <div class="row escuro">
             <div class="col ">
-                <h1 class="bg-secondary text-center text-dark mb-5 mt-4">Calculadora IPCA </h1>
+                <h1 class="clara text-center mb-5 mt-4">Atualuzação monetária-IPCA </h1>
                 </div>
             </div>
-                <div class="row text-light bg-secondary">
-                    <div class="col-6 offset-3 bg-dark">
+                <div class="row text-light escuro">
+                    <div class="col-6 offset-3 clara rounded">
                         <div class="row g-3">
                             <div class="col-6 mb-4 form-group">
                                 <label for="data" class="sr-only">Data</label>
@@ -23,14 +23,14 @@
                                 <button class="btn btn-danger" @click="limpar()">Limpar</button>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-5">
                             <div class="col-6 offset-3 mt-3">
                                 <Money class="form-control input-group-lg reg_name" disabled v-model="result" v-bind="money"/>
                             </div>
                         </div>
                     </div>
                 </div>  
-            <div class="row bg-dark">
+            <div class="row escuro">
                 <p>  </p><br><br>
             </div>
     </div>
@@ -257,5 +257,14 @@ export default {
 
 
 <style>
+  .clara {
+    background-color: rgba(0,0,0,0.5) !important;
+    color:white;
+  }
 
+  .escuro{
+    background-color: #1c7ea1 !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
 </style>
