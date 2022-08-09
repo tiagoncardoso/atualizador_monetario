@@ -1,20 +1,35 @@
 <template>
-  <div class="principal">
-    <h1>Seja bem-vindo</h1>
-    <h2>Atualização monetária- INPC</h2>
-
-    <label for="data">Data:</label>
-    <input type="text" v-model="data" placeholder="Digite a data" />
-
-    <label for="valor">Valor:</label>
-    <input type="text" v-model="valor" placeholder="Digite o valor" />
-
-    <button @click="calcular()">Calcular</button>
-
-    <label for="valorAtual">Valor atualizado:</label>
-    <input type="text" v-model="valorAtual" />
+<div class="container mt-5">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card">
+			<div class="card-header">
+				<h3>Atualização monetária- INPC</h3>
+			</div>
+			<div class="card-body">
+				<form>
+					<div class="input-group form-group mb-3">
+            <label for="data">Data: </label>
+            <input class="form-control" type="text" v-model="data" placeholder="Digite a data" />
+					</div>
+					<div class="input-group form-group">
+						<label for="valor">Valor: </label>
+            <input class="form-control" type="text" v-model="valor" placeholder="Digite o valor" />
+          </div>
+          <div class="row input-group form-group text-center p-4">
+            <div class= "col-12 text-center">
+              <button type="button" class= "btn btn-primary" @click="calcular()">Calcular</button>
+            </div>
+					</div>
+					<div class="form-group">
+            <label for="valorAtual">Valor atualizado:</label>
+            <input class="form-control" type="text" v-model="valorAtual" placeholder="Valor atualizado" />
+          </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
     <!--{{ valores [2022][0]}}-->
-  </div>
 </template>
 
 
@@ -334,7 +349,6 @@ export default {
       let recebeValor = this.valor;
       let mesDiminui = mes - 1;
 
-      debugger
       if (ano >= 1994 && ano <= 2022) {
         for (ano; ano <= 2021; ano++) {
           for (mesDiminui; mesDiminui < 12; mesDiminui++) {
@@ -365,16 +379,24 @@ export default {
 </script>
 
 <style>
-.principal {
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
-  /*width: 490px;*/
-  margin: auto;
-  margin-top: 100px;
-  padding: 5px;
-  background-color: rgb(181, 191, 202);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 50px;
+
+html,body{
+background: #60a3bc !important;
+background-size: cover;
+background-repeat: no-repeat;
+font-family: 'Numans', sans-serif;
 }
+
+
+.card{
+background-color: rgba(0,0,0,0.5) !important;
+color: white;
+}
+
+.input-group-prepend span{
+width: 50px;
+color: white;
+border:0 !important;
+}
+
 </style>
