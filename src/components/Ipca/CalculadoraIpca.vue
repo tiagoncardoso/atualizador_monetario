@@ -50,7 +50,7 @@ export default {
 
   data() {
     return {
-      data: "0",
+      data: " ",
       valor: 0,
       result: 0,
       money: {
@@ -211,30 +211,41 @@ export default {
       let total = 0;
       let primeiroValor = this.valor;
 
-      while (ano != 2023) {
-        if (ano != 2022) {
-          for (mes; mes <= 12; mes++) {
-            let indice = this.pick(ano, mes);
-            let total =
-              parseFloat(this.valor) * (parseFloat(indice) / 100) +
-              parseFloat(this.valor);
-            this.valor = total;
+      debugger
+      if((ano >= 1994 && ano <= 2022) && (mes >= 1 && mes <= 12)){
+        if (ano == 1994 && mes <= 6){
+          this.result = 0
+        }else{
+          while (ano != 2023) {
+            if (ano != 2022) {
+              for (mes; mes <= 12; mes++) {
+                let indice = this.pick(ano, mes);
+                let total =
+                  parseFloat(this.valor) * (parseFloat(indice) / 100) +
+                  parseFloat(this.valor);
+                this.valor = total;
+              }
+            } else if (ano == 2022) {
+              for (mes; mes <= 6; mes++) {
+                let indice = this.pick(ano, mes);
+                let total =
+                  parseFloat(this.valor) * (parseFloat(indice) / 100) +
+                  parseFloat(this.valor);
+                this.valor = total;
+              }
+            }
+            ano++;
+            mes = 1;
           }
-        } else if (ano == 2022) {
-          for (mes; mes <= 6; mes++) {
-            let indice = this.pick(ano, mes);
-            let total =
-              parseFloat(this.valor) * (parseFloat(indice) / 100) +
-              parseFloat(this.valor);
-            this.valor = total;
-          }
+        this.result = this.valor;
+        this.valor = primeiroValor;
         }
-        ano++;
-        mes = 1;
-      }
-      this.result = this.valor;
-      this.valor = primeiroValor;
+        }else{
+          this.result = 0
+        }
+     
     },
+
     limpar(){
         this.data = "",
         this.valor = 0,
@@ -246,34 +257,5 @@ export default {
 
 
 <style>
-/*.app{
-        background: rgb(54, 50, 50); 
-    }
 
-    h1{
-        background: black;
-        color: white;
-        text-align: center;
-    }
-
-    .input {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: white;
-        margin-top: 60px;
-    }
-
-    .corButton{
-        background: blue;
-        color: white;
-    }
-
-    .result{
-        padding-bottom: 20px;
-        text-align:     center;
-        margin-top: 20px;
-        color: white;
-    }*/
 </style>
