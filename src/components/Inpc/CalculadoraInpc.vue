@@ -118,14 +118,14 @@ export default {
           0.23, 0.18, 0.07, 0.21, 0.43, 1.43, 0.25, 0.0, 0.3, 0.4, -0.25, 0.14,
         ],
         "2019": [
-          0.36, 0.54, 0.77, 0.6, 0.15, 0.01, 0.1, 0.12, -0.05, 0.04, 0.54, 1.22,
+          0.36, 0.54, 0.77, 0.6, 0.15, 0.01, 0.1, 0.12, -0.05, 0.04, 0.54, 1.22
         ],
         "2020": [
           0.19, 0.17, 0.18, -0.23, -0.25, 0.3, 0.44, 0.36, 0.87, 0.89, 0.95,
-          1.46,
+          1.46
         ],
         "2021": [
-          0.27, 0.82, 0.86, 0.38, 0.96, 0.6, 1.02, 0.88, 1.2, 1.16, 0.84, 0.73,
+          0.27, 0.82, 0.86, 0.38, 0.96, 0.6, 1.02, 0.88, 1.2, 1.16, 0.84, 0.73
         ],
         "2022": [0.67, 1.0, 1.71, 1.04, 0.45, 0.62],
       };
@@ -332,18 +332,20 @@ export default {
       let ano = parseFloat(arrayData[2]); //Terceira data
       let resultado = 0; //atribui o valor
       let recebeValor = this.valor;
+      let diminuir = mes - 1;
 
       debugger
       if (ano >= 1994 && ano <= 2021) {
-        for (ano; ano < 2021; ano++) {
-          for (mes; mes < 12; mes++) {
+        for (ano; ano <= 2021; ano++) {
+          for (diminuir; diminuir < 12; diminuir++) {
             resultado = 
-                parseFloat(this.valor) * (parseFloat(this.indices[ano][mes]) / 100) +
+                parseFloat(this.valor) * (parseFloat(this.indices[ano][diminuir]) / 100) +
                 parseFloat(this.valor);
             this.valor = parseFloat(resultado);
           }
+          diminuir = 0;
         }
-      } else if (ano == 2022) {
+      } else if (ano == 20222) {
         for (mes; mes < 6; mes++) {
           resultado =
             parseFloat(this.valor) * (parseFloat(this.indices[ano][mes]) / 100) +
