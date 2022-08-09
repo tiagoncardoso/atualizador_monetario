@@ -3,7 +3,7 @@
         
         <div class="row escuro">
             <div class="col ">
-                <h1 class="clara text-center mb-5 mt-4">Atualuzação monetária-IPCA </h1>
+                <h1 class="clara text-center mb-5 mt-4">Atualização monetária-IPCA </h1>
                 </div>
             </div>
                 <div class="row text-light escuro">
