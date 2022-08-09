@@ -1,18 +1,18 @@
 <template>
 <div class="container mt-5">
-	<div class="d-flex justify-content-center h-100">
-		<div class="card">
-			<div class="card-header">
-				<h3>Atualização monetária- INPC</h3>
-			</div>
-			<div class="card-body">
-				<form>
-					<div class="input-group form-group mb-3">
+  <div class="d-flex justify-content-center h-100">
+    <div class="card">
+      <div class="card-header">
+        <h3>Atualização monetária- INPC</h3>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="input-group form-group mb-3">
             <label for="data">Data: </label>
             <input class="form-control" type="text" v-model="data" placeholder="Digite a data" />
-					</div>
-					<div class="input-group form-group">
-						<label for="valor">Valor: </label>
+          </div>
+          <div class="input-group form-group">
+            <label for="valor">Valor: </label>
             <Money class="form-control" type="text" v-model="valor" placeholder="Digite o valor" v-bind="money"/>
           </div>
           <div class="row input-group form-group text-center p-4">
@@ -20,15 +20,15 @@
               <button type="button" class= "btn btn-primary" @click="calcular()">Calcular</button>
               <button type="button" class="btn btn-danger" @click="limpar()">Limpar</button>
             </div>
-					</div>
-					<div class="form-group">
+          </div>
+          <div class="form-group">
             <label for="valorAtual">Valor atualizado:</label>
             <Money class="form-control" type="text" v-model="valorAtual" placeholder="Valor atualizado" v-bind="money"/>
           </div>
-				</form>
-			</div>
-		</div>
-	</div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
     <!--{{ valores [2022][0]}}-->
 </template>
