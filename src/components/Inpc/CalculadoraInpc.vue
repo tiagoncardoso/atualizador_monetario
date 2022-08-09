@@ -1,31 +1,58 @@
 <template>
-  <div class="principal">
-    <h1>Seja bem-vindo</h1>
-    <h2>Atualização monetária- INPC</h2>
-
-    <label for="data">Data:</label>
-    <input type="text" v-model="data" placeholder="Digite a data" />
-
-    <label for="valor">Valor:</label>
-    <input type="text" v-model="valor" placeholder="Digite o valor" />
-
-    <button @click="calcular()">Calcular</button>
-
-    <label for="valorAtual">Valor atualizado:</label>
-    <input type="text" v-model="valorAtual" />
-    <!--{{ valores [2022][0]}}-->
+<div class="container mt-5">
+  <div class="d-flex justify-content-center h-100">
+    <div class="card">
+      <div class="card-header">
+        <h3>Atualização monetária- INPC</h3>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="input-group form-group mb-3">
+            <label for="data">Data: </label>
+            <input class="form-control" type="text" v-model="data" placeholder="Digite a data" />
+          </div>
+          <div class="input-group form-group">
+            <label for="valor">Valor: </label>
+            <Money class="form-control" type="text" v-model="valor" placeholder="Digite o valor" v-bind="money"/>
+          </div>
+          <div class="row input-group form-group text-center p-4">
+            <div class= "col-12 text-center">
+              <button type="button" class= "btn btn-primary" @click="calcular()">Calcular</button>
+              <button type="button" class="btn btn-danger" @click="limpar()">Limpar</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="valorAtual">Valor atualizado:</label>
+            <Money class="form-control" type="text" v-model="valorAtual" placeholder="Valor atualizado" v-bind="money"/>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
+</div>
+    <!--{{ valores [2022][0]}}-->
 </template>
 
 
 <script>
+import {Money} from 'v-money';
 export default {
   name: "CalculadoraInpc",
+  components :{
+    Money
+  },
   data() {
     return {
       data: "",
       valor: 0,
       valorAtual: 0,
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: 'R$ ',
+        precision: 2,
+        masked: false
+      }
     };
   },
   computed: {
@@ -118,14 +145,14 @@ export default {
           0.23, 0.18, 0.07, 0.21, 0.43, 1.43, 0.25, 0.0, 0.3, 0.4, -0.25, 0.14,
         ],
         "2019": [
-          0.36, 0.54, 0.77, 0.6, 0.15, 0.01, 0.1, 0.12, -0.05, 0.04, 0.54, 1.22,
+          0.36, 0.54, 0.77, 0.6, 0.15, 0.01, 0.1, 0.12, -0.05, 0.04, 0.54, 1.22
         ],
         "2020": [
           0.19, 0.17, 0.18, -0.23, -0.25, 0.3, 0.44, 0.36, 0.87, 0.89, 0.95,
-          1.46,
+          1.46
         ],
         "2021": [
-          0.27, 0.82, 0.86, 0.38, 0.96, 0.6, 1.02, 0.88, 1.2, 1.16, 0.84, 0.73,
+          0.27, 0.82, 0.86, 0.38, 0.96, 0.6, 1.02, 0.88, 1.2, 1.16, 0.84, 0.73
         ],
         "2022": [0.67, 1.0, 1.71, 1.04, 0.45, 0.62],
       };
@@ -326,50 +353,69 @@ export default {
     },
 
     calcular() {
+
       const arrayData = this.data.split("/"); //split divide a string
       let mes = parseFloat(arrayData[1]); //Segunda data
       let ano = parseFloat(arrayData[2]); //Terceira data
       let resultado = 0; //atribui o valor
       let recebeValor = this.valor;
+      let mesDiminui = mes - 1;
 
-      if (ano >= 1994 && ano <= 2021) {
-        for (mes; mes <= 12; mes++) {
-          let indice = this.valores(ano, mes);
-          let resultado =
-            parseFloat(this.valor) * (parseFloat(indice) / 100) +
-            parseFloat(this.valor);
-          this.valor = resultado;
-        }
-      } else if (ano == 2022) {
-        for (mes; mes <= 6; mes++) {
-          let indice = this.valores(ano, mes);
-          let resultado =
-            parseFloat(this.valor) * (parseFloat(indice) / 100) +
-            parseFloat(this.valor);
-          this.valor = resultado;
+      if (ano >= 1994 && ano <= 2022) {
+        for (ano; ano <= 2021; ano++) {
+          for (mesDiminui; mesDiminui < 12; mesDiminui++) {
+            resultado = 
+                parseFloat(this.valor) * (parseFloat(this.indices[ano][mesDiminui]) / 100) +
+                parseFloat(this.valor);
+            this.valor = parseFloat(resultado);
+          }
+          mesDiminui = 0;
+        } 
+        for (ano; ano == 2022; ano++){
+          for (mesDiminui; mesDiminui < 6; mesDiminui++) {
+            resultado =
+              parseFloat(this.valor) * (parseFloat(this.indices[ano][mesDiminui]) / 100) +
+              parseFloat(this.valor);
+            this.valor = resultado;
+          }
         }
       } else {
         this.valor = "Tente novamente, ano inválido!";
       }
-
+      
       this.valorAtual = this.valor;
       this.valor = recebeValor;
     },
+
+    limpar(){
+      this.data = ''
+      this.valor = 0
+      this.valorAtual= 0
+    }
   },
 };
 </script>
 
 <style>
-.principal {
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
-  /*width: 490px;*/
-  margin: auto;
-  margin-top: 100px;
-  padding: 5px;
-  background-color: rgb(181, 191, 202);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 50px;
+
+html,body{
+background: #1c7ea1 !important;
+background-size: cover;
+background-repeat: no-repeat;
+font-family: 'Numans', sans-serif;
 }
+
+
+.card{
+background-color: rgba(0,0,0,0.5) !important;
+color: white;
+}
+
+.input-group-prepend span{
+width: 40px;
+height: 50px;
+color: white;
+border:0 !important;
+}
+
 </style>
