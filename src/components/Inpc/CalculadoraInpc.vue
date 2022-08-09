@@ -332,25 +332,26 @@ export default {
       let ano = parseFloat(arrayData[2]); //Terceira data
       let resultado = 0; //atribui o valor
       let recebeValor = this.valor;
-      let diminuir = mes - 1;
+      let mesDiminui = mes - 1;
 
       debugger
-      if (ano >= 1994 && ano <= 2021) {
+      if (ano >= 1994 && ano <= 2022) {
         for (ano; ano <= 2021; ano++) {
-          for (diminuir; diminuir < 12; diminuir++) {
+          for (mesDiminui; mesDiminui < 12; mesDiminui++) {
             resultado = 
-                parseFloat(this.valor) * (parseFloat(this.indices[ano][diminuir]) / 100) +
+                parseFloat(this.valor) * (parseFloat(this.indices[ano][mesDiminui]) / 100) +
                 parseFloat(this.valor);
             this.valor = parseFloat(resultado);
           }
-          diminuir = 0;
-        }
-      } else if (ano == 20222) {
-        for (mes; mes < 6; mes++) {
-          resultado =
-            parseFloat(this.valor) * (parseFloat(this.indices[ano][mes]) / 100) +
-            parseFloat(this.valor);
-          this.valor = resultado;
+          mesDiminui = 0;
+        } 
+        for (ano; ano == 2022; ano++){
+          for (mesDiminui; mesDiminui < 6; mesDiminui++) {
+            resultado =
+              parseFloat(this.valor) * (parseFloat(this.indices[ano][mesDiminui]) / 100) +
+              parseFloat(this.valor);
+            this.valor = resultado;
+          }
         }
       } else {
         this.valor = "Tente novamente, ano inválido!";
