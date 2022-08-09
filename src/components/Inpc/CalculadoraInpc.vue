@@ -13,16 +13,17 @@
 					</div>
 					<div class="input-group form-group">
 						<label for="valor">Valor: </label>
-            <input class="form-control" type="text" v-model="valor" placeholder="Digite o valor" />
+            <Money class="form-control" type="text" v-model="valor" placeholder="Digite o valor" v-bind="money"/>
           </div>
           <div class="row input-group form-group text-center p-4">
             <div class= "col-12 text-center">
               <button type="button" class= "btn btn-primary" @click="calcular()">Calcular</button>
+              <button type="button" class="btn btn-danger" @click="limpar()">Limpar</button>
             </div>
 					</div>
 					<div class="form-group">
             <label for="valorAtual">Valor atualizado:</label>
-            <input class="form-control" type="text" v-model="valorAtual" placeholder="Valor atualizado" />
+            <Money class="form-control" type="text" v-model="valorAtual" placeholder="Valor atualizado" v-bind="money"/>
           </div>
 				</form>
 			</div>
@@ -34,13 +35,24 @@
 
 
 <script>
+import {Money} from 'v-money';
 export default {
   name: "CalculadoraInpc",
+  components :{
+    Money
+  },
   data() {
     return {
       data: "",
-      valor: "",
+      valor: 0,
       valorAtual: 0,
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: 'R$ ',
+        precision: 2,
+        masked: false
+      }
     };
   },
   computed: {
@@ -374,6 +386,12 @@ export default {
       this.valorAtual = this.valor;
       this.valor = recebeValor;
     },
+
+    limpar(){
+      this.data = ''
+      this.valor = 0
+      this.valorAtual= 0
+    }
   },
 };
 </script>
@@ -381,7 +399,7 @@ export default {
 <style>
 
 html,body{
-background: #60a3bc !important;
+background: #1c7ea1 !important;
 background-size: cover;
 background-repeat: no-repeat;
 font-family: 'Numans', sans-serif;
@@ -394,7 +412,8 @@ color: white;
 }
 
 .input-group-prepend span{
-width: 50px;
+width: 40px;
+height: 50px;
 color: white;
 border:0 !important;
 }
