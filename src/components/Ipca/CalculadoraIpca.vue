@@ -1,51 +1,86 @@
 <template>
-    <div class="app">
-        
-        <div class="row escuro">
-            <div class="col ">
-                <h1 class="clara text-center mb-5 mt-4">Atualização monetária-IPCA </h1>
-                </div>
-            </div>
-                <div class="row text-light escuro">
-                    <div class="col-6 offset-3 clara rounded">
-                        <div class="row g-3">
-                            <div class="col-6 mb-4 form-group">
-                                <label for="data" class="sr-only">Data</label>
-                                <input class="form-control input-group-lg reg_name" type="text" v-model="data">
-                            </div>
-                            <div class="col-6 mb-4 form-group">
-                                <label for="sr-only"> Valor</label>
-                                <Money class="form-control input-group-lg reg_name" v-model="valor" v-bind="money"/>
-                                
-                            </div>
-                            <div class="col-12  text-center">
-                                <button class="btn btn-primary" @click="calcular()">Calcular</button>
-                                <button class="btn btn-danger" @click="limpar()">Limpar</button>
-                            </div>
-                        </div>
-                        <div class="row mb-5">
-                            <div class="col-6 offset-3 mt-3">
-                                <Money class="form-control input-group-lg reg_name" disabled v-model="result" v-bind="money"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-            <div class="row escuro">
-                <p>  </p><br><br>
-            </div>
-    </div>
+  <v-container>
+    <v-row class="text-center">
+      <v-col cols="6" offset="3">
+        <v-card dark class="elevation-12" rounded>
+          <v-toolbar color="green" class="darken-4">
+            <h1>Calculadora IPCA</h1>
+          </v-toolbar>
+          <v-card-text>
+            <v-row>
+              <v-col cols="4" offset="4">
+                <v-text-field
+                  label="Digite a data"
+                  filled
+                  dense
+                  :loading="carregando"
+                  clearable
+                  hint="DD/MM/AAAA"
+                  v-model="data"
+                ></v-text-field>
+
+                <v-col>
+                  <vuetify-money
+                    label="Digite o valor"
+                    filled
+                    dense
+                    counter
+                    v-model="valor"
+                  ></vuetify-money>
+                </v-col>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="8" offset="2">
+                <v-btn color="primary" @click="calcular()">Calcular</v-btn>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="8" offset="2" class="mb-4">
+                <v-btn color="error" @click="limpar()">Limpar</v-btn>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col
+                cols="12"
+                offset="0"
+                sm="4"
+                offset-sm="4"
+                lg="2"
+                offset-lg="5"
+              >
+                <vuetify-money
+                  label="Resultado"
+                  filled
+                  dense
+                  counter
+                  :loading="carregando"
+                  background-color="#FFFF"
+                  v-model="result"
+                  text-l
+                ></vuetify-money>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 
 <script>
 import { indices } from "./Ipca";
-import {Money} from 'v-money'
+import { Money } from "v-money";
 
 export default {
   name: "CalculadoraIpca",
 
   components: {
-    Money
+    Money,
   },
 
   data() {
@@ -53,13 +88,15 @@ export default {
       data: " ",
       valor: 0,
       result: 0,
-      money: {
-          decimal: ',',
-          thousands: '.',
-          prefix: 'R$ ',
-          precision: 2,
-          masked: false
-        }
+      label: "valor, result",
+      options: {
+        locale: "pt-BR",
+        prefix: "R$",
+        suffix: "",
+        length: 11,
+        precision: 2,
+      },
+      carregando: false,
     };
   },
   computed: {
@@ -211,11 +248,11 @@ export default {
       let total = 0;
       let primeiroValor = this.valor;
 
-      debugger
-      if((ano >= 1994 && ano <= 2022) && (mes >= 1 && mes <= 12)){
-        if (ano == 1994 && mes <= 6){
-          this.result = 0
-        }else{
+      debugger;
+      if (ano >= 1994 && ano <= 2022 && mes >= 1 && mes <= 12) {
+        if (ano == 1994 && mes <= 6) {
+          this.result = 0;
+        } else {
           while (ano != 2023) {
             if (ano != 2022) {
               for (mes; mes <= 12; mes++) {
@@ -237,26 +274,38 @@ export default {
             ano++;
             mes = 1;
           }
-        this.result = this.valor;
-        this.valor = primeiroValor;
+          this.result = this.valor;
+          this.valor = primeiroValor;
         }
-        }else{
-          this.result = 0
-        }
-     
+      } else {
+        this.result = 0;
+      }
     },
 
-    limpar(){
-        this.data = "",
-        this.valor = 0,
-        this.result = 0;
-    }
+    limpar() {
+      (this.data = ""), (this.valor = 0), (this.result = 0);
+    },
   },
 };
 </script>
 
 
 <style>
+.claro {
+  color: rgb(0, 0, 0) !important;
+}
+
+.ajuste {
+  display: flex !important;
+}
+.tela-1 {
+  background-color: rgb(114, 228, 91);
+}
+
+.tela-escura {
+  background-color: rgb(0, 0, 0);
+}
+/*
   .clara {
     background-color: rgba(0,0,0,0.5) !important;
     color:white;
@@ -266,5 +315,5 @@ export default {
     background-color: #1c7ea1 !important;
     background-size: cover;
     background-repeat: no-repeat;
-  }
+  }*/
 </style>

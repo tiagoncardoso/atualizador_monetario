@@ -1,22 +1,22 @@
 <template>
-  <div id="app">
-    <calculadora-ipca />
-    <calculadora-inpc />
-  </div>
+  <v-app>
+    <v-main>
+      <calculadora-ipca/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import CalculadoraIpca from "./components/Ipca/CalculadoraIpca.vue";
-import CalculadoraInpc from "./components/Inpc/CalculadoraInpc.vue";
-
+import CalculadoraIpca from './components/Ipca/CalculadoraIpca.vue'
 export default {
-  name: "App",
+  name: 'App',
+
   components: {
     CalculadoraIpca,
-    CalculadoraInpc,
   },
+
+  data: () => ({
+    //
+  }),
 };
 </script>
-
-<style>
-</style>
