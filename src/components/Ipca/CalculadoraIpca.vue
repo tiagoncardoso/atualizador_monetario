@@ -58,7 +58,7 @@
                   dense
                   counter
                   :loading="carregando"
-                  background-color="#FFFF"
+                  background-color="#FFFEEE"
                   v-model="result"
                   text-l
                 ></vuetify-money>
