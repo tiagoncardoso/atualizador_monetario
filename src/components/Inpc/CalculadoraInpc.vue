@@ -1,65 +1,114 @@
 <template>
-<v-container class="mt-10">
-  <v-card>
-    <v-card-header class= "d-flex justify-center mb-5">
-      <h2>Atualização monetária- INPC</h2>
-    </v-card-header>
-    <v-card-body>
-      <v-form>
+    <v-container>
         <v-row>
-          <v-col class="text-center input-group form-group mb-3">
-            <v-row>
-              <v-col>
-                <label for="data">Data: </label>
-                <input class="claro" type="text" v-model="data" placeholder="Digite a data" />
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <label for="valor">Valor: </label>
-                <Money class="claro" type="text" v-model="valor" placeholder="Digite o valor" v-bind="money"/>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-btn type="button" color= "primary" @click="calcular()">Calcular</v-btn>
-                <v-btn type="button" color="error" @click="limpar()">Limpar</v-btn>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <label for="valorAtual">Valor atualizado:</label>
-                <Money class="claro" type="text" v-model="valorAtual" placeholder="Valor atualizado" v-bind="money"/>
-              </v-col>
-            </v-row>
-          </v-col>
+            <v-col
+                cols="4"
+                class="mt-10 
+                offset-4 
+                text-center 
+                input-group 
+                form-group mb-3"
+            >
+                <v-card class="elevation-12">
+                    <v-toolbar dark color="primary" class="text-center mb-4">
+                        <v-toolbar-title>Atualização monetária- INPC</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form>
+                            <v-row>
+                                <v-col cols="6"
+                                    offset="3"
+                                >
+                                    <v-text-field
+                                        v-model="data"
+                                        label="Digite a data"
+                                        outlined
+                                        dense
+                                        :loading="carregando"
+                                        clearable
+                                        hint="dd/mm/aaaa"
+                                        background-color="white"
+                                        color="black"
+                                    />
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col
+                                    cols="6"
+                                    offset="3"
+                                >
+                                    <vuetify-money
+                                        v-model="valor"
+                                        label="Valor"
+                                        outlined
+                                        dense
+                                        clearable
+                                        background-color="white"
+                                        color="black"
+                                        :options="options"
+                                    />
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col>
+                                    <v-btn
+                                        type="button"
+                                        class="mr-3"
+                                        color="primary"
+                                        @click="calcular()"
+                                        >Calcular</v-btn
+                                    >
+                                    <v-btn
+                                        type="button"
+                                        color="error"
+                                        @click="limpar()"
+                                        >Limpar</v-btn
+                                    >
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col
+                                    cols="6"
+                                    offset="3"
+                                >
+                                    <vuetify-money
+                                        v-model="valorAtual"
+                                        label="Valor"
+                                        outlined
+                                        dense
+                                        clearable
+                                        background-color="white"
+                                        color="black"
+                                        :options="options"
+                                    />
+                                </v-col>
+                            </v-row>
+                        </v-form>
+                    </v-card-text>
+                </v-card>
+            </v-col>
         </v-row>
-      </v-form>
-    </v-card-body>
-  </v-card>
-</v-container>
+    </v-container>
     <!--{{ valores [2022][0]}}-->
 </template>
 
 
 <script>
-import { Money } from "v-money";
 export default {
     name: "CalculadoraInpc",
-    components: {
-        Money,
-    },
     data() {
         return {
             data: "",
-            valor: 0,
-            valorAtual: 0,
-            money: {
-                decimal: ",",
-                thousands: ".",
+            carregando: false,
+            valor: "0",
+            valorAtual: "0",
+            label: "valor, valorAtual",
+            options: {
+                locale: "pt-BR",
                 prefix: "R$ ",
+                suffix: "",
+                length: 11,
                 precision: 2,
-                masked: false,
             },
         };
     },
@@ -544,20 +593,18 @@ export default {
 </script>
 
 <style>
-
 .v-card {
-    background: #BBDEFB!important;
+    background: #bbdefb !important;
     background-size: cover;
     background-repeat: no-repeat;
     font-family: "Numans", sans-serif;
 }
 
-.claro {
-    background-color:  white;
+.v-btn {
+    width: 100px;
 }
 
 template {
-  background: #E3F2FD ;
+    background: #e3f2fd;
 }
-
 </style>
