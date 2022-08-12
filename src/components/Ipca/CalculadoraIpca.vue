@@ -9,18 +9,7 @@
           <v-card-text>
             <v-row>
               <v-col cols="4" offset="4" class="mt-10 mb-15">
-                <v-date-picker
-                    class="mb-3"
-                    label="Digite a data"
-                    regular
-                    dense
-                    color="black"
-                    :loading="carregando"
-                    clearable
-                    hint="DD/MM/AAAA"
-                    v-model="picker"
-                ></v-date-picker>
-
+                  <input-month v-model="data" class="mb-5" label='Data' :dataEnviada="dataPadrao"/>
                 <v-col>
                   <vuetify-money
                     label="Digite o valor"
@@ -72,11 +61,14 @@
 <script>
 import { indices } from "./Ipca";
 import { Money } from "v-money";
+import InputMonth from '../shared/InputMonth.vue'
+
 
 export default {
   name: "CalculadoraIpca",
 
   components: {
+     InputMonth,
     Money,
   },
 
@@ -92,9 +84,10 @@ export default {
         suffix: "",
         length: 11,
         precision: 2,
-        picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       },
+      picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       carregando: false,
+      dataPadrao: "" 
     };
   },
   computed: {
