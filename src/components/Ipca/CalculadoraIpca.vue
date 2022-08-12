@@ -9,7 +9,7 @@
           <v-card-text>
             <v-row>
               <v-col cols="4" offset="4" class="mt-10 mb-15">
-                  <input-month v-model="data" class="mb-5" label='Data' :dataEnviada="dataPadrao"/>
+                  <InputDate v-model="dataInicial" class="mb-5" label='Data' :dataEnviada="dataPadrao"/>
                 <v-col>
                   <vuetify-money
                     label="Digite o valor"
@@ -61,20 +61,20 @@
 <script>
 import { indices } from "./Ipca";
 import { Money } from "v-money";
-import InputMonth from '../shared/InputMonth.vue'
+import InputDate from '../shared/InputDate.vue'
 
 
 export default {
   name: "CalculadoraIpca",
 
   components: {
-     InputMonth,
+    InputDate,
     Money,
   },
 
   data() {
     return {
-      data: " ",
+      dataInicial: " ",
       valor: 0,
       result: 0,
       label: "valor, result",
@@ -85,7 +85,7 @@ export default {
         length: 11,
         precision: 2,
       },
-      picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      //picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       carregando: false,
       dataPadrao: "" 
     };
@@ -233,13 +233,13 @@ export default {
     },
 
     calcular() {
-      const digitos = this.data.split("/");
+      debugger
+      const digitos = this.dataInicial.split("/");
       let ano = parseFloat(digitos[2]);
       let mes = parseFloat(digitos[1]);
       let total = 0;
       let primeiroValor = this.valor;
 
-      debugger;
       if (ano >= 1994 && ano <= 2022 && mes >= 1 && mes <= 12) {
         if (ano == 1994 && mes <= 6) {
           this.result = 0;
