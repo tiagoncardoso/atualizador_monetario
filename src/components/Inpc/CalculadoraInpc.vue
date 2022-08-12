@@ -15,38 +15,7 @@
                         <v-form>
                             <v-row>
                                 <v-col cols="6" offset="3">
-                                    <v-menu
-                                        ref="menu1"
-                                        v-model="menu1"
-                                        :close-on-content-click="false"
-                                        transition="scale-transition"
-                                        offset-y
-                                        max-width="290px"
-                                        min-width="auto"
-                                    >
-                                        <template
-                                            v-slot:activator="{ on, attrs }"
-                                        >
-                                            <v-text-field
-                                                v-model="data"
-                                                label="Date"
-                                                hint="MM/DD/YYYY"
-                                                outlined
-                                                dense
-                                                prepend-icon="mdi-calendar"
-                                                v-bind="attrs"
-                                                @blur="date =parseDate(data)"
-                                                v-on="on"
-                                                background-color="white"
-                                                color="black"
-                                            ></v-text-field>
-                                        </template>
-                                        <v-date-picker
-                                            v-model="date"
-                                            no-title
-                                            @input="menu1 = false"
-                                        ></v-date-picker>
-                                    </v-menu>
+                                    <input-date v-model='data' label='Data' :dataEnviada='dataPadrao'/>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -105,10 +74,13 @@
 
 
 <script>
+import InputDate from '../shared/InputDate.vue';
 export default {
+    components: { InputDate },
     name: "CalculadoraInpc",
     data() {
         return {
+            data: '',
             carregando: false,
             valor: "0",
             valorAtual: "0",
@@ -120,9 +92,7 @@ export default {
                 length: 11,
                 precision: 2,
             },
-            date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-            
-        
+            dataPadrao: '',
         };
     },
     computed: {
@@ -242,9 +212,6 @@ export default {
                 ],
                 2022: [0.67, 1.0, 1.71, 1.04, 0.45, 0.62],
             };
-        },
-        computedDateFormatted () {
-            return this.formatDate(this.date)
         },
     },
     methods: {
