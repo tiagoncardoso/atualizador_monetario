@@ -3,40 +3,54 @@
         <v-row>
             <v-col
                 cols="4"
-                class="mt-10 
-                offset-4 
-                text-center 
-                input-group 
-                form-group mb-3"
+                class="mt-10 offset-4 text-center input-group form-group mb-3"
             >
                 <v-card class="elevation-12">
                     <v-toolbar dark color="primary" class="text-center mb-4">
-                        <v-toolbar-title>Atualização monetária- INPC</v-toolbar-title>
+                        <v-toolbar-title
+                            >Atualização monetária- INPC</v-toolbar-title
+                        >
                     </v-toolbar>
                     <v-card-text>
                         <v-form>
                             <v-row>
-                                <v-col cols="6"
-                                    offset="3"
-                                >
-                                    <v-text-field
-                                        v-model="data"
-                                        label="Digite a data"
-                                        outlined
-                                        dense
-                                        :loading="carregando"
-                                        clearable
-                                        hint="dd/mm/aaaa"
-                                        background-color="white"
-                                        color="black"
-                                    />
+                                <v-col cols="6" offset="3">
+                                    <v-menu
+                                        ref="menu1"
+                                        v-model="menu1"
+                                        :close-on-content-click="false"
+                                        transition="scale-transition"
+                                        offset-y
+                                        max-width="290px"
+                                        min-width="auto"
+                                    >
+                                        <template
+                                            v-slot:activator="{ on, attrs }"
+                                        >
+                                            <v-text-field
+                                                v-model="data"
+                                                label="Date"
+                                                hint="MM/DD/YYYY"
+                                                outlined
+                                                dense
+                                                prepend-icon="mdi-calendar"
+                                                v-bind="attrs"
+                                                @blur="date =parseDate(data)"
+                                                v-on="on"
+                                                background-color="white"
+                                                color="black"
+                                            ></v-text-field>
+                                        </template>
+                                        <v-date-picker
+                                            v-model="date"
+                                            no-title
+                                            @input="menu1 = false"
+                                        ></v-date-picker>
+                                    </v-menu>
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-col
-                                    cols="6"
-                                    offset="3"
-                                >
+                                <v-col cols="6" offset="3">
                                     <vuetify-money
                                         v-model="valor"
                                         label="Valor"
@@ -67,13 +81,10 @@
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-col
-                                    cols="6"
-                                    offset="3"
-                                >
+                                <v-col cols="6" offset="3">
                                     <vuetify-money
                                         v-model="valorAtual"
-                                        label="Valor"
+                                        label="Valor atualizado"
                                         outlined
                                         dense
                                         clearable
@@ -98,7 +109,6 @@ export default {
     name: "CalculadoraInpc",
     data() {
         return {
-            data: "",
             carregando: false,
             valor: "0",
             valorAtual: "0",
@@ -110,6 +120,9 @@ export default {
                 length: 11,
                 precision: 2,
             },
+            date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+            
+        
         };
     },
     computed: {
@@ -229,6 +242,9 @@ export default {
                 ],
                 2022: [0.67, 1.0, 1.71, 1.04, 0.45, 0.62],
             };
+        },
+        computedDateFormatted () {
+            return this.formatDate(this.date)
         },
     },
     methods: {
