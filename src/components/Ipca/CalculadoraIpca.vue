@@ -2,28 +2,31 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="6" offset="3">
-        <v-card dark class="elevation-12" rounded>
+        <v-card color="#a6f8a4" class="elevation-12" rounded>
           <v-toolbar color="green" class="darken-4">
             <h1>Calculadora IPCA</h1>
           </v-toolbar>
           <v-card-text>
             <v-row>
-              <v-col cols="4" offset="4">
-                <v-text-field
-                  label="Digite a data"
-                  filled
-                  dense
-                  :loading="carregando"
-                  clearable
-                  hint="DD/MM/AAAA"
-                  v-model="data"
-                ></v-text-field>
+              <v-col cols="4" offset="4" class="mt-10 mb-15">
+                <v-date-picker
+                    class="mb-3"
+                    label="Digite a data"
+                    regular
+                    dense
+                    color="black"
+                    :loading="carregando"
+                    clearable
+                    hint="DD/MM/AAAA"
+                    v-model="picker"
+                ></v-date-picker>
 
                 <v-col>
                   <vuetify-money
                     label="Digite o valor"
-                    filled
+                    regular
                     dense
+                    background-color="#FFFFF"
                     counter
                     v-model="valor"
                   ></vuetify-money>
@@ -32,35 +35,29 @@
             </v-row>
 
             <v-row>
-              <v-col cols="8" offset="2">
-                <v-btn color="primary" @click="calcular()">Calcular</v-btn>
-              </v-col>
-            </v-row>
-
-            <v-row>
-              <v-col cols="8" offset="2" class="mb-4">
+              <v-col cols="8" offset="2" class="mb-2">
+                <v-btn class="separar" color="primary mr-3" @click="calcular()">Calcular</v-btn>
                 <v-btn color="error" @click="limpar()">Limpar</v-btn>
               </v-col>
             </v-row>
 
             <v-row>
               <v-col
-                cols="12"
+                cols="0"
                 offset="0"
                 sm="4"
                 offset-sm="4"
-                lg="2"
-                offset-lg="5"
+                lg="4"
+                offset-lg="4"
               >
                 <vuetify-money
-                  label="Resultado"
-                  filled
-                  dense
-                  counter
-                  :loading="carregando"
-                  background-color="#FFFEEE"
-                  v-model="result"
-                  text-l
+                    label="Resultado"
+                    filled
+                    dense
+                    counter
+                    :loading="carregando"
+                    background-color="#FFFFF"
+                    v-model="result"
                 ></vuetify-money>
               </v-col>
             </v-row>
@@ -95,6 +92,7 @@ export default {
         suffix: "",
         length: 11,
         precision: 2,
+        picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       },
       carregando: false,
     };
@@ -291,15 +289,23 @@ export default {
 
 
 <style>
-.claro {
+.escuro {
   color: rgb(0, 0, 0) !important;
+}
+
+.v-btn{
+    width: 100px;
+}
+
+.separar{
+    padding-right: 1.3rem;
 }
 
 .ajuste {
   display: flex !important;
 }
 .tela-1 {
-  background-color: rgb(114, 228, 91);
+  background-color: #a6f8a4;
 }
 
 .tela-escura {
