@@ -20,6 +20,11 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="6" offset="3">
+                                    <input-year v-model='data' label='Ano' :anoEnviado='anoPadrao'/>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6" offset="3">
                                     <vuetify-money
                                         v-model="valor"
                                         label="Valor"
@@ -75,8 +80,9 @@
 
 <script>
 import InputDate from '../shared/InputDate.vue';
+import InputYear from '../shared/InputYear.vue';
 export default {
-    components: { InputDate },
+    components: { InputDate, InputYear },
     name: "CalculadoraInpc",
     data() {
         return {
@@ -93,6 +99,7 @@ export default {
                 precision: 2,
             },
             dataPadrao: '',
+            anoPadrao: '',
         };
     },
     computed: {
