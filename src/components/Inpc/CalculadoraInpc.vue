@@ -3,13 +3,18 @@
         <v-row>
             <v-col
                 cols="4"
-                class="mt-10 offset-4 text-center input-group form-group mb-3"
+                class="mt-10 
+                offset-4 
+                text-center 
+                input-group 
+                form-group 
+                mb-3"
             >
                 <v-card class="elevation-12">
                     <v-toolbar dark color="primary" class="text-center mb-4">
-                        <v-toolbar-title
-                            >Atualização monetária- INPC</v-toolbar-title
-                        >
+                        <v-toolbar-title>
+                            Atualização monetária- INPC
+                        </v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
                         <v-form>
@@ -42,14 +47,16 @@
                                         class="mr-3"
                                         color="primary"
                                         @click="calcular()"
-                                        >Calcular</v-btn
                                     >
+                                        Calcular
+                                    </v-btn>
                                     <v-btn
                                         type="button"
                                         color="error"
                                         @click="limpar()"
-                                        >Limpar</v-btn
                                     >
+                                        Limpar
+                                    </v-btn>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -423,10 +430,10 @@ export default {
         },
 
         calcular() {
-            const arrayData = this.mesAno.split("/"); //split divide a string
-            let mes = parseFloat(arrayData[0]); //Segunda data
-            let ano = parseFloat(arrayData[1]); //Terceira data
-            let resultado = 0; //atribui o valor
+            const arrayData = this.mesAno.split("/"); 
+            let mes = parseFloat(arrayData[0]); 
+            let ano = parseFloat(arrayData[1]); 
+            let resultado = 0;
             let recebeValor = this.valor;
             let mesDiminui = mes - 1;
 
