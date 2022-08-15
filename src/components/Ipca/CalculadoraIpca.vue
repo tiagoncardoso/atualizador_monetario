@@ -9,7 +9,7 @@
           <v-card-text>
             <v-row>
               <v-col cols="4" offset="4" class="mt-10">
-                <input-month v-model="mesAno" label="Mês/Ano" class="mb-5" />
+                <input-month v-model="mesAno" label="Mês/Ano" class="mb-5"/>
                 <v-col>
                   <vuetify-money
                     label="Digite o valor"
@@ -18,7 +18,7 @@
                     background-color="#FFFFF"
                     counter
                     v-model="valor"
-                  ></vuetify-money>
+                  />
                 </v-col>
               </v-col>
             </v-row>
@@ -49,7 +49,7 @@
                   :loading="carregando"
                   background-color="#FFFFF"
                   v-model="result"
-                ></vuetify-money>
+                />
               </v-col>
             </v-row>
           </v-card-text>
@@ -243,7 +243,6 @@ export default {
       let total = 0;
       let primeiroValor = this.valor;
 
-      debugger;
       if (ano >= 1994 && ano <= 2022 && mes >= 1 && mes <= 12) {
         if (ano == 1994 && mes <= 6) {
           this.result = 0;
@@ -286,37 +285,7 @@ export default {
 
 
 <style>
-.escuro {
-  color: rgb(0, 0, 0) !important;
-}
-
 .v-btn {
   width: 100px;
 }
-
-.separar {
-  padding-right: 1.3rem;
-}
-
-.ajuste {
-  display: flex !important;
-}
-.tela-1 {
-  background-color: #a6f8a4;
-}
-
-.tela-escura {
-  background-color: rgb(0, 0, 0);
-}
-/*
-  .clara {
-    background-color: rgba(0,0,0,0.5) !important;
-    color:white;
-  }
-
-  .escuro{
-    background-color: #1c7ea1 !important;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }*/
 </style>
