@@ -86,7 +86,7 @@
 <script>
 import { indices } from "./Inpc";
 import InputDate from "../shared/InputDate.vue";
-import InputMonthYear from "../shared/InputMonthYear.vue";
+import InputMonthYear from "../shared/InputMonth.vue";
 
 export default {
     components: { InputDate, InputMonthYear },
