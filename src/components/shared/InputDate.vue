@@ -13,7 +13,7 @@
                 <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                         v-model="dateFormatted"
-                        label='Data'
+                        label="Data"
                         hint="MM/DD/YYYY"
                         outlined
                         dense
@@ -45,11 +45,11 @@ export default {
         dataEnviada: String,
     },
     data() {
-        return{
-            date: '',
-            dateFormatted: '',
+        return {
+            date: "",
+            dateFormatted: "",
             menu1: false,
-        }
+        };
     },
 
     computed: {
@@ -64,7 +64,7 @@ export default {
         },
 
         dateFormatted(novaData) {
-            this.$emit('input', novaData)
+            this.$emit("input", novaData);
         },
     },
 

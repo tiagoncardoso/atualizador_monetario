@@ -15,19 +15,9 @@
                         <v-form>
                             <v-row>
                                 <v-col cols="6" offset="3">
-                                    <input-date
-                                        v-model="data"
-                                        label="Data"
-                                        :dataEnviada="dataPadrao"
-                                    />
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="6" offset="3">
-                                    <input-year
-                                        v-model="data"
-                                        label="Ano"
-                                        :anoEnviado="anoPadrao"
+                                    <input-month-year
+                                        v-model="mesAno"
+                                        label="mes/ano"
                                     />
                                 </v-col>
                             </v-row>
@@ -39,7 +29,7 @@
                                         outlined
                                         dense
                                         clearable
-                                        background-color="white"
+                                        gbackround-color="white"
                                         color="black"
                                         :options="options"
                                     />
@@ -89,13 +79,14 @@
 <script>
 import { indices } from "./Inpc";
 import InputDate from "../shared/InputDate.vue";
-import InputYear from "../shared/InputYear.vue";
+import InputMonthYear from "../shared/InputMonthYear.vue";
+
 export default {
-    components: { InputDate, InputYear },
+    components: { InputDate, InputMonthYear },
     name: "CalculadoraInpc",
     data() {
         return {
-            data: "",
+            //data: "",
             carregando: false,
             valor: "0",
             valorAtual: "0",
@@ -107,8 +98,8 @@ export default {
                 length: 11,
                 precision: 2,
             },
-            dataPadrao: "",
-            anoPadrao: "",
+            //dataPadrao: "",
+            mesAno: "",
         };
     },
     computed: {
@@ -432,9 +423,9 @@ export default {
         },
 
         calcular() {
-            const arrayData = this.data.split("/"); //split divide a string
-            let mes = parseFloat(arrayData[1]); //Segunda data
-            let ano = parseFloat(arrayData[2]); //Terceira data
+            const arrayData = this.mesAno.split("/"); //split divide a string
+            let mes = parseFloat(arrayData[0]); //Segunda data
+            let ano = parseFloat(arrayData[1]); //Terceira data
             let resultado = 0; //atribui o valor
             let recebeValor = this.valor;
             let mesDiminui = mes - 1;
