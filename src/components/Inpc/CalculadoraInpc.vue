@@ -476,7 +476,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .v-card {
     background: #bbdefb !important;
     background-size: cover;
