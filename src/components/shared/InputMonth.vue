@@ -1,10 +1,11 @@
 <template>
   <v-row>
-    <v-col cols="12">
+    <v-col>
       <v-menu
-        ref="menu1"
-        v-model="menu1"
+        ref="menu"
+        v-model="menu"
         :close-on-content-click="false"
+        :return-value.sync="date"
         transition="scale-transition"
         offset-y
         max-width="290px"
@@ -14,72 +15,68 @@
           <v-text-field
             v-model="dateFormatted"
             :label="label"
-            hint="MM/DD/YYYY format"
-            persistent-hint
             prepend-icon="mdi-calendar"
+            readonly
             v-bind="attrs"
-            @blur="date = parseDate(dateFormatted)"
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker
-          v-model="date"
-          no-title
-          @input="menu1 = false"
-          locale="pt-br"
-        ></v-date-picker>
+        <v-date-picker v-model="date" type="month" no-title scrollable>
+          <v-spacer></v-spacer>
+          <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
+          <v-btn text color="primary" @click="$refs.menu.save(date)">
+            OK
+          </v-btn>
+        </v-date-picker>
       </v-menu>
+      <v-spacer></v-spacer>
     </v-col>
   </v-row>
 </template>
 
 <script>
-    export default {
-        name: 'InputMonth',
+export default {
+  name: "InputDate",
+  props: {
+    label: String,
+  },
+  data: () => ({
+    date: "",
+    menu: false,
+    dateFormatted: "",
+    modal: false,
+  }),
+  computed: {
+    computedDateFormatted() {
+      return this.formatDate(this.date);
+    },
+  },
 
-        props:{
-            label: String,
-            dataEnviada: String,
-        },
-    data() {
-        return{
-            date: '',
-            dateFormatted: '',
-            menu1: false,
-        }
+  watch: {
+    date(val) {
+      this.dateFormatted = this.formatDate(this.date);
     },
 
-    computed: {
-      computedDateFormatted () {
-        return this.formatDate(this.date)
-      },
+    dateFormatted(novaData) {
+      this.$emit("input", novaData);
     },
+  },
 
-    watch: {
-      date (val) {
-        this.dateFormatted = this.formatDate(this.date)
-      },
-      
-      dateFormatted(novaData) {
-        this.$emit('input', novaData)
-      },
+  methods: {
+    formatDate(date) {
+      if (!date) return null;
+
+      const [year, month] = date.split("-");
+      return `${month}/${year}`;
     },
+    parseDate(date) {
+      if (!date) return null;
 
-    methods: {
-      formatDate (date) {
-        if (!date) return null
-
-        const [year, month, day] = date.split('-')
-        return `${day}/${month}/${year}`
-      },
-      parseDate (date) {
-        if (!date) return null
-
-        const [day, month, year] = date.split('/')
-        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-      },
+      const [month, year] = date.split("/");
+      return `${year}-${month.padStart(2, "0")}`;
     },
-  }  
+  },
+};
 </script>
 
 <style scoped>

@@ -8,8 +8,8 @@
           </v-toolbar>
           <v-card-text>
             <v-row>
-              <v-col cols="4" offset="4" class="mt-10 mb-15">
-                  <input-month v-model="data" class="mb-5" label='Data' :dataEnviada="dataPadrao"/>
+              <v-col cols="4" offset="4" class="mt-10">
+                <input-month v-model="mesAno" label="Mês/Ano" class="mb-5" />
                 <v-col>
                   <vuetify-money
                     label="Digite o valor"
@@ -25,7 +25,9 @@
 
             <v-row>
               <v-col cols="8" offset="2" class="mb-2">
-                <v-btn class="separar" color="primary mr-3" @click="calcular()">Calcular</v-btn>
+                <v-btn class="separar" color="primary mr-3" @click="calcular()"
+                  >Calcular</v-btn
+                >
                 <v-btn color="error" @click="limpar()">Limpar</v-btn>
               </v-col>
             </v-row>
@@ -40,13 +42,13 @@
                 offset-lg="4"
               >
                 <vuetify-money
-                    label="Resultado"
-                    filled
-                    dense
-                    counter
-                    :loading="carregando"
-                    background-color="#FFFFF"
-                    v-model="result"
+                  label="Resultado"
+                  filled
+                  dense
+                  counter
+                  :loading="carregando"
+                  background-color="#FFFFF"
+                  v-model="result"
                 ></vuetify-money>
               </v-col>
             </v-row>
@@ -61,14 +63,13 @@
 <script>
 import { indices } from "./Ipca";
 import { Money } from "v-money";
-import InputMonth from '../shared/InputMonth.vue'
-
+import InputMonth from "../shared/InputMonth.vue";
 
 export default {
   name: "CalculadoraIpca",
 
   components: {
-     InputMonth,
+    InputMonth,
     Money,
   },
 
@@ -85,9 +86,12 @@ export default {
         length: 11,
         precision: 2,
       },
-      picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      picker: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
       carregando: false,
-      dataPadrao: "" 
+      dataPadrao: "",
+      mesAno: "13",
     };
   },
   computed: {
@@ -233,9 +237,9 @@ export default {
     },
 
     calcular() {
-      const digitos = this.data.split("/");
-      let ano = parseFloat(digitos[2]);
-      let mes = parseFloat(digitos[1]);
+      const digitos = this.mesAno.split("/");
+      let ano = parseFloat(digitos[1]);
+      let mes = parseFloat(digitos[0]);
       let total = 0;
       let primeiroValor = this.valor;
 
@@ -286,12 +290,12 @@ export default {
   color: rgb(0, 0, 0) !important;
 }
 
-.v-btn{
-    width: 100px;
+.v-btn {
+  width: 100px;
 }
 
-.separar{
-    padding-right: 1.3rem;
+.separar {
+  padding-right: 1.3rem;
 }
 
 .ajuste {
