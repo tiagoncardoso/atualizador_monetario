@@ -23,6 +23,11 @@
                                     <input-month-year
                                         v-model="mesAno"
                                         label="mes/ano"
+                                        outlined
+                                        dense
+                                        background-color="white"
+                                        color="black"
+                                        
                                     />
                                 </v-col>
                             </v-row>
@@ -34,7 +39,7 @@
                                         outlined
                                         dense
                                         clearable
-                                        gbackround-color="white"
+                                        backround-color="white"
                                         color="black"
                                         :options="options"
                                     />
@@ -93,7 +98,7 @@ export default {
     name: "CalculadoraInpc",
     data() {
         return {
-            //data: "",
+            mesAno: "",
             carregando: false,
             valor: "0",
             valorAtual: "0",
@@ -105,8 +110,6 @@ export default {
                 length: 11,
                 precision: 2,
             },
-            //dataPadrao: "",
-            mesAno: "",
         };
     },
     computed: {
