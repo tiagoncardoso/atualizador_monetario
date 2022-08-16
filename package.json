@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "lint:fix": "vue-cli-service lint --fix",
+    "prettier:check": "prettier \"./src/**/*.{vue,ts,tsx,js,jsx}\" --config .prettierrc --ignore-unknown -c",
+    "prettier:format": "prettier \"./src/**/*.{vue,ts,tsx,js,jsx}\" --config .prettierrc --ignore-unknown --write"
   },
   "dependencies": {
     "core-js": "^3.8.3",
@@ -16,7 +20,14 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-service": "~5.0.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.3.0",
+    "prettier": "^2.7.1",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
     "vue-cli-plugin-vuetify": "~2.5.1",
