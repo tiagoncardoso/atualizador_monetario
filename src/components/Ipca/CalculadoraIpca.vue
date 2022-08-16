@@ -8,8 +8,9 @@
           </v-toolbar>
           <v-card-text>
             <v-row>
-              <v-col cols="4" offset="4" class="mt-10 mb-15">
-                  <InputDate v-model="dataInicial" class="mb-5" label='Data' :dataEnviada="dataPadrao"/>
+              <v-col cols="4" offset="4" class="mt-10">
+                  <InputDate v-model="dataInicial" label='Data' :dataEnviada="dataPadrao"/>
+                  <InputMonth v-model="mesInicial" label="Mês" class="mb-5"/>
                 <v-col>
                   <vuetify-money
                     label="Digite o valor"
@@ -62,6 +63,7 @@
 import { indices } from "./Ipca";
 import { Money } from "v-money";
 import InputDate from '../shared/InputDate.vue'
+import InputMonth from '../shared/InputMonth.vue'
 
 
 export default {
@@ -70,6 +72,7 @@ export default {
   components: {
     InputDate,
     Money,
+    InputMonth,
   },
 
   data() {
@@ -87,7 +90,8 @@ export default {
       },
       //picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       carregando: false,
-      dataPadrao: "" 
+      dataPadrao: "",
+      mesInicial: "",
     };
   },
   computed: {
