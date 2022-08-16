@@ -6,7 +6,7 @@
           <v-toolbar color="green" class="darken-4">
             <h1>Calculadora IPCA</h1>
           </v-toolbar>
-          <v-card-text class="corFundo">
+          <v-card-text>
             <v-row>
               <v-col cols="4" offset="4" class="mt-10">
                 <input-month v-model="mesAno" label="Mês/Ano" class="mb-5" regular/>
