@@ -33,15 +33,13 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="6" offset="3">
-                                    <vuetify-money
+                                    <input-money
                                         v-model="valor"
                                         label="Valor"
                                         outlined
                                         dense
-                                        clearable
-                                        backround-color="white"
+                                        background-color="white"
                                         color="black"
-                                        :options="options"
                                     />
                                 </v-col>
                             </v-row>
@@ -65,16 +63,14 @@
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-col cols="6" offset="3">
-                                    <vuetify-money
+                                <v-col cols="6" offset="3"> 
+                                    <input-money
                                         v-model="valorAtual"
                                         label="Valor atualizado"
                                         outlined
                                         dense
-                                        clearable
                                         background-color="white"
                                         color="black"
-                                        :options="options"
                                     />
                                 </v-col>
                             </v-row>
@@ -92,9 +88,10 @@
 import { indices } from "./Inpc";
 import InputDate from "../shared/InputDate.vue";
 import InputMonthYear from "../shared/InputMonth.vue";
+import InputMoney from '../shared/InputMoney.vue';
 
 export default {
-    components: { InputDate, InputMonthYear },
+    components: { InputDate, InputMonthYear, InputMoney },
     name: "CalculadoraInpc",
     data() {
         return {
@@ -102,7 +99,6 @@ export default {
             carregando: false,
             valor: "0",
             valorAtual: "0",
-            label: "valor, valorAtual",
             options: {
                 locale: "pt-BR",
                 prefix: "R$ ",
@@ -471,7 +467,7 @@ export default {
         },
 
         limpar() {
-            this.data = "";
+            this.mesAno = "";
             this.valor = 0;
             this.valorAtual = 0;
         },

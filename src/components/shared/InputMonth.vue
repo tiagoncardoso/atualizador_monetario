@@ -5,7 +5,6 @@
                 ref="menu"
                 v-model="menu"
                 :close-on-content-click="false"
-                :return-value.sync="date"
                 transition="scale-transition"
                 offset-y
                 max-width="290px"
@@ -32,24 +31,18 @@
                     no-title
                     scrollable
                     locale="pt-br"
+                    @input="menu=false"
+                    @blur="$refs.menu.save(date)"
                 >
-                    <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="menu = false">
-                        Cancelar
-                    </v-btn>
-                    <v-btn text color="primary" @click="$refs.menu.save(date)">
-                        OK
-                    </v-btn>
                 </v-date-picker>
             </v-menu>
-            <v-spacer></v-spacer>
         </v-col>
     </v-row>
 </template>
 
 <script>
 export default {
-    name: "InputDate",
+    name: "InputMonth",
     props: {
         label: String,
         outlined: Boolean,
@@ -57,12 +50,14 @@ export default {
         backgroundColor: String,
         color: String,
     },
-    data: () => ({
+    data (){
+      return{
         date: "",
         menu: false,
         dateFormatted: "",
         modal: false,
-    }),
+      }
+    },
     computed: {
         computedDateFormatted() {
             return this.formatDate(this.date);
