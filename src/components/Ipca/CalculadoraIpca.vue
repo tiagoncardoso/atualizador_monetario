@@ -2,15 +2,15 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="6" offset="3">
-        <v-card color="#a6f8a4" class="elevation-12" rounded>
+        <v-card color="#81c77b" class="elevation-12" rounded>
           <v-toolbar color="green" class="darken-4">
             <h1>Calculadora IPCA</h1>
           </v-toolbar>
-          <v-card-text>
+          <v-card-text class="corFundo">
             <v-row>
               <v-col cols="4" offset="4" class="mt-10">
-                <input-month v-model="mesAno" label="Mês/Ano" class="mb-5"/>
-                <v-col>
+                <input-month v-model="mesAno" label="Mês/Ano" class="mb-5" regular/>
+                <v-col> 
                   <vuetify-money
                     label="Digite o valor"
                     regular
@@ -284,7 +284,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .v-btn {
   width: 100px;
 }

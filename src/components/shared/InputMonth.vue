@@ -15,6 +15,7 @@
           <v-text-field
             v-model="dateFormatted"
             :label="label"
+            background-color=""
             prepend-icon="mdi-calendar"
             readonly
             v-bind="attrs"
