@@ -9,16 +9,9 @@
           <v-card-text>
             <v-row>
               <v-col cols="4" offset="4" class="mt-10">
-                <input-month v-model="mesAno" label="Mês/Ano" class="mb-5" regular/>
+                <input-month v-model="mesAno" label="Mês/Ano" regular/>
                 <v-col> 
-                  <vuetify-money
-                    label="Digite o valor"
-                    regular
-                    dense
-                    background-color="#FFFFF"
-                    counter
-                    v-model="valor"
-                  />
+                  <input-money v-model='valor' background='#' label="Digite o Valor"/>
                 </v-col>
               </v-col>
             </v-row>
@@ -64,6 +57,7 @@
 import { indices } from "./Ipca";
 import { Money } from "v-money";
 import InputMonth from "../shared/InputMonth.vue";
+import InputMoney from "../shared/InputMoney.vue";
 
 export default {
   name: "CalculadoraIpca",
@@ -71,6 +65,7 @@ export default {
   components: {
     InputMonth,
     Money,
+    InputMoney,
   },
 
   data() {
@@ -90,8 +85,8 @@ export default {
         .toISOString()
         .substr(0, 10),
       carregando: false,
-      dataPadrao: "",
-      mesAno: "13",
+      valorPadrao: 0,
+      mesAno: "",
     };
   },
   computed: {
@@ -287,5 +282,6 @@ export default {
 <style scoped>
 .v-btn {
   width: 100px;
+  color: #FFFF;
 }
 </style>
