@@ -2,13 +2,14 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="6" offset="3">
-        <v-card color="#a6f8a4" class="elevation-12" rounded>
+        <v-card color="#81c77b" class="elevation-12" rounded>
           <v-toolbar color="green" class="darken-4">
             <h1>Calculadora IPCA</h1>
           </v-toolbar>
           <v-card-text>
             <v-row>
               <v-col cols="4" offset="4" class="mt-10">
+<<<<<<< HEAD
                   <InputDate v-model="dataInicial" label='Data' :dataEnviada="dataPadrao"/>
                   <InputMonth v-model="mesInicial" label="Mês" class="mb-5"/>
                 <v-col>
@@ -20,13 +21,20 @@
                     counter
                     v-model="valor"
                   ></vuetify-money>
+=======
+                <input-month v-model="mesAno" label="Mês/Ano" regular/>
+                <v-col> 
+                  <input-money v-model='valor' background='#' label="Digite o Valor"/>
+>>>>>>> c5e74ff318ce8079a1aaaf6e23156ad3133f95e3
                 </v-col>
               </v-col>
             </v-row>
 
             <v-row>
               <v-col cols="8" offset="2" class="mb-2">
-                <v-btn class="separar" color="primary mr-3" @click="calcular()">Calcular</v-btn>
+                <v-btn class="separar" color="primary mr-3" @click="calcular()"
+                  >Calcular</v-btn
+                >
                 <v-btn color="error" @click="limpar()">Limpar</v-btn>
               </v-col>
             </v-row>
@@ -41,14 +49,14 @@
                 offset-lg="4"
               >
                 <vuetify-money
-                    label="Resultado"
-                    filled
-                    dense
-                    counter
-                    :loading="carregando"
-                    background-color="#FFFFF"
-                    v-model="result"
-                ></vuetify-money>
+                  label="Resultado"
+                  filled
+                  dense
+                  counter
+                  :loading="carregando"
+                  background-color="#FFFFF"
+                  v-model="result"
+                />
               </v-col>
             </v-row>
           </v-card-text>
@@ -62,17 +70,28 @@
 <script>
 import { indices } from "./Ipca";
 import { Money } from "v-money";
+<<<<<<< HEAD
 import InputDate from '../shared/InputDate.vue'
 import InputMonth from '../shared/InputMonth.vue'
 
+=======
+import InputMonth from "../shared/InputMonth.vue";
+import InputMoney from "../shared/InputMoney.vue";
+>>>>>>> c5e74ff318ce8079a1aaaf6e23156ad3133f95e3
 
 export default {
   name: "CalculadoraIpca",
 
   components: {
+<<<<<<< HEAD
     InputDate,
     Money,
     InputMonth,
+=======
+    InputMonth,
+    Money,
+    InputMoney,
+>>>>>>> c5e74ff318ce8079a1aaaf6e23156ad3133f95e3
   },
 
   data() {
@@ -88,10 +107,19 @@ export default {
         length: 11,
         precision: 2,
       },
+<<<<<<< HEAD
       //picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       carregando: false,
       dataPadrao: "",
       mesInicial: "",
+=======
+      picker: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      carregando: false,
+      valorPadrao: 0,
+      mesAno: "",
+>>>>>>> c5e74ff318ce8079a1aaaf6e23156ad3133f95e3
     };
   },
   computed: {
@@ -237,10 +265,16 @@ export default {
     },
 
     calcular() {
+<<<<<<< HEAD
       debugger
       const digitos = this.dataInicial.split("/");
       let ano = parseFloat(digitos[2]);
       let mes = parseFloat(digitos[1]);
+=======
+      const digitos = this.mesAno.split("/");
+      let ano = parseFloat(digitos[1]);
+      let mes = parseFloat(digitos[0]);
+>>>>>>> c5e74ff318ce8079a1aaaf6e23156ad3133f95e3
       let total = 0;
       let primeiroValor = this.valor;
 
@@ -285,38 +319,9 @@ export default {
 </script>
 
 
-<style>
-.escuro {
-  color: rgb(0, 0, 0) !important;
+<style scoped>
+.v-btn {
+  width: 100px;
+  color: #FFFF;
 }
-
-.v-btn{
-    width: 100px;
-}
-
-.separar{
-    padding-right: 1.3rem;
-}
-
-.ajuste {
-  display: flex !important;
-}
-.tela-1 {
-  background-color: #a6f8a4;
-}
-
-.tela-escura {
-  background-color: rgb(0, 0, 0);
-}
-/*
-  .clara {
-    background-color: rgba(0,0,0,0.5) !important;
-    color:white;
-  }
-
-  .escuro{
-    background-color: #1c7ea1 !important;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }*/
 </style>
