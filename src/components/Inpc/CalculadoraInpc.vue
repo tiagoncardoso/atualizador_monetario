@@ -49,6 +49,7 @@
                                         dense
                                         background-color="white"
                                         color="black"
+                                        valor-padrao="valorAtual"
                                     />
                                 </v-col>
                             </v-row>

@@ -32,6 +32,10 @@ export default {
             type: String,
             default: '',
         },
+        valorPadrao: {
+            type: Number,
+            default: '',
+        }
     },
     data() {
         return {
@@ -42,6 +46,9 @@ export default {
         valor(novoValor) {
             this.$emit('input', novoValor);
         },
+        valorPadrao(novoValor) {
+            this.valor = Number.parseFloat(novoValor)
+        }
     },
 };
 </script>
