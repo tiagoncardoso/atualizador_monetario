@@ -10,7 +10,7 @@
                 max-width="290px"
                 min-width="auto"
             >
-                <template v-slot:activator="{ on, attrs }">
+                <template #activator="{ on, attrs }">
                     <v-text-field
                         v-model="dateFormatted"
                         :label="label"
@@ -31,10 +31,9 @@
                     no-title
                     scrollable
                     locale="pt-br"
-                    @input="menu=false"
+                    @input="menu = false"
                     @blur="$refs.menu.save(date)"
-                >
-                </v-date-picker>
+                />
             </v-menu>
         </v-col>
     </v-row>
@@ -42,22 +41,29 @@
 
 <script>
 export default {
-    name: "InputMonth",
+    name: 'InputDate',
     props: {
-        label: String,
+        label: {
+            type: String,
+            default: 'Data',
+        },
         outlined: Boolean,
         dense: Boolean,
-        backgroundColor: String,
-        color: String,
+        backgroundColor: {
+            type: String,
+            default: '',
+        },
+        color: {
+            type: String,
+            default: 'black',
+        },
     },
-    data (){
-      return{
-        date: "",
+    data: () => ({
+        date: '',
         menu: false,
-        dateFormatted: "",
+        dateFormatted: '',
         modal: false,
-      }
-    },
+    }),
     computed: {
         computedDateFormatted() {
             return this.formatDate(this.date);
@@ -65,12 +71,12 @@ export default {
     },
 
     watch: {
-        date(val) {
+        date() {
             this.dateFormatted = this.formatDate(this.date);
         },
 
         dateFormatted(novaData) {
-            this.$emit("input", novaData);
+            this.$emit('input', novaData);
         },
     },
 
@@ -78,18 +84,17 @@ export default {
         formatDate(date) {
             if (!date) return null;
 
-            const [year, month] = date.split("-");
+            const [year, month] = date.split('-');
             return `${month}/${year}`;
         },
         parseDate(date) {
             if (!date) return null;
 
-            const [month, year] = date.split("/");
-            return `${year}-${month.padStart(2, "0")}`;
+            const [month, year] = date.split('/');
+            return `${year}-${month.padStart(2, '0')}`;
         },
     },
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
