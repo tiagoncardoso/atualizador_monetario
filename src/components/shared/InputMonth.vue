@@ -1,69 +1,65 @@
 <template>
-  <v-row>
-    <v-col>
-      <v-menu
-        ref="menu"
-        v-model="menu"
-        :close-on-content-click="false"
-        :return-value.sync="date"
-        transition="scale-transition"
-        offset-y
-        max-width="290px"
-        min-width="auto"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="dateFormatted"
-            :label="label"
-            prepend-icon="mdi-calendar"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker v-model="date" type="month" no-title scrollable>
-          <v-spacer></v-spacer>
-          <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
-          <v-btn text color="primary" @click="$refs.menu.save(date)">
-            OK
-          </v-btn>
-        </v-date-picker>
-      </v-menu>
-      <v-spacer></v-spacer>
-    </v-col>
-  </v-row>
+    <v-row>
+        <v-col>
+            <v-menu
+                ref="menu"
+                v-model="menu"
+                :close-on-content-click="false"
+                :return-value.sync="date"
+                transition="scale-transition"
+                offset-y
+                max-width="290px"
+                min-width="auto"
+            >
+                <template #activator="{ on, attrs }">
+                    <v-text-field
+                        v-model="dateFormatted"
+                        :label="label"
+                        hint="MM/YYYY"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        :outlined="outlined"
+                        :dense="dense"
+                        :background-color="backgroundColor"
+                        :color="color"
+                        v-bind="attrs"
+                        v-on="on"
+                    />
+                </template>
+                <v-date-picker v-model="date" type="month" no-title scrollable locale="pt-br">
+                    <v-spacer />
+                    <v-btn text color="primary" @click="menu = false"> Cancelar </v-btn>
+                    <v-btn text color="primary" @click="$refs.menu.save(date)"> OK </v-btn>
+                </v-date-picker>
+            </v-menu>
+            <v-spacer />
+        </v-col>
+    </v-row>
 </template>
 
 <script>
-<<<<<<< HEAD
-    export default {
-        name: 'InputMonth',
-
-        props:{
-            label: String,
-            mesInicial: String,
-        },
-    data() {
-        return{
-            date: '',
-            dateFormatted: '',
-            menu1: false,
-        }
-=======
 export default {
-    name: "InputDate",
+    name: 'InputDate',
     props: {
-        label: String,
+        label: {
+            type: String,
+            default: 'Data',
+        },
         outlined: Boolean,
         dense: Boolean,
-        backgroundColor: String,
-        color: String,
->>>>>>> c5e74ff318ce8079a1aaaf6e23156ad3133f95e3
+        backgroundColor: {
+            type: String,
+            default: '',
+        },
+        color: {
+            type: String,
+            default: 'black',
+        },
     },
     data: () => ({
-        date: "",
+        date: '',
         menu: false,
-        dateFormatted: "",
+        dateFormatted: '',
         modal: false,
     }),
     computed: {
@@ -73,12 +69,12 @@ export default {
     },
 
     watch: {
-        date(val) {
+        date() {
             this.dateFormatted = this.formatDate(this.date);
         },
 
         dateFormatted(novaData) {
-            this.$emit("input", novaData);
+            this.$emit('input', novaData);
         },
     },
 
@@ -86,30 +82,17 @@ export default {
         formatDate(date) {
             if (!date) return null;
 
-<<<<<<< HEAD
-        const [year, month, day] = date.split('-')
-        return month
-      },
-      parseDate (date) {
-        if (!date) return null
-=======
-            const [year, month] = date.split("-");
+            const [year, month] = date.split('-');
             return `${month}/${year}`;
         },
         parseDate(date) {
             if (!date) return null;
->>>>>>> c5e74ff318ce8079a1aaaf6e23156ad3133f95e3
 
-            const [month, year] = date.split("/");
-            return `${year}-${month.padStart(2, "0")}`;
+            const [month, year] = date.split('/');
+            return `${year}-${month.padStart(2, '0')}`;
         },
     },
-<<<<<<< HEAD
-  }
-=======
 };
->>>>>>> c5e74ff318ce8079a1aaaf6e23156ad3133f95e3
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

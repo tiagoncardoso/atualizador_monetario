@@ -93,7 +93,7 @@
                 max-width="290px"
                 min-width="auto"
             >
-                <template v-slot:activator="{ on, attrs }">
+                <template #activator="{ on, attrs }">
                     <v-text-field
                         v-model="dateFormatted"
                         label="Data"
@@ -102,18 +102,13 @@
                         dense
                         prepend-icon="mdi-calendar"
                         v-bind="attrs"
-                        @blur="date = parseDate(dateFormatted)"
-                        v-on="on"
                         background-color="white"
                         color="black"
-                    ></v-text-field>
+                        @blur="date = parseDate(dateFormatted)"
+                        v-on="on"
+                    />
                 </template>
-                <v-date-picker
-                    v-model="date"
-                    no-title
-                    @input="menu1 = false"
-                    locale="pt-br"
-                ></v-date-picker>
+                <v-date-picker v-model="date" no-title locale="pt-br" @input="menu1 = false" />
             </v-menu>
         </v-col>
     </v-row>
@@ -121,7 +116,7 @@
 
 <script>
 export default {
-    name: "InputDate",
+    name: 'InputDate',
 
     props: {
         label: String,
@@ -129,8 +124,8 @@ export default {
     },
     data() {
         return {
-            date: "",
-            dateFormatted: "",
+            date: '',
+            dateFormatted: '',
             menu1: false,
         };
     },
@@ -142,12 +137,12 @@ export default {
     },
 
     watch: {
-        date(val) {
+        date() {
             this.dateFormatted = this.formatDate(this.date);
         },
 
         dateFormatted(novaData) {
-            this.$emit("input", novaData);
+            this.$emit('input', novaData);
         },
     },
 
@@ -155,19 +150,18 @@ export default {
         formatDate(date) {
             if (!date) return null;
 
-            const [year, month, day] = date.split("-");
+            const [year, month, day] = date.split('-');
             return `${day}/${month}/${year}`;
         },
         parseDate(date) {
             if (!date) return null;
 
-            const [day, month, year] = date.split("/");
-            return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+            const [day, month, year] = date.split('/');
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
         },
     },
 };
 >>>>>>> c5e74ff318ce8079a1aaaf6e23156ad3133f95e3
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
