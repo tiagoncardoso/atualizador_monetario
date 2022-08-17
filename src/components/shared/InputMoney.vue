@@ -8,8 +8,7 @@
                 :dense="dense"
                 clearable
                 :backround-color="backgroundColor"
-                :color="color"  
-                :result="result"
+                :color="color"
             />
         </v-col>
     </v-row>
@@ -18,27 +17,33 @@
 <script>
 export default {
     name: 'InputMoney',
-    props:{
-        label: String,
+    props: {
+        label: {
+            type: String,
+            default: 'Valor',
+        },
         outlined: Boolean,
         dense: Boolean,
-        backgroundColor: String,
-        color: String,
-        options: String,
-        result: String,
+        backgroundColor: {
+            type: String,
+            default: '',
+        },
+        color: {
+            type: String,
+            default: '',
+        },
     },
-    data(){
-        return{
+    data() {
+        return {
             valor: 0,
-        }
+        };
     },
     watch: {
         valor(novoValor) {
-            this.$emit("input", novoValor);
+            this.$emit('input', novoValor);
         },
     },
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
