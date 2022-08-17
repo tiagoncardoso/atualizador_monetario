@@ -32,6 +32,10 @@ export default {
             type: String,
             default: '',
         },
+        valorPadrao: {
+            type: Number,
+            default: 0,
+        },
     },
     data() {
         return {
@@ -41,6 +45,14 @@ export default {
     watch: {
         valor(novoValor) {
             this.$emit('input', novoValor);
+        },
+
+        valorPadrao(novoValor) {
+            if (typeof novoValor !== 'number') {
+                this.valor = Number.parseFloat(novoValor);
+            } else {
+                this.valor = novoValor;
+            }
         },
     },
 };

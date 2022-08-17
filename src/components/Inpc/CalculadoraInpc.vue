@@ -49,6 +49,7 @@
                                         dense
                                         background-color="white"
                                         color="black"
+                                        :valor-padrao="valorAtual"
                                     />
                                 </v-col>
                             </v-row>
@@ -73,8 +74,8 @@ export default {
         return {
             mesAno: '',
             carregando: false,
-            valor: '0',
-            valorAtual: '0',
+            valor: 0,
+            valorAtual: 0,
             label: 'valor, valorAtual',
             options: {
                 locale: 'pt-BR',
