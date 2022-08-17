@@ -7,7 +7,7 @@
                 :outlined="outlined"
                 :dense="dense"
                 clearable
-                :backround-color="backgroundColor"
+                :background-color="backgroundColor"
                 :color="color"
             />
         </v-col>
@@ -25,8 +25,8 @@ export default {
         outlined: Boolean,
         dense: Boolean,
         backgroundColor: {
-            type: String,
-            default: '',
+            type: [String, null] ,
+            default: null,
         },
         color: {
             type: String,
