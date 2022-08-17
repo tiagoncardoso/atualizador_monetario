@@ -15,7 +15,7 @@ module.exports = {
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-        'max-lenght': [
+        'max-len': [
             'error',
             {
                 code: 120,
