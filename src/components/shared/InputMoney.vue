@@ -1,53 +1,49 @@
 <template>
-    <div>
-        <v-row>
-            <v-col cols='12'>
-                 <vuetify-money
-                    :label='label'
-                    dense
-                    :background-color="background"
-                    counter
-                    v-model="valorPadrao"
-                    class="mt-5"
-                  />
-            </v-col>
-        </v-row>
-    </div>
+    <v-row>
+        <v-col cols="12">
+            <vuetify-money
+                v-model="valor"
+                :label="label"
+                :outlined="outlined"
+                :dense="dense"
+                clearable
+                :backround-color="backgroundColor"
+                :color="color"
+            />
+        </v-col>
+    </v-row>
 </template>
 
 <script>
-    import { Money } from "v-money";
-
-    export default {
-        name: 'InputMoney',
-        props: {
-            label: String,
-            background: String,
+export default {
+    name: 'InputMoney',
+    props: {
+        label: {
+            type: String,
+            default: 'Valor',
         },
-
-        components: {
-            Money,
+        outlined: Boolean,
+        dense: Boolean,
+        backgroundColor: {
+            type: String,
+            default: '',
         },
-        data(){
-            return{
-                valorPadrao: 0,
-                options: {
-                    locale: "pt-BR",
-                    prefix: "R$",
-                    suffix: "",
-                    length: 11,
-                    precision: 2,
-                },
-            }
+        color: {
+            type: String,
+            default: '',
         },
-        watch: {
-            valorPadrao(novoValor) {
-                this.$emit('input', novoValor);
-            } 
+    },
+    data() {
+        return {
+            valor: 0,
+        };
+    },
+    watch: {
+        valor(novoValor) {
+            this.$emit('input', novoValor);
         },
-    }
+    },
+};
 </script>
 
-<style lang="sass" scoped>
-
-</style>
+<style scoped></style>

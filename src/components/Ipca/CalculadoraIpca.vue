@@ -54,7 +54,7 @@
 <script>
 import { indices } from './Ipca';
 import InputMonth from '../shared/InputMonth.vue';
-import InputMoney from "../shared/InputMoney.vue";
+import InputMoney from '../shared/InputMoney.vue';
 
 export default {
     name: 'CalculadoraIpca',
