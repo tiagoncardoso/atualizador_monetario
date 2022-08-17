@@ -97,15 +97,15 @@ export default {
         return {
             mesAno: "",
             carregando: false,
-            valor: "0",
-            valorAtual: "0",
+            valor: 0,
+            valorAtual: 0,
             options: {
                 locale: "pt-BR",
                 prefix: "R$ ",
                 suffix: "",
                 length: 11,
                 precision: 2,
-            },
+            }
         };
     },
     computed: {

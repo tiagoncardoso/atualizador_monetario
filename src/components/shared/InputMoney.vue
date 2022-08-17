@@ -8,7 +8,8 @@
                 :dense="dense"
                 clearable
                 :backround-color="backgroundColor"
-                :color="color"        
+                :color="color"  
+                :result="result"
             />
         </v-col>
     </v-row>
@@ -23,6 +24,8 @@ export default {
         dense: Boolean,
         backgroundColor: String,
         color: String,
+        options: String,
+        result: String,
     },
     data(){
         return{
