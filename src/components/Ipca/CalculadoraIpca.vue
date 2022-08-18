@@ -8,8 +8,9 @@
                     </v-toolbar>
                     <v-card-text>
                         <v-row>
-                            <v-col cols="4" offset="4" class="mt-10">
-                                <input-month v-model="mesAno" label="Mês/Ano" regular />
+                            <v-col cols="4" offset="4" class="">
+                                <input-month v-model="mesAno" label="Início" regular/>
+                                <input-month v-model="fimMesAno" label='Fim' regular class='mb-5'/>
                                 <v-col>
                                     <input-money v-model="valor" label="Digite o Valor" />
                                 </v-col>
@@ -25,16 +26,8 @@
 
                         <v-row>
                             <v-col cols="0" offset="0" sm="4" offset-sm="4" lg="4" offset-lg="4">
-                                >
-                                <vuetify-money
-                                    v-model="result"
-                                    label="Resultado"
-                                    filled
-                                    dense
-                                    counter
-                                    :loading="carregando"
-                                    background-color="#FFFFF"
-                                />
+                                <input-money v-model="result" clearable readonly
+                                 :valor-padrao='result' label="Resultado" />
                             </v-col>
                         </v-row>
                     </v-card-text>
@@ -74,6 +67,7 @@ export default {
             carregando: false,
             valorPadrao: 0,
             mesAno: '',
+            fimMesAno: '',
         };
     },
     computed: {
@@ -220,6 +214,9 @@ export default {
 
         calcular() {
             const digitos = this.mesAno.split('/');
+            const temp = this.fimMesAno.split('/');
+            let fimAno = parseFloat(temp[1]);
+            let fimMes = parseFloat(temp[0]);
             let ano = parseFloat(digitos[1]);
             let mes = parseFloat(digitos[0]);
             let primeiroValor = this.valor;

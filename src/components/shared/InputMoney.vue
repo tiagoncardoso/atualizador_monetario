@@ -6,9 +6,10 @@
                 :label="label"
                 :outlined="outlined"
                 :dense="dense"
-                clearable
-                :backround-color="backgroundColor"
+                :clearable='!clearable'
+                :background-color="backgroundColor"
                 :color="color"
+                :readonly='readonly'
             />
         </v-col>
     </v-row>
@@ -35,6 +36,14 @@ export default {
         valorPadrao: {
             type: Number,
             default: 0,
+        },
+        readonly: {
+            type: Boolean,
+            default: false,
+        },
+        clearable: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {
