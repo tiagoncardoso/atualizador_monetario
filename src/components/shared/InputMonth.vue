@@ -5,7 +5,6 @@
                 ref="menu"
                 v-model="menu"
                 :close-on-content-click="false"
-                :return-value.sync="date"
                 transition="scale-transition"
                 offset-y
                 max-width="290px"
@@ -26,13 +25,16 @@
                         v-on="on"
                     />
                 </template>
-                <v-date-picker v-model="date" type="month" no-title scrollable locale="pt-br">
-                    <v-spacer />
-                    <v-btn text color="primary" @click="menu = false"> Cancelar </v-btn>
-                    <v-btn text color="primary" @click="$refs.menu.save(date)"> OK </v-btn>
-                </v-date-picker>
+                <v-date-picker
+                    v-model="date"
+                    type="month"
+                    no-title
+                    scrollable
+                    locale="pt-br"
+                    @input="menu = false"
+                    @blur="$refs.menu.save(date)"
+                />
             </v-menu>
-            <v-spacer />
         </v-col>
     </v-row>
 </template>
