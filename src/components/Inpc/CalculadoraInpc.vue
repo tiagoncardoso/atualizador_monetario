@@ -49,7 +49,7 @@
                                         dense
                                         background-color="white"
                                         color="black"
-                                        valor-padrao="valorAtual"
+                                        :valor-padrao="valorAtual"
                                     />
                                 </v-col>
                             </v-row>
@@ -82,7 +82,7 @@ export default {
                 suffix: '',
                 length: 11,
                 precision: 2,
-            }
+            },
         };
     },
     computed: {
