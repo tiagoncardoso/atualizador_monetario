@@ -78,9 +78,6 @@ export default {
 
     methods: {
         pick(age, mounth) {
-            //let digitos = data.split('/')
-            //let age = digitos[2]
-            //let mounth = digitos [1]
             let laco = mounth - 1;
 
             if (mounth >= 1 && mounth <= 12) {
@@ -216,16 +213,16 @@ export default {
             const digitos = this.mesAno.split('/');
             const temp = this.fimMesAno.split('/');
             let fimAno = parseFloat(temp[1]);
-            let fimMes = parseFloat(temp[0]);
             let ano = parseFloat(digitos[1]);
             let mes = parseFloat(digitos[0]);
             let primeiroValor = this.valor;
+            debugger;
 
             if (ano >= 1994 && ano <= 2022 && mes >= 1 && mes <= 12) {
                 if (ano == 1994 && mes <= 6) {
                     this.result = 0;
                 } else {
-                    while (ano != 2023) {
+                    while (ano < (fimAno+1)) {
                         if (ano != 2022) {
                             for (mes; mes <= 12; mes++) {
                                 let indice = this.pick(ano, mes);
