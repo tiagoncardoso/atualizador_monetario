@@ -213,6 +213,7 @@ export default {
             const digitos = this.mesAno.split('/');
             const temp = this.fimMesAno.split('/');
             let fimAno = parseFloat(temp[1]);
+            let fimMes = parseFloat(temp[0]);
             let ano = parseFloat(digitos[1]);
             let mes = parseFloat(digitos[0]);
             let primeiroValor = this.valor;
@@ -225,13 +226,17 @@ export default {
                     while (ano < (fimAno+1)) {
                         if (ano != 2022) {
                             for (mes; mes <= 12; mes++) {
-                                let indice = this.pick(ano, mes);
-                                let total =
-                                    parseFloat(this.valor) * (parseFloat(indice) / 100) + parseFloat(this.valor);
-                                this.valor = total;
+                                if (ano == fimAno && mes == fimMes) {
+                                    mes = 13;
+                                }else {
+                                    let indice = this.pick(ano, mes);
+                                    let total =
+                                        parseFloat(this.valor) * (parseFloat(indice) / 100) + parseFloat(this.valor);
+                                    this.valor = total;
+                                }
                             }
                         } else if (ano == 2022) {
-                            for (mes; mes <= 6; mes++) {
+                            for (mes; mes <= (fimMes-1); mes++) {
                                 let indice = this.pick(ano, mes);
                                 let total =
                                     parseFloat(this.valor) * (parseFloat(indice) / 100) + parseFloat(this.valor);
