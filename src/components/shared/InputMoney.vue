@@ -7,7 +7,7 @@
                 :outlined="outlined"
                 :dense="dense"
                 clearable
-                :background-color="backgroundColor"
+                :backround-color="backgroundColor"
                 :color="color"
             />
         </v-col>
@@ -25,12 +25,16 @@ export default {
         outlined: Boolean,
         dense: Boolean,
         backgroundColor: {
-            type: [String, null] ,
-            default: null,
+            type: String,
+            default: '',
         },
         color: {
             type: String,
             default: '',
+        },
+        valorPadrao: {
+            type: Number,
+            default: 0,
         },
     },
     data() {
@@ -41,6 +45,9 @@ export default {
     watch: {
         valor(novoValor) {
             this.$emit('input', novoValor);
+        },
+        valorPadrao(novoValor) {
+            this.valor = Number.parseFloat(novoValor);
         },
     },
 };

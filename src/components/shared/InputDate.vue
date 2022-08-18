@@ -36,8 +36,14 @@ export default {
     name: 'InputDate',
 
     props: {
-        label: String,
-        dataEnviada: String,
+        label: {
+            type: String,
+            default: 'Data',
+        },
+        dataEnviada: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {

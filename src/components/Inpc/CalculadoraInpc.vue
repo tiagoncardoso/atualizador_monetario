@@ -22,15 +22,13 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="6" offset="3">
-                                    <vuetify-money
+                                    <input-money
                                         v-model="valor"
                                         label="Valor"
                                         outlined
                                         dense
-                                        clearable
-                                        backround-color="white"
+                                        background-color="white"
                                         color="black"
-                                        :options="options"
                                     />
                                 </v-col>
                             </v-row>
@@ -44,15 +42,14 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="6" offset="3">
-                                    <vuetify-money
+                                    <input-money
                                         v-model="valorAtual"
                                         label="Valor atualizado"
                                         outlined
                                         dense
-                                        clearable
                                         background-color="white"
                                         color="black"
-                                        :options="options"
+                                        :valor-padrao="valorAtual"
                                     />
                                 </v-col>
                             </v-row>
@@ -68,24 +65,17 @@
 <script>
 import { indices } from './Inpc';
 import InputMonthYear from '../shared/InputMonth.vue';
+import InputMoney from '../shared/InputMoney.vue';
 
 export default {
     name: 'CalculadoraInpc',
-    components: { InputMonthYear },
+    components: { InputMonthYear, InputMoney },
     data() {
         return {
             mesAno: '',
             carregando: false,
-            valor: '0',
-            valorAtual: '0',
-            label: 'valor, valorAtual',
-            options: {
-                locale: 'pt-BR',
-                prefix: 'R$ ',
-                suffix: '',
-                length: 11,
-                precision: 2,
-            },
+            valor: 0,
+            valorAtual: 0,
         };
     },
     computed: {
