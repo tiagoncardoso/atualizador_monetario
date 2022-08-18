@@ -8,17 +8,11 @@
                     </v-toolbar>
                     <v-card-text>
                         <v-row>
-                            <v-col cols="4" offset="4" class="mt-10">
-                                <input-month v-model="mesAno" label="Mês/Ano" class="mb-5" regular />
+                            <v-col cols="4" offset="4" class="">
+                                <input-month v-model="mesAno" label="Início" regular/>
+                                <input-month v-model="fimMesAno" label='Fim' regular class='mb-5'/>
                                 <v-col>
-                                    <vuetify-money
-                                        v-model="valor"
-                                        label="Digite o valor"
-                                        regular
-                                        dense
-                                        background-color="#FFFFF"
-                                        counter
-                                    />
+                                    <input-money v-model="valor" label="Digite o Valor" />
                                 </v-col>
                             </v-col>
                         </v-row>
@@ -32,16 +26,8 @@
 
                         <v-row>
                             <v-col cols="0" offset="0" sm="4" offset-sm="4" lg="4" offset-lg="4">
-                                >
-                                <vuetify-money
-                                    v-model="result"
-                                    label="Resultado"
-                                    filled
-                                    dense
-                                    counter
-                                    :loading="carregando"
-                                    background-color="#FFFFF"
-                                />
+                                <input-money v-model="result" clearable readonly
+                                 :valor-padrao='result' label="Resultado" />
                             </v-col>
                         </v-row>
                     </v-card-text>
@@ -54,12 +40,14 @@
 <script>
 import { indices } from './Ipca';
 import InputMonth from '../shared/InputMonth.vue';
+import InputMoney from '../shared/InputMoney.vue';
 
 export default {
     name: 'CalculadoraIpca',
 
     components: {
         InputMonth,
+        InputMoney,
     },
 
     data() {
@@ -77,8 +65,9 @@ export default {
             },
             picker: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10),
             carregando: false,
-            dataPadrao: '',
-            mesAno: '13',
+            valorPadrao: 0,
+            mesAno: '',
+            fimMesAno: '',
         };
     },
     computed: {
@@ -89,9 +78,6 @@ export default {
 
     methods: {
         pick(age, mounth) {
-            //let digitos = data.split('/')
-            //let age = digitos[2]
-            //let mounth = digitos [1]
             let laco = mounth - 1;
 
             if (mounth >= 1 && mounth <= 12) {
@@ -225,24 +211,32 @@ export default {
 
         calcular() {
             const digitos = this.mesAno.split('/');
+            const temp = this.fimMesAno.split('/');
+            let fimAno = parseFloat(temp[1]);
+            let fimMes = parseFloat(temp[0]);
             let ano = parseFloat(digitos[1]);
             let mes = parseFloat(digitos[0]);
             let primeiroValor = this.valor;
+            debugger;
 
             if (ano >= 1994 && ano <= 2022 && mes >= 1 && mes <= 12) {
                 if (ano == 1994 && mes <= 6) {
                     this.result = 0;
                 } else {
-                    while (ano != 2023) {
+                    while (ano < (fimAno+1)) {
                         if (ano != 2022) {
                             for (mes; mes <= 12; mes++) {
-                                let indice = this.pick(ano, mes);
-                                let total =
-                                    parseFloat(this.valor) * (parseFloat(indice) / 100) + parseFloat(this.valor);
-                                this.valor = total;
+                                if (ano == fimAno && mes == fimMes) {
+                                    mes = 13;
+                                }else {
+                                    let indice = this.pick(ano, mes);
+                                    let total =
+                                        parseFloat(this.valor) * (parseFloat(indice) / 100) + parseFloat(this.valor);
+                                    this.valor = total;
+                                }
                             }
                         } else if (ano == 2022) {
-                            for (mes; mes <= 6; mes++) {
+                            for (mes; mes <= (fimMes-1); mes++) {
                                 let indice = this.pick(ano, mes);
                                 let total =
                                     parseFloat(this.valor) * (parseFloat(indice) / 100) + parseFloat(this.valor);
@@ -270,5 +264,6 @@ export default {
 <style scoped>
 .v-btn {
     width: 100px;
+    color: #ffff;
 }
 </style>
