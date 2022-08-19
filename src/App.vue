@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-main>
-            <v-toolbar color="deep-purple accent-4" dark flat>
+            <v-toolbar color="#13335C" dark flat>
                 <v-toolbar-title>Atualização monetária</v-toolbar-title>
 
                 <template #extension>
