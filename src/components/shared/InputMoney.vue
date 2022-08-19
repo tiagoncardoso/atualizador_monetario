@@ -6,10 +6,10 @@
                 :label="label"
                 :outlined="outlined"
                 :dense="dense"
-                :clearable='!clearable'
+                :clearable="!clearable"
                 :background-color="backgroundColor"
                 :color="color"
-                :readonly='readonly'
+                :readonly="readonly"
             />
         </v-col>
     </v-row>

@@ -29,8 +29,8 @@ import CalculadoraInpc from './components/Inpc/CalculadoraInpc.vue';
 import CalculadoraIpca from './components/Ipca/CalculadoraIpca.vue';
 
 export default {
-    components: { CalculadoraIpca, CalculadoraInpc },
     name: 'App',
+    components: { CalculadoraIpca, CalculadoraInpc },
     data: () => ({
         currentItem: 'tab-Web',
     }),
