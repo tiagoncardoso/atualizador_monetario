@@ -222,7 +222,7 @@ export default {
             let ano = parseFloat(digitos[1]);
             let mes = parseFloat(digitos[0]);
             let primeiroValor = this.valor;
-            debugger;
+            
             if (ano >= 1994 && ano <= 2022 && mes >= 1 && mes <= 12) {
                 if (ano == 1994 && mes <= 6) {
                     this.result = 0;
