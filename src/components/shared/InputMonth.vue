@@ -51,7 +51,7 @@ export default {
         dense: Boolean,
         backgroundColor: {
             type: String,
-            default: '',
+            default: 'white',
         },
         color: {
             type: String,
