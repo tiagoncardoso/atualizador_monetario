@@ -271,7 +271,7 @@ export default {
     color: #ffff;
 }
 
-.cor{
+.cor {
     color: #ffff;
 }
 </style>
