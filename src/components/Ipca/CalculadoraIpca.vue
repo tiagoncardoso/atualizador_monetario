@@ -2,15 +2,15 @@
     <v-container>
         <v-row class="text-center">
             <v-col cols="6" offset="3">
-                <v-card color="#81c77b" class="elevation-12" rounded>
-                    <v-toolbar color="green" class="darken-4">
+                <v-card color="#98C0D6" class="elevation-12" rounded>
+                    <v-toolbar color="#144E73" class="cor">
                         <h1>Calculadora IPCA</h1>
                     </v-toolbar>
                     <v-card-text>
                         <v-row>
                             <v-col cols="4" offset="4" class="">
-                                <input-month v-model="mesAno" label="Início" regular/>
-                                <input-month v-model="fimMesAno" label='Fim' regular class='mb-5'/>
+                                <input-month v-model="mesAno" label="Início" regular />
+                                <input-month v-model="fimMesAno" label="Fim" regular class="mb-5" />
                                 <v-col>
                                     <input-money v-model="valor" label="Digite o Valor" />
                                 </v-col>
@@ -26,8 +26,13 @@
 
                         <v-row>
                             <v-col cols="0" offset="0" sm="4" offset-sm="4" lg="4" offset-lg="4">
-                                <input-money v-model="result" clearable readonly
-                                 :valor-padrao='result' label="Resultado" />
+                                <input-money
+                                    v-model="result"
+                                    clearable
+                                    readonly
+                                    :valor-padrao="result"
+                                    label="Resultado"
+                                />
                             </v-col>
                         </v-row>
                     </v-card-text>
@@ -217,18 +222,17 @@ export default {
             let ano = parseFloat(digitos[1]);
             let mes = parseFloat(digitos[0]);
             let primeiroValor = this.valor;
-            debugger;
-
+            
             if (ano >= 1994 && ano <= 2022 && mes >= 1 && mes <= 12) {
                 if (ano == 1994 && mes <= 6) {
                     this.result = 0;
                 } else {
-                    while (ano < (fimAno+1)) {
+                    while (ano < fimAno + 1) {
                         if (ano != 2022) {
                             for (mes; mes <= 12; mes++) {
                                 if (ano == fimAno && mes == fimMes) {
                                     mes = 13;
-                                }else {
+                                } else {
                                     let indice = this.pick(ano, mes);
                                     let total =
                                         parseFloat(this.valor) * (parseFloat(indice) / 100) + parseFloat(this.valor);
@@ -236,7 +240,7 @@ export default {
                                 }
                             }
                         } else if (ano == 2022) {
-                            for (mes; mes <= (fimMes-1); mes++) {
+                            for (mes; mes <= fimMes - 1; mes++) {
                                 let indice = this.pick(ano, mes);
                                 let total =
                                     parseFloat(this.valor) * (parseFloat(indice) / 100) + parseFloat(this.valor);
@@ -264,6 +268,10 @@ export default {
 <style scoped>
 .v-btn {
     width: 100px;
+    color: #ffff;
+}
+
+.cor {
     color: #ffff;
 }
 </style>
