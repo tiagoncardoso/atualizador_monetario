@@ -64,7 +64,7 @@
 
 <script>
 import { indices } from './Inpc';
-import InputMonthYear from '../shared/InputMonth.vue';
+    import InputMonthYear from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
 
 export default {
