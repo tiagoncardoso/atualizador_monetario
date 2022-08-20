@@ -25,7 +25,7 @@
                                         dense
                                         background-color="white"
                                         color="black"
-                                    />  
+                                    />
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -282,17 +282,17 @@ export default {
         },
 
         calcular() {
-            debugger
             const arrayData = this.mesAno.split('/');
             const finalData = this.final.split('/');
             let mes = parseFloat(arrayData[0]);
             let ano = parseFloat(arrayData[1]);
             //let mesFinal = parseFloat(finalData[0]);
-            let anoFinal = parseFloat (finalData[1])
+            let anoFinal = parseFloat(finalData[1]);
             let resultado = 0;
             let recebeValor = this.valor;
             let mesDiminui = mes - 1;
 
+            debugger;
             if (ano >= 1994 && ano <= anoFinal) {
                 for (ano; ano <= 2021; ano++) {
                     for (mesDiminui; mesDiminui < 12; mesDiminui++) {
