@@ -2,8 +2,8 @@
     <v-container>
         <v-row>
             <v-col cols="4" class="mt-10 offset-4 text-center input-group form-group mb-3">
-                <v-card class="elevation-12">
-                    <v-toolbar dark color="primary" class="text-center mb-4">
+                <v-card class="elevation-12" color="#98C0D6">
+                    <v-toolbar dark color="#144E73" class="text-center mb-4">
                         <v-toolbar-title> Atualização monetária- INPC </v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
@@ -12,12 +12,20 @@
                                 <v-col cols="6" offset="3">
                                     <input-month-year
                                         v-model="mesAno"
-                                        label="mes/ano"
+                                        label="Início"
                                         outlined
                                         dense
                                         background-color="white"
                                         color="black"
                                     />
+                                    <input-month-year
+                                        v-model="final"
+                                        label="Final"
+                                        outlined
+                                        dense
+                                        background-color="white"
+                                        color="black"
+                                    />  
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -76,6 +84,7 @@ export default {
             carregando: false,
             valor: 0,
             valorAtual: 0,
+            final: '',
         };
     },
     computed: {
@@ -273,14 +282,18 @@ export default {
         },
 
         calcular() {
+            debugger
             const arrayData = this.mesAno.split('/');
+            const finalData = this.final.split('/');
             let mes = parseFloat(arrayData[0]);
             let ano = parseFloat(arrayData[1]);
+            //let mesFinal = parseFloat(finalData[0]);
+            let anoFinal = parseFloat (finalData[1])
             let resultado = 0;
             let recebeValor = this.valor;
             let mesDiminui = mes - 1;
 
-            if (ano >= 1994 && ano <= 2022) {
+            if (ano >= 1994 && ano <= anoFinal) {
                 for (ano; ano <= 2021; ano++) {
                     for (mesDiminui; mesDiminui < 12; mesDiminui++) {
                         resultado =
@@ -317,7 +330,6 @@ export default {
 
 <style scoped>
 .v-card {
-    background: #bbdefb !important;
     background-size: cover;
     background-repeat: no-repeat;
     font-family: 'Numans', sans-serif;
