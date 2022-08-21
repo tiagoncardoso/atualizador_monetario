@@ -34,16 +34,5 @@ export default {
     data: () => ({
         currentItem: 'tab-Web',
     }),
-
-    methods: {
-        addItem(item) {
-            const removed = this.items.splice(0, 1);
-            this.items.push(...this.more.splice(this.more.indexOf(item), 1));
-            this.more.push(...removed);
-            this.$nextTick(() => {
-                this.currentItem = 'tab-' + item;
-            });
-        },
-    },
 };
 </script>
