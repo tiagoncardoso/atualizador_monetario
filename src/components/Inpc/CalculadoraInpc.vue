@@ -286,44 +286,56 @@ export default {
             const finalData = this.final.split('/');
             let mes = parseFloat(arrayData[0]);
             let ano = parseFloat(arrayData[1]);
-            //let mesFinal = parseFloat(finalData[0]);
+            let mesFinal = parseFloat(finalData[0]);
             let anoFinal = parseFloat(finalData[1]);
             let resultado = 0;
             let recebeValor = this.valor;
             let mesDiminui = mes - 1;
+            let mesTemp = 12;
 
-            debugger;
-            if (ano >= 1994 && ano <= anoFinal) {
-                for (ano; ano <= 2021; ano++) {
-                    for (mesDiminui; mesDiminui < 12; mesDiminui++) {
-                        resultado =
-                            parseFloat(this.valor) * (parseFloat(this.indices[ano][mesDiminui]) / 100) +
-                            parseFloat(this.valor);
-                        this.valor = parseFloat(resultado);
+            debugger
+            if (anoFinal >= 1994 && anoFinal <= 2023) {
+                if (ano >= 1994 && ano <= anoFinal) {
+                    for (ano; ano <= anoFinal; ano++) {
+                        if (ano == anoFinal && mesTemp == 12) {
+                            mesTemp = mesFinal - 1;
+                        }
+                        if (ano != 2022) {
+                            if (ano == anoFinal && mes == mesFinal - 1) {
+                                mesTemp = mesDiminui - 1;
+                            } else {
+                                for (mesDiminui; mesDiminui < mesTemp; mesDiminui++) {
+                                    resultado =
+                                        parseFloat(this.valor) * (parseFloat(this.indices[ano][mesDiminui]) / 100) +
+                                        parseFloat(this.valor);
+                                    this.valor = parseFloat(resultado);
+                                }
+                                mesDiminui = 0;
+                            }
+                        } else if (ano == 2022) {
+                            for (ano; ano == 2022; ) {
+                                for (mesDiminui; mesDiminui < mesFinal - 1; mesDiminui++) {
+                                    resultado =
+                                        parseFloat(this.valor) * (parseFloat(this.indices[ano][mesDiminui]) / 100) +
+                                        parseFloat(this.valor);
+                                    this.valor = resultado;
+                                }
+                                ano++;
+                            }
+                        }
                     }
-                    mesDiminui = 0;
+                    this.valorAtual = this.valor;
+                    this.valor = recebeValor;
+                } else {
+                    this.valor = 0;
                 }
-                for (ano; ano == 2022; ano++) {
-                    for (mesDiminui; mesDiminui < 6; mesDiminui++) {
-                        resultado =
-                            parseFloat(this.valor) * (parseFloat(this.indices[ano][mesDiminui]) / 100) +
-                            parseFloat(this.valor);
-                        this.valor = resultado;
-                    }
-                }
-            } else {
-                this.valor = 'Tente novamente, ano inválido!';
             }
-
-            this.valorAtual = this.valor;
-            this.valor = recebeValor;
         },
-
-        limpar() {
-            this.data = '';
-            this.valor = 0;
-            this.valorAtual = 0;
-        },
+    },
+    limpar() {
+        this.data = '';
+        this.valor = 0;
+        this.valorAtual = 0;
     },
 };
 </script>
