@@ -72,7 +72,7 @@
 
 <script>
 import { indices } from './Inpc';
-    import InputMonthYear from '../shared/InputMonth.vue';
+import InputMonthYear from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
 
 export default {
@@ -282,7 +282,7 @@ export default {
         },
 
         calcular() {
-            debugger
+            debugger;
             const arrayData = this.mesAno.split('/');
             const finalData = this.final.split('/');
             let mes = parseFloat(arrayData[0]);

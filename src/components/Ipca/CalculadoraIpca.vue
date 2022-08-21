@@ -9,11 +9,10 @@
                     <v-card-text>
                         <v-row>
                             <v-col cols="4" offset="4" class="">
-                                <input-month v-model="mesAno" dense label="Início" outlined/>
+                                <input-month v-model="mesAno" dense label="Início" outlined />
                                 <input-month v-model="fimMesAno" dense label="Fim" outlined class="mb-5" />
                                 <v-col>
-                                    <input-money v-model="valor"    
-                                    dense outlined label="Digite o Valor" />
+                                    <input-money v-model="valor" dense outlined label="Digite o Valor" />
                                 </v-col>
                             </v-col>
                         </v-row>
