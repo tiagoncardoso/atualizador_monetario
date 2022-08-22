@@ -294,7 +294,6 @@ export default {
             let mesDiminui = mes - 1;
             let mesTemp = 12;
 
-            debugger;
             if (anoFinal >= 1994 && anoFinal <= 2023) {
                 if (ano >= 1994 && ano <= anoFinal) {
                     for (ano; ano <= anoFinal; ano++) {
