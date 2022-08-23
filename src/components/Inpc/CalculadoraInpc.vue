@@ -37,6 +37,7 @@
                                         dense
                                         background-color="white"
                                         color="black"
+                                        :valor-padrao="valor"
                                     />
                                 </v-col>
                             </v-row>
@@ -69,7 +70,6 @@
             </v-col>
         </v-row>
     </v-container>
-    <!--{{ valores [2022][0]}}-->
 </template>
 
 <script>
@@ -83,10 +83,9 @@ export default {
     data() {
         return {
             mesAno: '',
-            carregando: false,
+            final: '',
             valor: 0,
             valorAtual: 0,
-            final: '',
         };
     },
     computed: {
@@ -97,32 +96,34 @@ export default {
 
     methods: {
         calcular() {
-            let temp = this.mesAno.split('/');
-            let data = [parseInt(temp[0]), parseInt(temp[1])];
-            let dataInicio = new Date(data);
-            console.log(dataInicio);
+            let resultado = this.valor;
+            let [mes, ano] = this.mesAno.split('/');
+            let dataInicio = new Date(ano, Number.parseInt(mes) - 1, 1);
 
-            let tempo = this.final.split('/');
-            let dat = [parseInt(tempo[0]), parseInt(tempo[1])];
-            let dataFim = new Date(dat);
-            console.log(dataFim);
+            [mes, ano] = this.final.split('/');
+            let dataFim = new Date(ano, Number.parseInt(mes) - 1, 1);
 
-            while (dataInicio < dataFim) {
-                let indicesAno = arrayIndices.filter((lista) => lista.ano == dataInicio.getFullYear());
-                let indicesMes = indicesAno[0].indice[dataInicio.getMonth()];
+            if (dataInicio < dataFim) {
+                while (dataInicio < dataFim) {
+                    let indicesAno = arrayIndices.filter((lista) => lista.ano == dataInicio.getFullYear());
+                    let indicesMes = indicesAno[0].indice[dataInicio.getMonth()];
 
-                dataInicio.setMonth(dataInicio.getMonth() + 1);
-                let total = parseFloat(this.valor) * (indicesMes / 100) + parseFloat(this.valor);
-                this.valor = total;
-                console.log(indicesMes);
+                    dataInicio.setMonth(dataInicio.getMonth() + 1);
+                    let total = parseFloat(this.valor) * (indicesMes / 100) + parseFloat(this.valor);
+                    this.valor = total;
+                }
+                this.valorAtual = this.valor;
+                this.valor = resultado;
+            } else {
+                this.valorAtual = 0;
             }
-            this.valorAtual = this.valor;
         },
-    },
-    limpar() {
-        this.data = '';
-        this.valor = 0;
-        this.valorAtual = 0;
+        limpar() {
+            this.mesAno = '';
+            this.final = '';
+            this.valor = 0;
+            this.valorAtual = 0;
+        },
     },
 };
 </script>

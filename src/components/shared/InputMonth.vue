@@ -41,7 +41,7 @@
 
 <script>
 export default {
-    name: 'InputDate',
+    name: 'InputMonth',
     props: {
         label: {
             type: String,
@@ -57,6 +57,10 @@ export default {
             type: String,
             default: 'black',
         },
+        dataPadrao: {
+            type: [Number, String],
+            default: '',
+        },
     },
     data: () => ({
         date: '',
@@ -64,19 +68,17 @@ export default {
         dateFormatted: '',
         modal: false,
     }),
-    computed: {
-        computedDateFormatted() {
-            return this.formatDate(this.date);
-        },
-    },
 
     watch: {
-        date() {
-            this.dateFormatted = this.formatDate(this.date);
+        date(novaData) {
+            this.dateFormatted = this.formatDate(novaData);
         },
 
         dateFormatted(novaData) {
             this.$emit('input', novaData);
+        },
+        dataPadrao(dataPadrao) {
+            this.date = dataPadrao;
         },
     },
 
@@ -85,7 +87,13 @@ export default {
             if (!date) return null;
 
             const [year, month] = date.split('-');
-            return `${year}/${month}`;
+            return `${month}/${year}`;
+        },
+        parseDate(date) {
+            if (!date) return null;
+
+            const [month, year] = date.split('/');
+            return `${month.padStart(2, '0')}-${year}`;
         },
     },
 };
