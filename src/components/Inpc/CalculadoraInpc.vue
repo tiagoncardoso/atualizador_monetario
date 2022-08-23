@@ -96,67 +96,27 @@ export default {
     },
 
     methods: {
-        valores() {
-
-        dataInicio = new Date(date);
-        dataFim = new Date(date)
-
-            while(dataInicio < dataFim){
-                let indicesAno = arrayIndices.filter((lista) => lista.ano == dataInicio,getFullYear())
-                let indicesMes = indicesAno[0].indice[dataInicio.getMonth()]
-
-                dataInicio.setMonth(dataInicio.getMonth() + 1)
-            }
-        },
         calcular() {
+            let temp = this.mesAno.split('/');
+            let data = [parseInt(temp[0]), parseInt(temp[1])];
+            let dataInicio = new Date(data);
+            console.log(dataInicio);
 
-            const arrayData = this.mesAno.split('/');
-            const finalData = this.final.split('/');
-            let mes = parseFloat(arrayData[0]);
-            let ano = parseFloat(arrayData[1]);
-            let mesFinal = parseFloat(finalData[0]);
-            let anoFinal = parseFloat(finalData[1]);
-            let resultado = 0;
-            let recebeValor = this.valor;
-            let mesDiminui = mes - 1;
-            let mesTemp = 12;
+            let tempo = this.final.split('/');
+            let dat = [parseInt(tempo[0]), parseInt(tempo[1])];
+            let dataFim = new Date(dat);
+            console.log(dataFim);
 
-            if (anoFinal >= 1994 && anoFinal <= 2023) {
-                if (ano >= 1994 && ano <= anoFinal) {
-                    for (ano; ano <= anoFinal; ano++) {
-                        if (ano == anoFinal && mesTemp == 12) {
-                            mesTemp = mesFinal - 1;
-                        }
-                        if (ano != 2022) {
-                            if (ano == anoFinal && mes == mesFinal - 1) {
-                                mesTemp = mesDiminui - 1;
-                            } else {
-                                for (mesDiminui; mesDiminui < mesTemp; mesDiminui++) {
-                                    resultado =
-                                        parseFloat(this.valor) * (parseFloat(this.arrayIndices[ano][mesDiminui]) / 100) +
-                                        parseFloat(this.valor);
-                                    this.valor = parseFloat(resultado);
-                                }
-                                mesDiminui = 0;
-                            }
-                        } else if (ano == 2022) {
-                            for (ano; ano == 2022; ) {
-                                for (mesDiminui; mesDiminui < mesFinal - 1; mesDiminui++) {
-                                    resultado =
-                                        parseFloat(this.valor) * (parseFloat(this.arrayIndices[ano][mesDiminui]) / 100) +
-                                        parseFloat(this.valor);
-                                    this.valor = resultado;
-                                }
-                                ano++;
-                            }
-                        }
-                    }
-                    this.valorAtual = this.valor;
-                    this.valor = recebeValor;
-                } else {
-                    this.valor = 0;
-                }
+            while (dataInicio < dataFim) {
+                let indicesAno = arrayIndices.filter((lista) => lista.ano == dataInicio.getFullYear());
+                let indicesMes = indicesAno[0].indice[dataInicio.getMonth()];
+
+                dataInicio.setMonth(dataInicio.getMonth() + 1);
+                let total = parseFloat(this.valor) * (indicesMes / 100) + parseFloat(this.valor);
+                this.valor = total;
+                console.log(indicesMes);
             }
+            this.valorAtual = this.valor;
         },
     },
     limpar() {

@@ -85,13 +85,7 @@ export default {
             if (!date) return null;
 
             const [year, month] = date.split('-');
-            return `${month}/${year}`;
-        },
-        parseDate(date) {
-            if (!date) return null;
-
-            const [month, year] = date.split('/');
-            return `${year}-${month.padStart(2, '0')}`;
+            return `${year}/${month}`;
         },
     },
 };
