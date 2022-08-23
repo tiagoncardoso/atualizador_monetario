@@ -34,8 +34,8 @@ export default {
             default: '',
         },
         valorPadrao: {
-            type: Number,
-            default: 0,
+            type: [Number, String],
+            default: " ",
         },
         readonly: {
             type: Boolean,
@@ -52,6 +52,7 @@ export default {
         };
     },
     watch: {
+
         valor(novoValor) {
             this.$emit('input', novoValor);
         },

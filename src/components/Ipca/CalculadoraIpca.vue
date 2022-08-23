@@ -12,7 +12,7 @@
                                 <input-month v-model="mesAno" dense label="Início" outlined/>
                                 <input-month v-model="fimMesAno" dense label="Fim" outlined class="mb-5" />
                                 <v-col>
-                                    <input-money v-model="valor"    
+                                    <input-money v-model="valor" :valor-padrao="valor"   
                                     dense outlined label="Digite o Valor" />
                                 </v-col>
                             </v-col>
@@ -60,19 +60,10 @@ export default {
 
     data() {
         return {
-            data: 0,
             valor: 0,
             result: 0,
             label: 'valor, result',
-            options: {
-                locale: 'pt-BR',
-                prefix: 'R$',
-                suffix: '',
-                length: 11,
-                precision: 2,
-            },
-            picker: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10),
-            carregando: false,
+
             valorPadrao: 0,
             mesAno: '',
             fimMesAno: '',
@@ -87,31 +78,36 @@ export default {
     methods: {
 
         calcular() {
+            debugger
             let valorRecebido = this.valor
-            let temp = this.mesAno.split('/')
-            let dataTempInicio = [parseInt(temp[0]), parseInt(temp[1])]
-            let dataInicio = new Date(dataTempInicio)
 
-            let tempo = this.fimMesAno.split('/')
-            let dataTempFim = [parseInt(tempo[0]), parseInt(tempo[1])]
-            let dataFim = new Date(dataTempFim)
+            let [mes, ano] = this.mesAno.split('/')
+            let dataInicio = new Date(ano, parseInt(mes) - 1, 1)
+
+            let [mesFim, anoFim] = this.fimMesAno.split('/')
+            let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1)
+
             console.log(dataInicio, dataFim)
+                if(dataInicio < dataFim){
+                    while(dataInicio < dataFim){
+                    let indiceAno = this.indices.filter((temp) => temp.ano == dataInicio.getFullYear()) 
+                    let indiceMes = indiceAno[0].indices[dataInicio.getMonth()]
+                    dataInicio.setMonth(dataInicio.getMonth() + 1)
 
-            while(dataInicio < dataFim){
-                debugger
-                let indiceAno = this.indices.filter((temp) => temp.ano == dataInicio.getFullYear()) 
-                let indiceMes = indiceAno[0].indices[dataInicio.getMonth()]
-                dataInicio.setMonth(dataInicio.getMonth() + 1)
-
-                let total = parseFloat(this.valor) * (indiceMes / 100) + parseFloat(this.valor);
-                this.valor = total;
+                    let total = parseFloat(this.valor) * (indiceMes / 100) + parseFloat(this.valor);
+                    this.valor = total;
+                }
+                this.result = this.valor
+                this.valor = valorRecebido
+            }else{
+                this.result = 0
+                
             }
-            this.result = this.valor
-            this.valor = valorRecebido
         },
 
         limpar() {
-            (this.data = ''), (this.valor = 0), (this.result = 0);
+            
+            (this.mesAno = '01/01/2000'), (this.fimMesAno = ''), (this.valor = 0), (this.result = 0);
         },
     },
 };
