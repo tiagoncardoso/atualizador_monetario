@@ -82,7 +82,7 @@ export default {
 
     methods: {
         calcular() {
-            debugger;
+            
             let valorRecebido = this.valor;
 
             let [mes, ano] = this.mesAno.split('/');
