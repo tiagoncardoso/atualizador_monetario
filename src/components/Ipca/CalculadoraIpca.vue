@@ -9,7 +9,7 @@
                     <v-card-text>
                         <v-row>
                             <v-col cols="4" offset="4" class="">
-                                <input-month v-model="mesAno" dense label="Início" outlined />
+                                <input-month v-model="mesAno" dense :data-padrao="limpaAno" label="Início" outlined />
                                 <input-month v-model="fimMesAno" dense label="Fim" outlined class="mb-5" />
                                 <v-col>
                                     <input-money
@@ -72,8 +72,10 @@ export default {
             valorPadrao: 0,
             mesAno: '',
             fimMesAno: '',
+            limpaAno: '',
         };
     },
+
     computed: {
         indices() {
             return indices;
@@ -91,7 +93,6 @@ export default {
             let [mesFim, anoFim] = this.fimMesAno.split('/');
             let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
 
-            console.log(dataInicio, dataFim);
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
                     let indiceAno = this.indices.filter((temp) => temp.ano == dataInicio.getFullYear());
@@ -109,9 +110,16 @@ export default {
         },
 
         limpar() {
-            (this.mesAno = '01/01/2000'), (this.fimMesAno = ''), (this.valor = 0), (this.result = 0);
+            debugger
+            this.limpaAno = '';
+            this.valor = 0;
+            this.result = 0
         },
     },
+
+    mounted() {
+        
+    }
 };
 </script>
 

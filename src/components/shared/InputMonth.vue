@@ -72,6 +72,7 @@ export default {
     watch: {
         date(novaData) {
             this.dateFormatted = this.formatDate(novaData);
+            
         },
 
         dateFormatted(novaData) {
