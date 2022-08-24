@@ -17,6 +17,7 @@
                                         dense
                                         background-color="white"
                                         color="black"
+                                        :data-padrao="inicio"
                                     />
                                     <input-month-year
                                         v-model="final"
@@ -25,6 +26,7 @@
                                         dense
                                         background-color="white"
                                         color="black"
+                                        :data-padrao="fim"
                                     />
                                 </v-col>
                             </v-row>
@@ -86,12 +88,18 @@ export default {
             final: '',
             valor: 0,
             valorAtual: 0,
+            inicio: 0,
+            fim: 0,
         };
     },
     computed: {
         arrayIndices() {
             return arrayIndices;
         },
+    },
+
+    mounted() {
+        this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
     },
 
     methods: {
@@ -119,8 +127,8 @@ export default {
             }
         },
         limpar() {
-            this.mesAno = '';
-            this.final = '';
+            this.inicio = '';
+            this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
             this.valor = 0;
             this.valorAtual = 0;
         },

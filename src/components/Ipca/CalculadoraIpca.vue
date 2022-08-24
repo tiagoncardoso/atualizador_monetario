@@ -82,7 +82,6 @@ export default {
 
     methods: {
         calcular() {
-            
             let valorRecebido = this.valor;
 
             let [mes, ano] = this.mesAno.split('/');
