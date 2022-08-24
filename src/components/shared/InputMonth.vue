@@ -70,8 +70,8 @@ export default {
     }),
 
     watch: {
-        date() {
-            this.dateFormatted = this.formatDate(this.date);
+        date(novaData) {
+            this.dateFormatted = this.formatDate(novaData);
         },
 
         dateFormatted(novaData) {
@@ -94,7 +94,7 @@ export default {
             if (!date) return null;
 
             const [month, year] = date.split('/');
-            return `${year}-${month.padStart(2, '0')}`;
+            return `${month.padStart(2, '0')}-${year}`;
         },
     },
 };
