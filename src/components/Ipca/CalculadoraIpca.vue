@@ -12,7 +12,13 @@
                                 <input-month v-model="mesAno" dense label="Início" outlined />
                                 <input-month v-model="fimMesAno" dense label="Fim" outlined class="mb-5" />
                                 <v-col>
-                                    <input-money v-model="valor" dense outlined label="Digite o Valor" />
+                                    <input-money
+                                        v-model="valor"
+                                        :valor-padrao="valor"
+                                        dense
+                                        outlined
+                                        label="Digite o Valor"
+                                    />
                                 </v-col>
                             </v-col>
                         </v-row>
@@ -59,19 +65,10 @@ export default {
 
     data() {
         return {
-            data: ' ',
             valor: 0,
             result: 0,
             label: 'valor, result',
-            options: {
-                locale: 'pt-BR',
-                prefix: 'R$',
-                suffix: '',
-                length: 11,
-                precision: 2,
-            },
-            picker: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10),
-            carregando: false,
+
             valorPadrao: 0,
             mesAno: '',
             fimMesAno: '',
@@ -84,186 +81,35 @@ export default {
     },
 
     methods: {
-        pick(age, mounth) {
-            let laco = mounth - 1;
-
-            if (mounth >= 1 && mounth <= 12) {
-                if (age == 1994) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['1994'][laco];
-                    }
-                } else if (age == 1995) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['1995'][laco];
-                    }
-                } else if (age == 1996) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['1996'][laco];
-                    }
-                } else if (age == 1997) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['1997'][laco];
-                    }
-                } else if (age == 1998) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['1998'][laco];
-                    }
-                } else if (age == 1999) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['1999'][laco];
-                    }
-                } else if (age == 2000) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2000'][laco];
-                    }
-                } else if (age == 2001) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2001'][laco];
-                    }
-                } else if (age == 2002) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2002'][laco];
-                    }
-                } else if (age == 2003) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2003'][laco];
-                    }
-                } else if (age == 2004) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2004'][laco];
-                    }
-                } else if (age == 2005) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2005'][laco];
-                    }
-                } else if (age == 2006) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2006'][laco];
-                    }
-                } else if (age == 2007) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2007'][laco];
-                    }
-                } else if (age == 2008) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2008'][laco];
-                    }
-                } else if (age == 2009) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2009'][laco];
-                    }
-                } else if (age == 2010) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2010'][laco];
-                    }
-                } else if (age == 2011) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2011'][laco];
-                    }
-                } else if (age == 2012) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2012'][laco];
-                    }
-                } else if (age == 2013) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2013'][laco];
-                    }
-                } else if (age == 2014) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2014'][laco];
-                    }
-                } else if (age == 2015) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2015'][laco];
-                    }
-                } else if (age == 2016) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2016'][laco];
-                    }
-                } else if (age == 2017) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2017'][laco];
-                    }
-                } else if (age == 2018) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2018'][laco];
-                    }
-                } else if (age == 2019) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2019'][laco];
-                    }
-                } else if (age == 2020) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2020'][laco];
-                    }
-                } else if (age == 2021) {
-                    for (laco; laco != parseFloat(mounth); laco++) {
-                        return this.indices['2021'][laco];
-                    }
-                } else if (age == 2022) {
-                    if (mounth >= 1 && mounth <= 6) {
-                        for (laco; laco != parseFloat(mounth); laco++) {
-                            return this.indices['2022'][laco];
-                        }
-                    } else {
-                        return 'Mês incorreto!';
-                    }
-                } else {
-                    return 'Ano incorreto';
-                }
-            } else {
-                this.result = 'Mês incorreto!';
-            }
-        },
-
         calcular() {
-            const digitos = this.mesAno.split('/');
-            const temp = this.fimMesAno.split('/');
-            let fimAno = parseFloat(temp[1]);
-            let fimMes = parseFloat(temp[0]);
-            let ano = parseFloat(digitos[1]);
-            let mes = parseFloat(digitos[0]);
-            let primeiroValor = this.valor;
+            
+            let valorRecebido = this.valor;
 
-            debugger;
+            let [mes, ano] = this.mesAno.split('/');
+            let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
 
-            if (ano >= 1994 && ano <= 2022 && mes >= 1 && mes <= 12) {
-                if (ano == 1994 && mes <= 6) {
-                    this.result = 0;
-                } else {
-                    while (ano < fimAno + 1) {
-                        if (ano != 2022) {
-                            for (mes; mes <= 12; mes++) {
-                                if (ano == fimAno && mes == fimMes) {
-                                    mes = 13;
-                                } else {
-                                    let indice = this.pick(ano, mes);
-                                    let total =
-                                        parseFloat(this.valor) * (parseFloat(indice) / 100) + parseFloat(this.valor);
-                                    this.valor = total;
-                                }
-                            }
-                        } else if (ano == 2022) {
-                            for (mes; mes <= fimMes - 1; mes++) {
-                                let indice = this.pick(ano, mes);
-                                let total =
-                                    parseFloat(this.valor) * (parseFloat(indice) / 100) + parseFloat(this.valor);
-                                this.valor = total;
-                            }
-                        }
-                        ano++;
-                        mes = 1;
-                    }
-                    this.result = this.valor;
-                    this.valor = primeiroValor;
+            let [mesFim, anoFim] = this.fimMesAno.split('/');
+            let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
+
+            console.log(dataInicio, dataFim);
+            if (dataInicio < dataFim) {
+                while (dataInicio < dataFim) {
+                    let indiceAno = this.indices.filter((temp) => temp.ano == dataInicio.getFullYear());
+                    let indiceMes = indiceAno[0].indices[dataInicio.getMonth()];
+                    dataInicio.setMonth(dataInicio.getMonth() + 1);
+
+                    let total = parseFloat(this.valor) * (indiceMes / 100) + parseFloat(this.valor);
+                    this.valor = total;
                 }
+                this.result = this.valor;
+                this.valor = valorRecebido;
             } else {
                 this.result = 0;
             }
         },
 
         limpar() {
-            (this.data = ''), (this.valor = 0), (this.result = 0);
+            (this.mesAno = '01/01/2000'), (this.fimMesAno = ''), (this.valor = 0), (this.result = 0);
         },
     },
 };

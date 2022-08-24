@@ -77,8 +77,9 @@ export default {
         dateFormatted(novaData) {
             this.$emit('input', novaData);
         },
-        dataPadrao(dataPadrao) {
-            this.date = dataPadrao;
+
+        dataPadrao(novaData) {
+            this.date = novaData;
         },
     },
 
