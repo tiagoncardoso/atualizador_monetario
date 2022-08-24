@@ -60,7 +60,7 @@ export default {
         dataPadrao: {
             type: [Number, String],
             default: '',
-        }
+        },
     },
     data: () => ({
         date: '',
@@ -78,9 +78,9 @@ export default {
             this.$emit('input', novaData);
         },
 
-        dataPadrao(novaData){
+        dataPadrao(novaData) {
             this.date = novaData;
-        }
+        },
     },
 
     methods: {
