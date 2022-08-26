@@ -10,7 +10,7 @@
                         <v-row>
                             <v-col cols="4" offset="4" class="">
                                 <input-month v-model="mesAno" dense :data-padrao="limpaAno" label="Início" outlined />
-                                <input-month v-model="fimMesAno" dense label="Fim" outlined class="mb-5" />
+                                <input-month v-model="fimMesAno" dense :dataPadrao="dateToday" label="Fim" outlined class="mb-5" />
                                 <v-col>
                                     <input-money
                                         v-model="valor"
@@ -72,7 +72,9 @@ export default {
             valorPadrao: 0,
             mesAno: '',
             fimMesAno: '',
-            limpaAno: '',
+            limpaAno: 0,
+            dateToday: '',
+            validador: 0,
         };
     },
 
@@ -80,11 +82,16 @@ export default {
         indices() {
             return indices;
         },
+
+        dataHoje() {
+            const dataAtual =  (new Date(Date.now() - (new Date()).getTimezoneOffset() 
+            * 60000)).toISOString().substr(0, 10)
+            return dataAtual
+        }
     },
 
     methods: {
         calcular() {
-            
             let valorRecebido = this.valor;
 
             let [mes, ano] = this.mesAno.split('/');
@@ -105,20 +112,38 @@ export default {
                 this.result = this.valor;
                 this.valor = valorRecebido;
             } else {
-                this.result = 0;
+                this.result = '';
             }
         },
 
-        limpar() {
+        limpar() {    
             debugger
-            this.limpaAno = '';
+
+            if(this.mesAno != null ){
+                this.validador = 1;
+                this.limpaAno = null;
+            }else {
+                this.validador = 0;
+                this.limpaAno = '';
+            }
             this.valor = 0;
-            this.result = 0
+            this.result = 0;
+            this.dateToday = this.dataHoje;
         },
     },
 
     mounted() {
-        
+        this.dateToday = this.dataHoje;
+    },
+
+    watch: {
+        mesAno() {
+        debugger
+            if(this.limpaAno != 0 && this.validador == 1){
+                this.limpaAno = '';
+                this.validador = 0;
+            }
+        }
     }
 };
 </script>

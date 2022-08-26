@@ -58,8 +58,8 @@ export default {
             default: 'black',
         },
         dataPadrao: {
-            type: [Number, String],
-            default: '',
+            type: [Number, String, null],
+            default: null,
         },
     },
     data: () => ({
@@ -72,7 +72,6 @@ export default {
     watch: {
         date(novaData) {
             this.dateFormatted = this.formatDate(novaData);
-            
         },
 
         dateFormatted(novaData) {
@@ -80,8 +79,10 @@ export default {
         },
 
         dataPadrao(novaData) {
+            debugger
             this.date = novaData;
-        },
+        }
+    
     },
 
     methods: {
