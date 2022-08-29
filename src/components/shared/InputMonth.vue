@@ -79,10 +79,9 @@ export default {
         },
 
         dataPadrao(novaData) {
-            debugger
+            debugger;
             this.date = novaData;
-        }
-    
+        },
     },
 
     methods: {

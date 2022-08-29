@@ -10,7 +10,14 @@
                         <v-row>
                             <v-col cols="4" offset="4" class="">
                                 <input-month v-model="mesAno" dense :data-padrao="limpaAno" label="Início" outlined />
-                                <input-month v-model="fimMesAno" dense :dataPadrao="dateToday" label="Fim" outlined class="mb-5" />
+                                <input-month
+                                    v-model="fimMesAno"
+                                    dense
+                                    :data-padrao="dateToday"
+                                    label="Fim"
+                                    outlined
+                                    class="mb-5"
+                                />
                                 <v-col>
                                     <input-money
                                         v-model="valor"
@@ -84,10 +91,23 @@ export default {
         },
 
         dataHoje() {
-            const dataAtual =  (new Date(Date.now() - (new Date()).getTimezoneOffset() 
-            * 60000)).toISOString().substr(0, 10)
-            return dataAtual
-        }
+            const dataAtual = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+            return dataAtual;
+        },
+    },
+
+    watch: {
+        mesAno() {
+            debugger;
+            if (this.limpaAno != 0 && this.validador == 1) {
+                this.limpaAno = '';
+                this.validador = 0;
+            }
+        },
+    },
+
+    mounted() {
+        this.dateToday = this.dataHoje;
     },
 
     methods: {
@@ -116,13 +136,11 @@ export default {
             }
         },
 
-        limpar() {    
-            debugger
-
-            if(this.mesAno != null ){
+        limpar() {
+            if (this.mesAno != null) {
                 this.validador = 1;
                 this.limpaAno = null;
-            }else {
+            } else {
                 this.validador = 0;
                 this.limpaAno = '';
             }
@@ -131,20 +149,6 @@ export default {
             this.dateToday = this.dataHoje;
         },
     },
-
-    mounted() {
-        this.dateToday = this.dataHoje;
-    },
-
-    watch: {
-        mesAno() {
-        debugger
-            if(this.limpaAno != 0 && this.validador == 1){
-                this.limpaAno = '';
-                this.validador = 0;
-            }
-        }
-    }
 };
 </script>
 
