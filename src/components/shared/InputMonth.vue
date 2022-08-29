@@ -58,8 +58,8 @@ export default {
             default: 'black',
         },
         dataPadrao: {
-            type: [Number, String],
-            default: '',
+            type: [Number, String, null],
+            default: null,
         },
     },
     data: () => ({
@@ -79,6 +79,7 @@ export default {
         },
 
         dataPadrao(novaData) {
+            debugger
             this.date = novaData;
         },
     },

@@ -88,7 +88,7 @@ export default {
             final: '',
             valor: 0,
             valorAtual: 0,
-            inicio: 0,
+            inicio: null,
             fim: 0,
         };
     },
@@ -98,9 +98,16 @@ export default {
         },
     },
 
-    mounted() {
-        this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+    watch: {
+        mesAno(){
+            debugger
+            this.inicio = null;
+        }
     },
+
+    mounted() {
+        //this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);   
+    },              
 
     methods: {
         calcular() {
@@ -127,10 +134,13 @@ export default {
             }
         },
         limpar() {
-            this.inicio = '';
-            this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
-            this.valor = 0;
-            this.valorAtual = 0;
+            debugger
+            if (this.mesAno == null){
+                this.inicio = '';
+            }
+            //this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+            //this.valor = 0;
+            //this.valorAtual = 0;
         },
     },
 };
