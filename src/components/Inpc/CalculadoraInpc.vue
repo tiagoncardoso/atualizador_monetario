@@ -100,13 +100,12 @@ export default {
 
     watch: {
         mesAno(){
-            debugger
             this.inicio = null;
         }
     },
 
     mounted() {
-        //this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);   
+        this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);   
     },              
 
     methods: {
@@ -134,13 +133,12 @@ export default {
             }
         },
         limpar() {
-            debugger
-            if (this.mesAno == null){
+            if (this.mesAno != null){
                 this.inicio = '';
             }
-            //this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
-            //this.valor = 0;
-            //this.valorAtual = 0;
+            this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+            this.valor = 0;
+            this.valorAtual = 0;
         },
     },
 };
