@@ -1,60 +1,45 @@
 <template>
-    <v-container>
-        <v-row class="text-center">
-            <v-col cols="6" offset="3">
-                <v-card color="#98C0D6" class="elevation-12" rounded>
-                    <v-toolbar color="#144E73" class="cor">
-                        <h1>Calculadora IPCA</h1>
-                    </v-toolbar>
-                    <v-card-text>
-                        <v-row>
-                            <v-col cols="4" offset="4" class="">
-                                <input-month v-model="mesAno" dense :data-padrao="limpaAno" label="Início" outlined />
-                                <input-month
-                                    v-model="fimMesAno"
-                                    dense
-                                    :data-padrao="dateToday"
-                                    label="Fim"
-                                    outlined
-                                    class="mb-5"
-                                />
-                                <v-col>
-                                    <input-money
-                                        v-model="valor"
-                                        :valor-padrao="valor"
-                                        dense
-                                        outlined
-                                        label="Digite o Valor"
-                                    />
-                                </v-col>
-                            </v-col>
-                        </v-row>
-
-                        <v-row>
-                            <v-col cols="8" offset="2" class="mb-2">
-                                <v-btn class="separar" color="primary mr-3" @click="calcular()">Calcular</v-btn>
-                                <v-btn color="error" @click="limpar()">Limpar</v-btn>
-                            </v-col>
-                        </v-row>
-
-                        <v-row>
-                            <v-col cols="0" offset="0" sm="4" offset-sm="4" lg="4" offset-lg="4">
-                                <input-money
-                                    v-model="result"
-                                    outlined
-                                    clearable
-                                    dense
-                                    readonly
-                                    :valor-padrao="result"
-                                    label="Resultado"
-                                />
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
+    <v-form>
+        <v-container>
+            <v-card color="#98C0D6" class="elevation-12" rounded>
+                <v-toolbar color="#144E73" class="cor">
+                    <h1>Calculadora IPCA</h1>
+                </v-toolbar>
+                <v-row>
+                    <v-col cols="4" offset="1" class='mt-9'>
+                        <input-month v-model="mesAno" dense :data-padrao="limpaAno" label="Início" outlined />
+                    </v-col>
+                    <v-col cols="4" class='mt-9'>
+                        <input-month
+                            v-model="fimMesAno"
+                            dense
+                            :data-padrao="dateToday"
+                            label="Fim"
+                            outlined
+                        />
+                    </v-col>
+                    <v-col cols="4" offset="1">
+                        <input-money v-model="valor" :valor-padrao="valor" dense outlined label="Digite o Valor" />
+                    </v-col>
+                    <v-col cols="4">
+                        <input-money
+                            v-model="result"
+                            outlined
+                            clearable
+                            dense
+                            readonly
+                            :valor-padrao="result"
+                            label="Resultado"
+                        />
+                    </v-col>
+                    <v-col cols="4" offset="3" class="mb-10 text-center">
+                        <v-btn class="separar" color="primary mr-3" @click="calcular()">Calcular</v-btn>
+                        <v-btn color="error" @click="limpar()">Limpar</v-btn>
+                    </v-col>
+                </v-row>
+            </v-card>
+        </v-container>
+    </v-form>
 </template>
 
 <script>
@@ -104,8 +89,8 @@ export default {
             }
         },
         fimMesAno() {
-            this.dateToday = this.dataHoje
-        }
+            this.dateToday = this.dataHoje;
+        },
     },
 
     mounted() {
@@ -148,8 +133,6 @@ export default {
             }
             this.valor = 0;
             this.result = 0;
-            debugger
-
             this.dateToday = '';
         },
     },
