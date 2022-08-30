@@ -1,43 +1,51 @@
 <template>
     <v-form>
         <v-container>
-            <v-card color="#98C0D6" class="elevation-12" rounded>
-                <v-toolbar color="#144E73" class="cor">
-                    <h1>Calculadora IPCA</h1>
-                </v-toolbar>
-                <v-row>
-                    <v-col cols="4" offset="1" class='mt-9'>
-                        <input-month v-model="mesAno" dense :data-padrao="limpaAno" label="Início" outlined />
-                    </v-col>
-                    <v-col cols="4" class='mt-9'>
-                        <input-month
-                            v-model="fimMesAno"
-                            dense
-                            :data-padrao="dateToday"
-                            label="Fim"
-                            outlined
-                        />
-                    </v-col>
-                    <v-col cols="4" offset="1">
-                        <input-money v-model="valor" :valor-padrao="valor" dense outlined label="Digite o Valor" />
-                    </v-col>
-                    <v-col cols="4">
-                        <input-money
-                            v-model="result"
-                            outlined
-                            clearable
-                            dense
-                            readonly
-                            :valor-padrao="result"
-                            label="Resultado"
-                        />
-                    </v-col>
-                    <v-col cols="4" offset="3" class="mb-10 text-center">
-                        <v-btn class="separar" color="primary mr-3" @click="calcular()">Calcular</v-btn>
-                        <v-btn color="error" @click="limpar()">Limpar</v-btn>
-                    </v-col>
-                </v-row>
-            </v-card>
+            <v-row>
+                <v-col cols="8" offset="2">
+                    <v-card color="#98C0D6" class="elevation-12" rounded>
+                        <v-toolbar color="#144E73" class="cor">
+                            <h1>Calculadora IPCA</h1>
+                        </v-toolbar>
+                        <v-row>
+                            <v-col cols="3" class="mt-9 ml-8">
+                                <input-month v-model="mesAno" dense :data-padrao="limpaAno" label="Início" outlined />
+                            </v-col>
+                            <v-col cols="3" class="mt-9">
+                                <input-month v-model="fimMesAno" dense :data-padrao="dateToday" label="Fim" outlined />
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="3" class="ml-8">
+                                <input-money
+                                    v-model="valor"
+                                    :valor-padrao="valor"
+                                    dense
+                                    outlined
+                                    label="Digite o Valor"
+                                />
+                            </v-col>
+                            <v-col cols="3">
+                                <input-money
+                                    v-model="result"
+                                    outlined
+                                    clearable
+                                    dense
+                                    readonly
+                                    :valor-padrao="result"
+                                    label="Resultado"
+                                />
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="4" offset="1" class="mb-10 text-center">
+                                <v-btn class="separar" color="primary mr-3" @click="calcular()">Calcular</v-btn>
+                                <v-btn color="error" @click="limpar()">Limpar</v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-card>
+                </v-col>
+            </v-row>
         </v-container>
     </v-form>
 </template>
