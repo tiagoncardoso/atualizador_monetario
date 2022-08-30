@@ -98,12 +98,14 @@ export default {
 
     watch: {
         mesAno() {
-            debugger;
             if (this.limpaAno != 0 && this.validador == 1) {
                 this.limpaAno = '';
                 this.validador = 0;
             }
         },
+        fimMesAno() {
+            this.dateToday = this.dataHoje
+        }
     },
 
     mounted() {
@@ -146,7 +148,9 @@ export default {
             }
             this.valor = 0;
             this.result = 0;
-            this.dateToday = this.dataHoje;
+            debugger
+
+            this.dateToday = '';
         },
     },
 };
