@@ -1,53 +1,78 @@
 <template>
-    <v-form>
-        <v-container>
+    <v-container class='blue'>
+        <v-card>
             <v-row>
-                <v-col cols="8" offset="2">
-                    <v-card color="#98C0D6" class="elevation-12" rounded>
-                        <v-toolbar color="#144E73" class="cor">
-                            <h1>Calculadora IPCA</h1>
-                        </v-toolbar>
-                        <v-row>
-                            <v-col cols="3" class="mt-9 ml-8">
-                                <input-month v-model="mesAno" dense :data-padrao="limpaAno" label="Início" outlined />
-                            </v-col>
-                            <v-col cols="3" class="mt-9">
-                                <input-month v-model="fimMesAno" dense :data-padrao="dateToday" label="Fim" outlined />
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="3" class="ml-8">
-                                <input-money
-                                    v-model="valor"
-                                    :valor-padrao="valor"
-                                    dense
-                                    outlined
-                                    label="Digite o Valor"
-                                />
-                            </v-col>
-                            <v-col cols="3">
-                                <input-money
-                                    v-model="result"
-                                    outlined
-                                    clearable
-                                    dense
-                                    readonly
-                                    :valor-padrao="result"
-                                    label="Resultado"
-                                />
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="4" offset="1" class="mb-10 text-center">
-                                <v-btn class="separar" color="primary mr-3" @click="calcular()">Calcular</v-btn>
-                                <v-btn color="error" @click="limpar()">Limpar</v-btn>
-                            </v-col>
-                        </v-row>
-                    </v-card>
+                <v-col cols="10" offset="1">
+                    <v-row class="blue">
+                        <v-col cols="8">
+                            <v-card-title>Inforamção obrigatória</v-card-title>
+                            <v-card-text>
+                                <v-row>
+                                    <v-col cols="4" sm="4" offset="2">
+                                        <input-month
+                                            v-model="mesAno"
+                                            dense
+                                            :data-padrao="limpaAno"
+                                            label="Início"
+                                            outlined
+                                        />
+                                    </v-col>
+
+                                    <v-col cols="4" sm="4">
+                                        <input-month
+                                            v-model="fimMesAno"
+                                            dense
+                                            :data-padrao="dateToday"
+                                            label="Fim"
+                                            outlined
+                                        />
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="4" sm="4" offset="2">
+                                        <input-money
+                                            v-model="valor"
+                                            :valor-padrao="valor"
+                                            dense
+                                            outlined
+                                            label="Digite o Valor"
+                                        />
+                                    </v-col>
+
+                                    <v-col cols="4" sm="4">
+                                        <input-money
+                                            v-model="result"
+                                            outlined
+                                            clearable
+                                            dense
+                                            readonly
+                                            :valor-padrao="result"
+                                            label="Resultado"
+                                        />
+                                    </v-col>
+                                </v-row>
+                            </v-card-text>
+                        </v-col>
+                        <v-col cols="4">
+                            <v-card-text class="tabela">
+                                <p>ODSA</p>
+                                <p>50</p>
+                                <p>5050</p>
+                            </v-card-text>
+                        </v-col>
+                    </v-row>
                 </v-col>
             </v-row>
-        </v-container>
-    </v-form>
+            <v-row>
+                <v-col offset="8">
+                    <v-card-actions>
+                        <v-btn class="separar" color="primary mr-3" @click="calcular()">Calcular</v-btn>
+                        <v-btn color="error" @click="limpar()">Limpar</v-btn>
+                    </v-card-actions>
+                </v-col>
+            </v-row>
+        </v-card>
+    </v-container>
 </template>
 
 <script>
@@ -153,7 +178,26 @@ export default {
     color: #ffff;
 }
 
-.cor {
-    color: #ffff;
+.row {
+    background: #e3f2fd !important;
+}
+.red {
+    background-color: red !important;
+}
+
+.blue {
+    background-color: blue !important;
+}
+
+.tabela {
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+}
+
+.v-card {
+    box-shadow: black;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 </style>
