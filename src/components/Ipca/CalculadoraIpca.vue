@@ -1,78 +1,75 @@
 <template>
-    <v-container class='blue'>
-        <v-card>
-            <v-row>
-                <v-col cols="10" offset="1">
-                    <v-row class="blue">
-                        <v-col cols="8">
-                            <v-card-title>Inforamção obrigatória</v-card-title>
-                            <v-card-text>
-                                <v-row>
-                                    <v-col cols="4" sm="4" offset="2">
-                                        <input-month
-                                            v-model="mesAno"
-                                            dense
-                                            :data-padrao="limpaAno"
-                                            label="Início"
-                                            outlined
-                                        />
-                                    </v-col>
+    <v-row>
+        <v-col cols="8" offset="2">
+            <v-card elevation="10" class="blue">
+                <v-card-text class="white">
+                    <v-row>
+                        <v-col cols="8" class="top-line">
+                            <v-row>
+                                <v-col class="mb-4 mt-8 letra">
+                                    <h3>Informações Obrigatórias*</h3>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="5" sm="5" offset="1">
+                                    <input-month
+                                        v-model="mesAno"
+                                        dense
+                                        :data-padrao="limpaAno"
+                                        label="Início"
+                                        outlined
+                                    />
+                                </v-col>
 
-                                    <v-col cols="4" sm="4">
-                                        <input-month
-                                            v-model="fimMesAno"
-                                            dense
-                                            :data-padrao="dateToday"
-                                            label="Fim"
-                                            outlined
-                                        />
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col cols="4" sm="4" offset="2">
-                                        <input-money
-                                            v-model="valor"
-                                            :valor-padrao="valor"
-                                            dense
-                                            outlined
-                                            label="Digite o Valor"
-                                        />
-                                    </v-col>
+                                <v-col cols="5" sm="5">
+                                    <input-month
+                                        v-model="fimMesAno"
+                                        dense
+                                        :data-padrao="dateToday"
+                                        label="Fim"
+                                        outlined
+                                    />
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="5" sm="5" offset="1" class="espaco">
+                                    <input-money
+                                        v-model="valor"
+                                        :valor-padrao="valor"
+                                        dense
+                                        outlined
+                                        label="Digite o Valor"
+                                    />
+                                </v-col>
 
-                                    <v-col cols="4" sm="4">
-                                        <input-money
-                                            v-model="result"
-                                            outlined
-                                            clearable
-                                            dense
-                                            readonly
-                                            :valor-padrao="result"
-                                            label="Resultado"
-                                        />
-                                    </v-col>
-                                </v-row>
-                            </v-card-text>
+                                <v-col cols="5" sm="5">
+                                    <div class="div-resultado">
+                                        <span>VALOR ATUALIZADO</span>
+                                        <br/>
+                                        <span>R$ </span>
+                                        <span>{{result}}</span>
+                                    </div>
+                                </v-col>
+                            </v-row>
                         </v-col>
-                        <v-col cols="4">
-                            <v-card-text class="tabela">
-                                <p>ODSA</p>
-                                <p>50</p>
-                                <p>5050</p>
-                            </v-card-text>
+                        <v-col cols="4" class="tabela letra">
+                            <h4>Histórico (Últimos 10 cálculos)</h4>
+                            <hr/>
+                            <p class="mt-5">50455045</p>
                         </v-col>
                     </v-row>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col offset="8">
-                    <v-card-actions>
-                        <v-btn class="separar" color="primary mr-3" @click="calcular()">Calcular</v-btn>
-                        <v-btn color="error" @click="limpar()">Limpar</v-btn>
-                    </v-card-actions>
-                </v-col>
-            </v-row>
-        </v-card>
-    </v-container>
+                </v-card-text>
+                <v-card-actions>
+                    <v-row>
+                        <v-col cols="12" class="text-right">
+                            <v-btn small class="mr-3" color="primary" @click="calcular()">Calcular</v-btn>
+                            <v-btn small color="error" @click="limpar()">Limpar</v-btn>
+                        </v-col>
+                    </v-row>
+                </v-card-actions>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -178,26 +175,36 @@ export default {
     color: #ffff;
 }
 
-.row {
-    background: #e3f2fd !important;
-}
-.red {
-    background-color: red !important;
+.white {
+    background-color: rgb(255, 255, 255) !important;
 }
 
 .blue {
-    background-color: blue !important;
+    background-color: #F0F0F0 !important;
 }
 
 .tabela {
     border-width: 1px;
-    border-color: black;
+    border-color: rgb(139 139 139 / 39%);
     border-style: solid;
+   border-radius: 4px;
 }
 
-.v-card {
-    box-shadow: black;
-    background-repeat: no-repeat;
-    background-size: cover;
+.tabelaFina{
+    border-width: 1px;
+    outline: 1px solid #8f8989;
+    border-color: rgb(163, 150, 150);
+    border-radius: 1px;
+}
+.espaco{  
+    margin-bottom: 125px;
+}
+.letra{
+    color: black;
+}
+
+.div-resultado {
+    height: 41px;
+    background-color: bisque;
 }
 </style>
