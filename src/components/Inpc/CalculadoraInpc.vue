@@ -46,7 +46,11 @@
                                         </v-col>
 
                                         <v-col cols="6">
-                                            <span>Valor atualizado <br />{{ valorAtual }}</span>
+                                            <span style="font-size: 13px">VALOR ATUALIZADO</span><br />
+                                            <span style="font-size: 14px"><strong>R$ </strong></span>
+                                            <span style="font-size: 16px">
+                                                <strong>{{ formataMoeda(valorAtual, false) }}</strong></span
+                                            >
                                         </v-col>
                                     </v-row>
                                 </v-row>
@@ -55,7 +59,21 @@
                                 <v-card-text class="tabela">
                                     <v-row>
                                         <v-col>
-                                            <h3>Histórico (Últimos 10 cálculos)</h3>
+                                            <h3>
+                                                Histórico (Últimos 10 cálculos)
+                                                <hr />
+                                            </h3>
+                                            <ol>
+                                                <li v-for="(item, index) in listaHistorico" :key="index">
+                                                    <span style="margin-right: 25px">
+                                                        {{ item.inicio }} - {{ item.fim }}
+                                                    </span>
+                                                    <span>
+                                                        [{{ formataMoeda(item.valor) }} ->
+                                                        {{ formataMoeda(item.resultado) }}]
+                                                    </span>
+                                                </li>
+                                            </ol>
                                         </v-col>
                                     </v-row>
                                 </v-card-text>
@@ -63,8 +81,10 @@
                         </v-row>
                         <v-card-actions>
                             <v-col cols="6" offset="8" py-1>
-                                <v-btn type="button" class="mr-4" color="primary" @click="calcular()"> Calcular </v-btn>
-                                <v-btn type="button" color="error" @click="limpar()"> Limpar </v-btn>
+                                <v-btn small type="button" class="mr-4" color="primary" @click="calcular()">
+                                    Calcular
+                                </v-btn>
+                                <v-btn small type="button" color="error" @click="limpar()"> Limpar </v-btn>
                             </v-col>
                         </v-card-actions>
                     </v-card>
@@ -90,17 +110,29 @@ export default {
             valorAtual: 0,
             inicio: null,
             fim: 0,
+            historico: [],
         };
     },
     computed: {
         arrayIndices() {
             return arrayIndices;
         },
+
+        listaHistorico() {
+            if (this.historico.length > 0) {
+                let historicoInvertido = this.historico.reverse();
+                return historicoInvertido.slice(0, 10);
+            }
+            return this.historico;
+        },
     },
 
     watch: {
         mesAno() {
             this.inicio = null;
+        },
+        final() {
+            this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
         },
     },
 
@@ -128,6 +160,8 @@ export default {
                 }
                 this.valorAtual = this.valor;
                 this.valor = resultado;
+
+                this.acrescentaHistorico(this.mesAno, this.final, this.valor, this.valorAtual);
             } else {
                 this.valorAtual = 0;
             }
@@ -136,9 +170,32 @@ export default {
             if (this.mesAno != null) {
                 this.inicio = '';
             }
-            this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+            this.fim = '';
             this.valor = 0;
             this.valorAtual = 0;
+        },
+        acrescentaHistorico(mesAno, final, valor, valorAtual) {
+            this.historico.push({
+                inicio: mesAno,
+                fim: final,
+                valor,
+                resultado: valorAtual,
+            });
+        },
+        formataMoeda(valorNaoFormatado, moeda = true) {
+            if (valorNaoFormatado) {
+                if (moeda) {
+                    return valorNaoFormatado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+                } else {
+                    return valorNaoFormatado.toLocaleString('pt-br', {
+                        style: 'decimal',
+                        maximumFractionDigits: 2,
+                        minimumFractionDigits: 2,
+                    });
+                }
+            }
+
+            return '0,00';
         },
     },
 };

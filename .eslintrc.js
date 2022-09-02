@@ -28,6 +28,7 @@ module.exports = {
                 ignoreRegExpLiterals: true,
             },
         ],
+        'vue/no-side-effects-in-computed-properties': 'off',
         'no-global-assign': 'off',
         'no-extra-semi': 'off',
         'no-empty-interface': 'off',
