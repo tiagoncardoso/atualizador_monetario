@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col cols="8" offset="2">
-            <v-card elevation="10" class="blue">
+            <v-card elevation="20" class="blue">
                 <v-card-text class="white">
                     <v-row>
                         <v-col cols="8" class="top-line">
@@ -43,19 +43,24 @@
                                 </v-col>
 
                                 <v-col cols="5" sm="5">
-                                    <div class="div-resultado">
-                                        <span>VALOR ATUALIZADO</span>
-                                        <br/>
-                                        <span>R$ </span>
-                                        <span>{{result}}</span>
-                                    </div>
+                                    <span>VALOR ATUALIZADO</span>
+                                    <br />
+                                    <span>R$ </span>
+                                    <span>{{ formataMoeda(result, false) }}</span>
                                 </v-col>
                             </v-row>
                         </v-col>
                         <v-col cols="4" class="tabela letra">
                             <h4>Histórico (Últimos 10 cálculos)</h4>
-                            <hr/>
-                            <p class="mt-5">50455045</p>
+                            <hr />
+                            <ul>
+                                <li v-for="(item, index) in listaHistorico" :key="index">
+                                    <span class="letra2">{{ item.mesInicio }} - {{ item.mesFim }}</span>
+                                    <span class="letra3">
+                                        [ {{ formataMoeda(item.valor) }} -> {{ formataMoeda(item.resultado) }} ]</span
+                                    >
+                                </li>
+                            </ul>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -63,7 +68,8 @@
                     <v-row>
                         <v-col cols="12" class="text-right">
                             <v-btn small class="mr-3" color="primary" @click="calcular()">Calcular</v-btn>
-                            <v-btn small color="error" @click="limpar()">Limpar</v-btn>
+                            <v-btn small color="error" class="mr-3" @click="limpar()">Limpar</v-btn>
+                            <v-btn small color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
                         </v-col>
                     </v-row>
                 </v-card-actions>
@@ -97,6 +103,8 @@ export default {
             limpaAno: 0,
             dateToday: '',
             validador: 0,
+
+            historico: [],
         };
     },
 
@@ -108,6 +116,15 @@ export default {
         dataHoje() {
             const dataAtual = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
             return dataAtual;
+        },
+
+        listaHistorico() {
+            if (this.historico.length > 0) {
+                let historicoInvertido = this.historico.reverse();
+                return historicoInvertido.slice(0, 10);
+            }
+
+            return this.historico;
         },
     },
 
@@ -148,6 +165,8 @@ export default {
                 }
                 this.result = this.valor;
                 this.valor = valorRecebido;
+
+                this.acrescentaHistorico(this.mesAno, this.fimMesAno, this.valor, this.result);
             } else {
                 this.result = '';
             }
@@ -165,6 +184,34 @@ export default {
             this.result = 0;
             this.dateToday = '';
         },
+
+        acrescentaHistorico(mesAno, fimMesAno, valor, result) {
+            this.historico.push({
+                mesInicio: mesAno,
+                mesFim: fimMesAno,
+                valor,
+                resultado: result,
+            });
+        },
+
+        formataMoeda(valorNaoFormatado, moeda = true) {
+            if (valorNaoFormatado) {
+                if (moeda) {
+                    return valorNaoFormatado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+                }
+                return valorNaoFormatado.toLocaleString('pt-br', {
+                    style: 'decimal',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                });
+            }
+
+            return '0,00';
+        },
+
+        limparHistorico() {
+            this.historico = [];
+        },
     },
 };
 </script>
@@ -180,26 +227,37 @@ export default {
 }
 
 .blue {
-    background-color: #F0F0F0 !important;
+    background-color: #f0f0f0 !important;
 }
 
 .tabela {
     border-width: 1px;
     border-color: rgb(139 139 139 / 39%);
     border-style: solid;
-   border-radius: 4px;
+    border-radius: 4px;
 }
 
-.tabelaFina{
+.tabelaFina {
     border-width: 1px;
     outline: 1px solid #8f8989;
     border-color: rgb(163, 150, 150);
     border-radius: 1px;
 }
-.espaco{  
+.espaco {
     margin-bottom: 125px;
 }
-.letra{
+.letra {
+    color: black;
+}
+
+.letra2 {
+    font-size: 10px;
+    color: rgb(23, 26, 26);
+    margin-right: 10px;
+}
+
+.letra3 {
+    font-size: 12px;
     color: black;
 }
 
