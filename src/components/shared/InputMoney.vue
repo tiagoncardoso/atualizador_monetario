@@ -35,7 +35,7 @@ export default {
         },
         valorPadrao: {
             type: [Number, String],
-            default: ' ',
+            default: 0,
         },
         readonly: {
             type: Boolean,

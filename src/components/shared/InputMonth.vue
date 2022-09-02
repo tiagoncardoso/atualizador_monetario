@@ -15,7 +15,7 @@
                         v-model="dateFormatted"
                         :label="label"
                         hint="MM/YYYY"
-                        prepend-icon="mdi-calendar"
+                        append-icon="mdi-calendar"
                         readonly
                         :outlined="outlined"
                         :dense="dense"
