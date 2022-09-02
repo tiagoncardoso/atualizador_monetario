@@ -1,6 +1,6 @@
 <template>
     <v-row>
-        <v-col cols="12">
+        <v-col>
             <vuetify-money
                 v-model="valor"
                 :label="label"
