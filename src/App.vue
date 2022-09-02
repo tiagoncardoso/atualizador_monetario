@@ -1,11 +1,10 @@
 <template>
     <v-app>
         <v-main>
-            <v-toolbar color="#13335C" dark flat>
-                <v-toolbar-title>Atualização monetária</v-toolbar-title>
-
+            <v-toolbar color="#757575" dark>
+                <v-toolbar-title>CALCULADORA DE ATUALIZAÇÃO MONETÁRIA</v-toolbar-title>
                 <template #extension>
-                    <v-tabs v-model="currentItem" fixed-tabs slider-color="white">
+                    <v-tabs v-model="currentItem" fixed-tabs slider-color="white" background-color="#1867C0" pt-5>
                         <v-tab href="#tabIpca"> IPCA (IBGE) </v-tab>
                         <v-tab href="#tabInpc"> INPC (IBGE) </v-tab>
                     </v-tabs>
@@ -36,3 +35,10 @@ export default {
     }),
 };
 </script>
+
+<style scoped>
+div.v-toolbar__title {
+    margin: auto;
+    font-size: 25px;
+}
+</style>
