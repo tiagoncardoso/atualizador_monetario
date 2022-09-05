@@ -15,6 +15,7 @@
                                     <input-month
                                         v-model="mesAno"
                                         dense
+                                        :min="dataMinimaPrimeiro"
                                         :data-padrao="limpaAno"
                                         label="Início"
                                         outlined
@@ -25,6 +26,8 @@
                                     <input-month
                                         v-model="fimMesAno"
                                         dense
+                                        :min="dataMinima"
+                                        :max="dateToday"
                                         :data-padrao="dateToday"
                                         label="Fim"
                                         outlined
@@ -103,7 +106,6 @@ export default {
             limpaAno: 0,
             dateToday: '',
             validador: 0,
-
             historico: [],
         };
     },
@@ -125,6 +127,9 @@ export default {
             }
 
             return this.historico;
+        },
+        dataMinimaPrimeiro() {
+            return "1994-07"
         },
     },
 

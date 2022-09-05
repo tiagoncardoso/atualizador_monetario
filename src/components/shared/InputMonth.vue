@@ -29,6 +29,8 @@
                     v-model="date"
                     type="month"
                     no-title
+                    :min="min"
+                    :max="max"
                     scrollable
                     locale="pt-br"
                     @input="menu = false"
@@ -61,6 +63,14 @@ export default {
             type: [Number, String, null],
             default: null,
         },
+        min: {
+            type: String,
+            default: "",
+        },
+        max: {
+            type: String,
+            default: "",
+        }
     },
     data: () => ({
         date: '',
