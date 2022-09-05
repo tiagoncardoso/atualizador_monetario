@@ -44,9 +44,9 @@
 
                                 <v-col cols="5" sm="5">
                                     <span>VALOR ATUALIZADO</span>
-                                    <br />
-                                    <span>R$ </span>
-                                    <span>{{ formataMoeda(result, false) }}</span>
+                                    <br/>
+                                    <span class="letraCor">R$ </span>
+                                    <span class="letraCor">{{ formataMoeda(result, false) }}</span>
                                 </v-col>
                             </v-row>
                         </v-col>
@@ -218,7 +218,7 @@ export default {
 
 <style scoped>
 .v-btn {
-    width: 100px;
+    width: 130px;
     color: #ffff;
 }
 
@@ -264,5 +264,9 @@ export default {
 .div-resultado {
     height: 41px;
     background-color: bisque;
+}
+
+.letraCor {
+    color: black;
 }
 </style>
