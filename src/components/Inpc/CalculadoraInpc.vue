@@ -1,97 +1,86 @@
 <template>
-    <v-form>
-        <v-container>
-            <v-row>
-                <v-col cols="8" offset="2">
-                    <v-card class="elevation-12">
-                        <v-row>
-                            <v-col cols="6">
-                                <v-card-title> Informações obrigatória* </v-card-title>
-                                <v-row>
-                                    <v-col cols="6">
-                                        <input-month-year
-                                            v-model="mesAno"
-                                            label="Início"
-                                            outlined
-                                            dense
-                                            background-color="white"
-                                            color="black"
-                                            :data-padrao="inicio"
-                                        />
-                                    </v-col>
+    <v-row>
+        <v-col cols="8" offset="2">
+            <v-card elevation="20">
+                <v-card-text class="white">
+                    <v-row>
+                        <v-col cols="8">
+                            <v-row>
+                                <v-col class="mb-4 mt-8" style="color: black">
+                                    <h3>Informações Obrigatórias*</h3>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="5" sm="5" offset="1">
+                                    <input-month-year
+                                        v-model="mesAno"
+                                        label="Início"
+                                        outlined
+                                        dense
+                                        :data-padrao="inicio"
+                                    />
+                                </v-col>
 
-                                    <v-col cols="6">
-                                        <input-month-year
-                                            v-model="final"
-                                            label="Final"
-                                            outlined
-                                            dense
-                                            background-color="white"
-                                            color="black"
-                                            :data-padrao="fim"
-                                        />
-                                    </v-col>
+                                <v-col cols="5" sm="5">
+                                    <input-month-year
+                                        v-model="final"
+                                        label="Final"
+                                        outlined
+                                        dense
+                                        background-color="white"
+                                        color="black"
+                                        :data-padrao="fim"
+                                    />
+                                </v-col>
+                            </v-row>
+                            <v-row class="mb-16">
+                                <v-col cols="5" sm="5" offset="1">
+                                    <input-money
+                                        v-model="valor"
+                                        label="Valor"
+                                        outlined
+                                        dense
+                                        background-color="white"
+                                        color="black"
+                                        :valor-padrao="valor"
+                                    />
+                                </v-col>
 
-                                    <v-row>
-                                        <v-col cols="6">
-                                            <input-money
-                                                v-model="valor"
-                                                label="Valor"
-                                                outlined
-                                                dense
-                                                background-color="white"
-                                                color="black"
-                                                :valor-padrao="valor"
-                                            />
-                                        </v-col>
-
-                                        <v-col cols="6">
-                                            <span style="font-size: 13px">VALOR ATUALIZADO</span><br />
-                                            <span style="font-size: 14px"><strong>R$ </strong></span>
-                                            <span style="font-size: 16px">
-                                                <strong>{{ formataMoeda(valorAtual, false) }}</strong></span
-                                            >
-                                        </v-col>
-                                    </v-row>
-                                </v-row>
-                            </v-col>
-                            <v-col cols="6">
-                                <v-card-text class="tabela">
-                                    <v-row>
-                                        <v-col>
-                                            <h3>
-                                                Histórico (Últimos 10 cálculos)
-                                                <hr />
-                                            </h3>
-                                            <ol>
-                                                <li v-for="(item, index) in listaHistorico" :key="index">
-                                                    <span style="margin-right: 25px">
-                                                        {{ item.inicio }} - {{ item.fim }}
-                                                    </span>
-                                                    <span>
-                                                        [{{ formataMoeda(item.valor) }} ->
-                                                        {{ formataMoeda(item.resultado) }}]
-                                                    </span>
-                                                </li>
-                                            </ol>
-                                        </v-col>
-                                    </v-row>
-                                </v-card-text>
-                            </v-col>
-                        </v-row>
-                        <v-card-actions>
-                            <v-col cols="6" offset="8" py-1>
-                                <v-btn small type="button" class="mr-4" color="primary" @click="calcular()">
-                                    Calcular
-                                </v-btn>
-                                <v-btn small type="button" color="error" @click="limpar()"> Limpar </v-btn>
-                            </v-col>
-                        </v-card-actions>
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-    </v-form>
+                                <v-col cols="5" sm="5">
+                                    <span style="font-size: 13px">VALOR ATUALIZADO</span><br />
+                                    <span style="font-size: 14px"><strong>R$ </strong></span>
+                                    <span style="font-size: 16px">
+                                        <strong>{{ formataMoeda(valorAtual, false) }}</strong></span
+                                    >
+                                </v-col>
+                            </v-row>
+                        </v-col>
+                        <v-col cols="4" class="tabela">
+                            <h4>Histórico (Últimos 10 cálculos)</h4>
+                            <hr />
+                            <ul>
+                                <li v-for="(item, index) in listaHistorico" :key="index">
+                                    <span class="mr-5" style="font-size: 10px">{{ item.inicio }} - {{ item.fim }}</span>
+                                    <span style="font-size: 10px">
+                                        [ {{ formataMoeda(item.valor) }} -> {{ formataMoeda(item.resultado) }} ]</span
+                                    >
+                                </li>
+                            </ul>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+                <v-card-actions>
+                    <v-row>
+                        <v-col cols="12" class="text-right">
+                            <v-btn small class="mr-3" color="primary" @click="calcular()">Calcular</v-btn>
+                            <v-btn small color="error" class="mr-3" @click="limpar()">Limpar</v-btn>
+                            <v-btn small class="amarelo" color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
+                        </v-col>
+                    </v-row>
+                </v-card-actions>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -174,6 +163,9 @@ export default {
             this.valor = 0;
             this.valorAtual = 0;
         },
+        limparHistorico() {
+            this.historico = [];
+        },
         acrescentaHistorico(mesAno, final, valor, valorAtual) {
             this.historico.push({
                 inicio: mesAno,
@@ -211,13 +203,11 @@ export default {
 }
 
 .tabela {
-    margin-left: 45px;
-    width: 20rem;
-    height: 300px;
-    border-radius: 5px;
     border-width: 1px;
-    border-color: black;
-    border-style: solid;
+    outline: 1px solid #8f8989;
+    border-color: rgb(163, 150, 150);
+    border-radius: 1px;
+    color: black;
 }
 
 .col {
@@ -225,6 +215,6 @@ export default {
 }
 
 .v-btn {
-    width: 100px;
+    width: 150px;
 }
 </style>
