@@ -13,23 +13,27 @@
                             <v-row>
                                 <v-col cols="5" sm="5" offset="1">
                                     <input-month-year
-                                        v-model="mesAno"
+                                        v-model="dataInicialCalculo"
                                         label="Início"
                                         outlined
                                         dense
                                         :data-padrao="inicio"
+                                        :min="minDate"
+                                        :max="dataMaxima"
                                     />
                                 </v-col>
 
                                 <v-col cols="5" sm="5">
                                     <input-month-year
-                                        v-model="final"
+                                        v-model="dataFinal"
                                         label="Final"
                                         outlined
                                         dense
                                         background-color="white"
                                         color="black"
                                         :data-padrao="fim"
+                                        :min="dataMinimaInput"
+                                        :max="fim"
                                     />
                                 </v-col>
                             </v-row>
@@ -58,14 +62,14 @@
                         <v-col cols="4" class="tabela">
                             <h4>Histórico (Últimos 10 cálculos)</h4>
                             <hr />
-                            <ul>
+                            <ol>
                                 <li v-for="(item, index) in listaHistorico" :key="index">
-                                    <span class="mr-5" style="font-size: 10px">{{ item.inicio }} - {{ item.fim }}</span>
-                                    <span style="font-size: 10px">
+                                    <span class="mr-3" style="font-size: 10px">{{ item.inicio }} - {{ item.fim }}</span>
+                                    <span style="font-size: 12px">
                                         [ {{ formataMoeda(item.valor) }} -> {{ formataMoeda(item.resultado) }} ]</span
                                     >
                                 </li>
-                            </ul>
+                            </ol>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -93,8 +97,8 @@ export default {
     components: { InputMonthYear, InputMoney },
     data() {
         return {
-            mesAno: '',
-            final: '',
+            dataInicialCalculo: '',
+            dataFinal: '',
             valor: 0,
             valorAtual: 0,
             inicio: null,
@@ -114,13 +118,43 @@ export default {
             }
             return this.historico;
         },
+
+        minDate() {
+            return '1994-07';
+        },
+
+        dataMaxima() {
+            if (this.dataInicialCalculo < this.dataFinal) {
+                let [mes, ano] = this.dataFinal.split('/');
+                let dataFormatada = new Date(ano, mes - 1, 1);
+
+                dataFormatada.setMonth(dataFormatada.getMonth() + 1);
+
+                return dataFormatada.getFullYear() + '-' + dataFormatada.getMonth();
+            } else {
+                return '';
+            }
+        },
+
+        dataMinimaInput() {
+            if (this.dataInicialCalculo < this.dataFinal) {
+                let [mes, ano] = this.dataInicialCalculo.split('/');
+                let dataFormatada = new Date(ano, mes);
+
+                dataFormatada.setMonth(dataFormatada.getMonth() + 1);
+
+                return dataFormatada.getFullYear() + '-' + dataFormatada.getMonth();
+            } else {
+                return this.dataFinal;
+            }
+        },
     },
 
     watch: {
-        mesAno() {
+        dataInicialCalculo() {
             this.inicio = null;
         },
-        final() {
+        dataFinal() {
             this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
         },
     },
@@ -132,10 +166,10 @@ export default {
     methods: {
         calcular() {
             let resultado = this.valor;
-            let [mes, ano] = this.mesAno.split('/');
+            let [mes, ano] = this.dataInicialCalculo.split('/');
             let dataInicio = new Date(ano, Number.parseInt(mes) - 1, 1);
 
-            [mes, ano] = this.final.split('/');
+            [mes, ano] = this.dataFinal.split('/');
             let dataFim = new Date(ano, Number.parseInt(mes) - 1, 1);
 
             if (dataInicio < dataFim) {
@@ -150,13 +184,13 @@ export default {
                 this.valorAtual = this.valor;
                 this.valor = resultado;
 
-                this.acrescentaHistorico(this.mesAno, this.final, this.valor, this.valorAtual);
+                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinal, this.valor, this.valorAtual);
             } else {
                 this.valorAtual = 0;
             }
         },
         limpar() {
-            if (this.mesAno != null) {
+            if (this.dataInicialCalculo != null) {
                 this.inicio = '';
             }
             this.fim = '';
@@ -166,10 +200,10 @@ export default {
         limparHistorico() {
             this.historico = [];
         },
-        acrescentaHistorico(mesAno, final, valor, valorAtual) {
+        acrescentaHistorico(dataInicialCalculo, dataFinal, valor, valorAtual) {
             this.historico.push({
-                inicio: mesAno,
-                fim: final,
+                inicio: dataInicialCalculo,
+                fim: dataFinal,
                 valor,
                 resultado: valorAtual,
             });
@@ -215,6 +249,6 @@ export default {
 }
 
 .v-btn {
-    width: 150px;
+    width: 135px;
 }
 </style>
