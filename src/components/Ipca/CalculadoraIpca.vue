@@ -16,6 +16,7 @@
                                         v-model="mesAno"
                                         dense
                                         :min="dataMinimaPrimeiro"
+                                        :max="dataMaximaPrimeiro"
                                         :data-padrao="limpaAno"
                                         label="Início"
                                         outlined
@@ -26,7 +27,7 @@
                                     <input-month
                                         v-model="fimMesAno"
                                         dense
-                                        :min="dataMinima"
+                                        :min="dataMinimaSegundo"
                                         :max="dateToday"
                                         :data-padrao="dateToday"
                                         label="Fim"
@@ -130,6 +131,23 @@ export default {
         },
         dataMinimaPrimeiro() {
             return "1994-07"
+        },
+        dataMaximaPrimeiro() {
+            if(this.fimMesAno){
+                let [mes, ano] = this.fimMesAno.split("/");
+                let temp = new Date(ano, mes)
+                return `${temp.getFullYear()}-${temp.getMonth() - 1}`;
+            }
+            return ''
+        },
+        dataMinimaSegundo() {
+            debugger
+                if(this.mesAno != null){
+                let [mes, ano] = this.mesAno.split("/");
+                let temp = new Date(ano, mes)
+                return `${temp.getFullYear()}-${temp.getMonth() + 1}`;
+            }
+            return this.dateToday
         },
     },
 
