@@ -13,10 +13,10 @@
                             <v-row>
                                 <v-col cols="5" sm="5" offset="1">
                                     <input-month
-                                        v-model="mesAno"
+                                        v-model="dataInicialCalculo"
                                         dense
-                                        :min="dataMinimaPrimeiro"
-                                        :max="dataMaximaPrimeiro"
+                                        :min="dataMinimaInputInicial"
+                                        :max="dataMaximaInputInicial ? dataMaximaInputInicial : dateToday"
                                         :data-padrao="limpaAno"
                                         label="Início"
                                         outlined
@@ -25,9 +25,9 @@
 
                                 <v-col cols="5" sm="5">
                                     <input-month
-                                        v-model="fimMesAno"
+                                        v-model="dataFinalCalculo"
                                         dense
-                                        :min="dataMinimaSegundo"
+                                        :min="dataMinimaInputFinal"
                                         :max="dateToday"
                                         :data-padrao="dateToday"
                                         label="Fim"
@@ -102,8 +102,8 @@ export default {
             label: 'valor, result',
 
             valorPadrao: 0,
-            mesAno: '',
-            fimMesAno: '',
+            dataInicialCalculo: '',
+            dataFinalCalculo: '',
             limpaAno: 0,
             dateToday: '',
             validador: 0,
@@ -129,36 +129,35 @@ export default {
 
             return this.historico;
         },
-        dataMinimaPrimeiro() {
+        dataMinimaInputInicial() {
             return "1994-07"
         },
-        dataMaximaPrimeiro() {
-            if(this.fimMesAno){
-                let [mes, ano] = this.fimMesAno.split("/");
-                let temp = new Date(ano, mes)
-                return `${temp.getFullYear()}-${temp.getMonth() - 1}`;
+        dataMaximaInputInicial() {
+            if(this.dataFinalCalculo){
+                let [mes, ano] = this.dataFinalCalculo.split("/");
+                let dataTemporaria = new Date(ano, mes)
+                return `${dataTemporaria.getFullYear()}-${dataTemporaria.getMonth() - 1}`;
             }
-            return ''
+            return false
         },
-        dataMinimaSegundo() {
-            debugger
-                if(this.mesAno != null){
-                let [mes, ano] = this.mesAno.split("/");
-                let temp = new Date(ano, mes)
-                return `${temp.getFullYear()}-${temp.getMonth() + 1}`;
+        dataMinimaInputFinal() {
+            if(this.dataInicialCalculo != null){
+            let [mes, ano] = this.dataInicialCalculo.split("/");
+            let dataTemporaria = new Date(ano, mes)
+            return `${dataTemporaria.getFullYear()}-${dataTemporaria.getMonth() + 1}`;
             }
             return this.dateToday
         },
     },
 
     watch: {
-        mesAno() {
+        dataInicialCalculo() {
             if (this.limpaAno != 0 && this.validador == 1) {
                 this.limpaAno = '';
                 this.validador = 0;
             }
         },
-        fimMesAno() {
+        dataFinalCalculo() {
             this.dateToday = this.dataHoje;
         },
     },
@@ -171,10 +170,10 @@ export default {
         calcular() {
             let valorRecebido = this.valor;
 
-            let [mes, ano] = this.mesAno.split('/');
+            let [mes, ano] = this.dataInicialCalculo.split('/');
             let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
 
-            let [mesFim, anoFim] = this.fimMesAno.split('/');
+            let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
 
             if (dataInicio < dataFim) {
@@ -189,14 +188,14 @@ export default {
                 this.result = this.valor;
                 this.valor = valorRecebido;
 
-                this.acrescentaHistorico(this.mesAno, this.fimMesAno, this.valor, this.result);
+                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, this.valor, this.result);
             } else {
                 this.result = '';
             }
         },
 
         limpar() {
-            if (this.mesAno != null) {
+            if (this.dataInicialCalculo != null) {
                 this.validador = 1;
                 this.limpaAno = null;
             } else {
@@ -208,10 +207,10 @@ export default {
             this.dateToday = '';
         },
 
-        acrescentaHistorico(mesAno, fimMesAno, valor, result) {
+        acrescentaHistorico(dataInicialCalculo, dataFinalCalculo, valor, result) {
             this.historico.push({
-                mesInicio: mesAno,
-                mesFim: fimMesAno,
+                mesInicio: dataInicialCalculo,
+                mesFim: dataFinalCalculo,
                 valor,
                 resultado: result,
             });
