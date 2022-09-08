@@ -18,21 +18,21 @@
                                         outlined
                                         dense
                                         :data-padrao="inicio"
-                                        :min="minDate"
-                                        :max="dataMaxima"
+                                        :min="dataMinimaInputInicial"
+                                        :max="dataMaximaInputInicial"
                                     />
                                 </v-col>
 
                                 <v-col cols="5" sm="5">
                                     <input-month-year
-                                        v-model="dataFinal"
+                                        v-model="dataFinalCalculo"
                                         label="Final"
                                         outlined
                                         dense
                                         background-color="white"
                                         color="black"
                                         :data-padrao="fim"
-                                        :min="dataMinimaInput"
+                                        :min="dataMinimaInputFinal"
                                         :max="fim"
                                     />
                                 </v-col>
@@ -98,7 +98,7 @@ export default {
     data() {
         return {
             dataInicialCalculo: '',
-            dataFinal: '',
+            dataFinalCalculo: '',
             valor: 0,
             valorAtual: 0,
             inicio: null,
@@ -119,25 +119,19 @@ export default {
             return this.historico;
         },
 
-        minDate() {
+        dataMinimaInputInicial() {
             return '1994-07';
         },
 
-        dataMaxima() {
-            if (this.dataInicialCalculo < this.dataFinal) {
-                let [mes, ano] = this.dataFinal.split('/');
-                let dataFormatada = new Date(ano, mes - 1, 1);
+        dataMaximaInputInicial() {
+            let [mes, ano] = this.dataFinalCalculo.split('/');
+            let dataFormatada = new Date(ano, mes - 1, 1);
 
-                dataFormatada.setMonth(dataFormatada.getMonth() + 1);
-
-                return dataFormatada.getFullYear() + '-' + dataFormatada.getMonth();
-            } else {
-                return '';
-            }
+            return dataFormatada.getFullYear() + '-' + dataFormatada.getMonth();
         },
 
-        dataMinimaInput() {
-            if (this.dataInicialCalculo < this.dataFinal) {
+        dataMinimaInputFinal() {
+            if (this.dataInicialCalculo) {
                 let [mes, ano] = this.dataInicialCalculo.split('/');
                 let dataFormatada = new Date(ano, mes);
 
@@ -145,8 +139,13 @@ export default {
 
                 return dataFormatada.getFullYear() + '-' + dataFormatada.getMonth();
             } else {
-                return this.dataFinal;
+                return '1994-08';
             }
+        },
+
+        dataHoje() {
+            const dataAtual = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+            return dataAtual;
         },
     },
 
@@ -154,13 +153,13 @@ export default {
         dataInicialCalculo() {
             this.inicio = null;
         },
-        dataFinal() {
-            this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+        dataFinalCalculo() {
+            this.fim = this.dataHoje;
         },
     },
 
     mounted() {
-        this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+        this.fim = this.dataHoje;
     },
 
     methods: {
@@ -169,7 +168,7 @@ export default {
             let [mes, ano] = this.dataInicialCalculo.split('/');
             let dataInicio = new Date(ano, Number.parseInt(mes) - 1, 1);
 
-            [mes, ano] = this.dataFinal.split('/');
+            [mes, ano] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(ano, Number.parseInt(mes) - 1, 1);
 
             if (dataInicio < dataFim) {
@@ -184,7 +183,7 @@ export default {
                 this.valorAtual = this.valor;
                 this.valor = resultado;
 
-                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinal, this.valor, this.valorAtual);
+                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, this.valor, this.valorAtual);
             } else {
                 this.valorAtual = 0;
             }
@@ -193,17 +192,17 @@ export default {
             if (this.dataInicialCalculo != null) {
                 this.inicio = '';
             }
-            this.fim = '';
+            this.fim = '1998-05';
             this.valor = 0;
             this.valorAtual = 0;
         },
         limparHistorico() {
             this.historico = [];
         },
-        acrescentaHistorico(dataInicialCalculo, dataFinal, valor, valorAtual) {
+        acrescentaHistorico(dataInicialCalculo, dataFinalCalculo, valor, valorAtual) {
             this.historico.push({
                 inicio: dataInicialCalculo,
-                fim: dataFinal,
+                fim: dataFinalCalculo,
                 valor,
                 resultado: valorAtual,
             });
