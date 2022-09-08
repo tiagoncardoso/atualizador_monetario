@@ -10,7 +10,8 @@
                                     <h3>Informações Obrigatórias*</h3>
                                 </v-col>
                             </v-row>
-                            <v-row>
+                            <v-checkbox v-model="checkbox"/>
+                            <v-row v-if="!checkbox">
                                 <v-col cols="5" sm="5" offset="1">
                                     <input-month
                                         v-model="dataInicialCalculo"
@@ -35,6 +36,14 @@
                                     />
                                 </v-col>
                             </v-row>
+                            <v-row v-else>
+                                <v-col cols="5" sm="5" offset="1">
+                                    <input-date v-model="proRataFinal" />
+                                </v-col>
+                                <v-col cols="5" sm="5">
+                                    <input-date v-model="proRataFinal" />
+                                </v-col>
+                            </v-row>
                             <v-row>
                                 <v-col cols="5" sm="5" offset="1" class="espaco">
                                     <input-money
@@ -48,7 +57,7 @@
 
                                 <v-col cols="5" sm="5">
                                     <span>VALOR ATUALIZADO</span>
-                                    <br/>
+                                    <br />
                                     <span class="letraCor">R$ </span>
                                     <span class="letraCor">{{ formataMoeda(result, false) }}</span>
                                 </v-col>
@@ -86,6 +95,7 @@
 import { indices } from './Ipca';
 import InputMonth from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
+import InputDate from '../shared/InputDate.vue';
 
 export default {
     name: 'CalculadoraIpca',
@@ -93,6 +103,7 @@ export default {
     components: {
         InputMonth,
         InputMoney,
+        InputDate,
     },
 
     data() {
@@ -108,6 +119,9 @@ export default {
             dateToday: '',
             validador: 0,
             historico: [],
+            checkbox: false,
+            proRataInicial: '',
+            proRataFinal: '',
         };
     },
 
@@ -130,23 +144,23 @@ export default {
             return this.historico;
         },
         dataMinimaInputInicial() {
-            return "1994-07"
+            return '1994-07';
         },
         dataMaximaInputInicial() {
-            if(this.dataFinalCalculo){
-                let [mes, ano] = this.dataFinalCalculo.split("/");
-                let dataTemporaria = new Date(ano, mes)
+            if (this.dataFinalCalculo) {
+                let [mes, ano] = this.dataFinalCalculo.split('/');
+                let dataTemporaria = new Date(ano, mes);
                 return `${dataTemporaria.getFullYear()}-${dataTemporaria.getMonth() - 1}`;
             }
-            return false
+            return false;
         },
         dataMinimaInputFinal() {
-            if(this.dataInicialCalculo != null){
-            let [mes, ano] = this.dataInicialCalculo.split("/");
-            let dataTemporaria = new Date(ano, mes)
-            return `${dataTemporaria.getFullYear()}-${dataTemporaria.getMonth() + 1}`;
+            if (this.dataInicialCalculo != null) {
+                let [mes, ano] = this.dataInicialCalculo.split('/');
+                let dataTemporaria = new Date(ano, mes);
+                return `${dataTemporaria.getFullYear()}-${dataTemporaria.getMonth() + 1}`;
             }
-            return this.dateToday
+            return this.dateToday;
         },
     },
 

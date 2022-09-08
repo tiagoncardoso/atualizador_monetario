@@ -17,7 +17,7 @@
                         hint="MM/DD/YYYY"
                         outlined
                         dense
-                        prepend-icon="mdi-calendar"
+                        append-icon="mdi-calendar"
                         v-bind="attrs"
                         background-color="white"
                         color="black"
@@ -43,6 +43,10 @@ export default {
         dataEnviada: {
             type: String,
             default: '',
+        },
+        checkbox: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {
