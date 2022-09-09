@@ -1,18 +1,24 @@
 <template>
     <v-row>
+        <v-col cols="8" offset="2" v-if="pessoa != null">
+            <v-img :src="pessoa.picture.medium" max-height="150" max-width="80"/>
+        </v-col>
+        <v-col cols="8" offset="2" v-if="pessoa != null">
+            <h5>Bom dia, {{ tratamento }} {{ pessoa.name.first }} {{ pessoa.name.last}}</h5>
+        </v-col>
         <v-col cols="8" offset="2">
             <v-card elevation="20" class="blue">
                 <v-card-text class="white">
                     <v-row>
                         <v-col cols="8" class="top-line">
                             <v-row>
-                                <v-col class="mb-4 mt-8 letra">
+                                <v-col class="letra">
                                     <h3>Informações Obrigatórias*</h3>
                                 </v-col>
                             </v-row>
                             <v-checkbox v-model="checkbox"/>
-                            <v-row v-if="!checkbox">
-                                <v-col cols="5" sm="5" offset="1">
+                            <v-row>
+                                <v-col v-show="!checkbox" cols="5" sm="5" offset="1">
                                     <input-month
                                         v-model="dataInicialCalculo"
                                         dense
@@ -24,7 +30,7 @@
                                     />
                                 </v-col>
 
-                                <v-col cols="5" sm="5">
+                                <v-col v-show="!checkbox" cols="5" sm="5">
                                     <input-month
                                         v-model="dataFinalCalculo"
                                         dense
@@ -35,15 +41,14 @@
                                         outlined
                                     />
                                 </v-col>
-                            </v-row>
-                            <v-row v-else>
-                                <v-col cols="5" sm="5" offset="1">
-                                    <input-date v-model="proRataFinal" />
+                                <v-col v-show="checkbox" cols="5" sm="5" offset="1">
+                                    <input-date v-model="proRataInicial" />
                                 </v-col>
-                                <v-col cols="5" sm="5">
+                                <v-col v-show="checkbox" cols="5" sm="5">
                                     <input-date v-model="proRataFinal" />
                                 </v-col>
                             </v-row>
+                            
                             <v-row>
                                 <v-col cols="5" sm="5" offset="1" class="espaco">
                                     <input-money
@@ -96,6 +101,7 @@ import { indices } from './Ipca';
 import InputMonth from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
 import InputDate from '../shared/InputDate.vue';
+import axios from 'axios';
 
 export default {
     name: 'CalculadoraIpca',
@@ -111,7 +117,6 @@ export default {
             valor: 0,
             result: 0,
             label: 'valor, result',
-
             valorPadrao: 0,
             dataInicialCalculo: '',
             dataFinalCalculo: '',
@@ -122,6 +127,7 @@ export default {
             checkbox: false,
             proRataInicial: '',
             proRataFinal: '',
+            pessoa: null,
         };
     },
 
@@ -162,6 +168,14 @@ export default {
             }
             return this.dateToday;
         },
+
+        tratamento() {
+            if (this.pessoa.gender === 'male') {
+                return 'senhor'
+            } else {
+                return 'senhora'
+            }
+        }
     },
 
     watch: {
@@ -178,6 +192,7 @@ export default {
 
     mounted() {
         this.dateToday = this.dataHoje;
+        this.buscaInfoPessoa();
     },
 
     methods: {
@@ -247,6 +262,12 @@ export default {
 
         limparHistorico() {
             this.historico = [];
+        },
+        buscaInfoPessoa() {
+            axios.get('https://randomuser.me/api/?nat=us')
+            .then((resposta) =>  {
+                this.pessoa = resposta.data.results[0]
+            })
         },
     },
 };
