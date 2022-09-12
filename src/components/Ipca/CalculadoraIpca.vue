@@ -1,10 +1,10 @@
 <template>
     <v-row>
-        <v-col cols="8" offset="2" v-if="pessoa != null">
-            <v-img :src="pessoa.picture.medium" max-height="150" max-width="80"/>
+        <v-col cols="8" offset="2" v-if="pessoa">
+            <v-img :src="pessoa.avatar" max-height="150" max-width="80"/>
         </v-col>
-        <v-col cols="8" offset="2" v-if="pessoa != null">
-            <h5>Bom dia, {{ tratamento }} {{ pessoa.name.first }} {{ pessoa.name.last}}</h5>
+        <v-col cols="8" offset="2" v-if="pessoa">
+            <h5>Bom dia {{pessoa.last_name}}, {{pessoa.first_name}}</h5>
         </v-col>
         <v-col cols="8" offset="2">
             <v-card elevation="20" class="blue">
@@ -17,8 +17,9 @@
                                 </v-col>
                             </v-row>
                             <v-checkbox v-model="checkbox"/>
-                            <v-row>
+                            <v-row> 
                                 <v-col v-show="!checkbox" cols="5" sm="5" offset="1">
+                                    <p class="letra-pro-rata">Cálculo Normal</p>
                                     <input-month
                                         v-model="dataInicialCalculo"
                                         dense
@@ -30,7 +31,7 @@
                                     />
                                 </v-col>
 
-                                <v-col v-show="!checkbox" cols="5" sm="5">
+                                <v-col v-show="!checkbox" cols="5" sm="5" class="margin-topo">
                                     <input-month
                                         v-model="dataFinalCalculo"
                                         dense
@@ -42,10 +43,17 @@
                                     />
                                 </v-col>
                                 <v-col v-show="checkbox" cols="5" sm="5" offset="1">
-                                    <input-date v-model="proRataInicial" />
+                                    <p class="letra-pro-rata">Cálculo Pró-rata</p>
+                                    <input-date 
+                                        v-model="proRataInicial" 
+                                        label="Início"
+                                    />
                                 </v-col>
-                                <v-col v-show="checkbox" cols="5" sm="5">
-                                    <input-date v-model="proRataFinal" />
+                                <v-col v-show="checkbox" cols="5" sm="5" class="margin-topo">
+                                    <input-date
+                                       v-model="proRataFinal"
+                                       label="Fim"
+                                    />
                                 </v-col>
                             </v-row>
                             
@@ -84,9 +92,14 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-row>
-                        <v-col cols="12" class="text-right">
+                        <v-col v-show="!checkbox" cols="12" class="text-right">
                             <v-btn small class="mr-3" color="primary" @click="calcular()">Calcular</v-btn>
                             <v-btn small color="error" class="mr-3" @click="limpar()">Limpar</v-btn>
+                            <v-btn small color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
+                        </v-col>
+                        <v-col v-show="checkbox" cols="12" class="text-right">
+                            <v-btn small class="mr-3" color="primary" @click="calculoProRata()">Calcular</v-btn>
+                            
                             <v-btn small color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
                         </v-col>
                     </v-row>
@@ -264,11 +277,14 @@ export default {
             this.historico = [];
         },
         buscaInfoPessoa() {
-            axios.get('https://randomuser.me/api/?nat=us')
+            axios.get('https://random-data-api.com/api/v2/users')
             .then((resposta) =>  {
-                this.pessoa = resposta.data.results[0]
+                this.pessoa = resposta.data
             })
         },
+        calculoProRata() {
+            
+        }
     },
 };
 </script>
@@ -325,5 +341,18 @@ export default {
 
 .letraCor {
     color: black;
+}
+
+.margin-topo{
+    margin-top: 38px !important;
+}
+
+.letra-pro-rata{
+    font-size: 16px;
+    color: black;
+}
+
+.test {
+    background-color: black;
 }
 </style>
