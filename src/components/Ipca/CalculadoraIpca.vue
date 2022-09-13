@@ -283,7 +283,9 @@ export default {
             })
         },
         calculoProRata() {
-            
+            let [dia, mes, ano] = this.proRataInicial.split('/');
+            let dataInicio = new Date(ano, mes, 0)
+            console.log(dataInicio, dia)
         }
     },
 };
