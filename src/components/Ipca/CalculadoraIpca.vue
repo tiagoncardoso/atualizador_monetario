@@ -284,8 +284,20 @@ export default {
         },
         calculoProRata() {
             let [dia, mes, ano] = this.proRataInicial.split('/');
-            let dataInicio = new Date(ano, mes, 0)
-            console.log(dataInicio, dia)
+            let dataInicio = new Date(ano, mes - 1, dia);
+            let dataDiaMaximo = new Date(ano, mes, 0);
+
+            let diaSubtraidoIndiceInicial = (dataDiaMaximo.getDate() - dataInicio.getDate()) + 1;
+            
+            let indicesAno = this.indices.filter((filtro) => filtro.ano == ano);
+            let indiceMes = indicesAno[0].indices[parseInt(mes) - 1];
+
+            let indiceProRataInicio = parseFloat(indiceMes) / dataDiaMaximo.getDate();
+
+            let indiceProRata = indiceProRataInicio * diaSubtraidoIndiceInicial;
+
+            console.log(diaSubtraidoIndiceInicial, indiceProRata, dataDiaMaximo)
+            console.log(dataInicio, dia, mes, ano)
         }
     },
 };
