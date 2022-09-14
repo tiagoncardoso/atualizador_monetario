@@ -11,6 +11,7 @@
     "prettier:format": "prettier \"./src/**/*.{vue,ts,tsx,js,jsx}\" --config .prettierrc --ignore-unknown --write"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "v-money": "^0.8.1",
     "vue": "^2.6.14",

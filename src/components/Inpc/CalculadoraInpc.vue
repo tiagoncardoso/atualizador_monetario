@@ -9,8 +9,25 @@
                                 <v-col class="mb-4 mt-8" style="color: black">
                                     <h3>Informações Obrigatórias*</h3>
                                 </v-col>
+                                <v-col v-if="!null" cols="12" style="color: black">
+                                    <h3>Dados pessoais</h3>
+                                    <p>
+                                        <v-img max-width="60" :src="pessoa.avatar" /> Seja bem-vindo(a),{{
+                                            pessoa.first_name
+                                        }}
+                                        {{ pessoa.last_name }}. <br />
+                                        Telefone: {{ pessoa.phone_number }} <br />
+                                        E-mail: {{ pessoa.email }}
+                                    </p>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-checkbox
+                                        v-model="calculoProRata"
+                                        label="Utilizar cálculo de atualização pró-rata"
+                                    />
+                                </v-col>
                             </v-row>
-                            <v-row>
+                            <v-row v-show="!calculoProRata">
                                 <v-col cols="5" sm="5" offset="1">
                                     <input-month-year
                                         v-model="dataInicialCalculo"
@@ -26,6 +43,33 @@
                                 <v-col cols="5" sm="5">
                                     <input-month-year
                                         v-model="dataFinalCalculo"
+                                        label="Final"
+                                        outlined
+                                        dense
+                                        background-color="white"
+                                        color="black"
+                                        :data-padrao="fim"
+                                        :min="dataMinimaInputFinal"
+                                        :max="fim"
+                                    />
+                                </v-col>
+                            </v-row>
+                            <v-row v-show="calculoProRata">
+                                <v-col cols="5" sm="5" offset="1">
+                                    <input-date
+                                        v-model="dataInicialProRata"
+                                        label="Início"
+                                        outlined
+                                        dense
+                                        :data-padrao="inicio"
+                                        :min="dataMinimaInputInicial"
+                                        :max="dataMaximaInputInicial"
+                                    />
+                                </v-col>
+
+                                <v-col cols="5" sm="5">
+                                    <input-date
+                                        v-model="dataFinalProRata"
                                         label="Final"
                                         outlined
                                         dense
@@ -74,9 +118,16 @@
                     </v-row>
                 </v-card-text>
                 <v-card-actions>
-                    <v-row>
+                    <v-row v-show="!calculoProRata">
                         <v-col cols="12" class="text-right">
                             <v-btn small class="mr-3" color="primary" @click="calcular()">Calcular</v-btn>
+                            <v-btn small color="error" class="mr-3" @click="limpar()">Limpar</v-btn>
+                            <v-btn small class="amarelo" color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-row v-show="calculoProRata">
+                        <v-col cols="12" class="text-right">
+                            <v-btn small class="mr-3" color="primary" @click="calcularProRata()">Calcular</v-btn>
                             <v-btn small color="error" class="mr-3" @click="limpar()">Limpar</v-btn>
                             <v-btn small class="amarelo" color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
                         </v-col>
@@ -91,10 +142,12 @@
 import { arrayIndices } from './Inpc';
 import InputMonthYear from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
+import InputDate from '../shared/InputDate.vue';
+import axios from 'axios';
 
 export default {
     name: 'CalculadoraInpc',
-    components: { InputMonthYear, InputMoney },
+    components: { InputMonthYear, InputMoney, InputDate },
     data() {
         return {
             dataInicialCalculo: '',
@@ -104,6 +157,10 @@ export default {
             inicio: null,
             fim: 0,
             historico: [],
+            calculoProRata: false,
+            dataInicialProRata: '',
+            dataFinalProRata: '',
+            pessoa: {},
         };
     },
     computed: {
@@ -160,6 +217,7 @@ export default {
 
     mounted() {
         this.fim = this.dataHoje;
+        this.buscaInfoPessoa();
     },
 
     methods: {
@@ -187,6 +245,25 @@ export default {
             } else {
                 this.valorAtual = 0;
             }
+        },
+        calcularProRata() {
+            let [dia, mes, ano] = this.dataInicialProRata.split('/');
+
+            let dataConvertida = new Date(ano, mes - 1, dia);
+            let dataMaiorConvertida = new Date(ano, mes, 0);
+
+            let indiceInicio = dataMaiorConvertida.getDate() - dataConvertida.getDate() + 1;
+
+            let indiceAno = arrayIndices.filter((lista) => lista.ano == ano);
+            let indiceMes = indiceAno[0].indice[parseInt(mes) - 1];
+
+            let PrimeiroIndiceProRata = indiceMes / dataMaiorConvertida.getDate();
+            let indiceProRata = PrimeiroIndiceProRata * indiceInicio;
+
+            console.log(indiceProRata);
+
+            //[dia, mes, ano] = this.dataFinalProRata.split('/');
+            //let dataFim = new Date (ano, Number.parseInt(mes - 1), dia);
         },
         limpar() {
             if (this.dataInicialCalculo != null) {
@@ -221,6 +298,11 @@ export default {
             }
 
             return '0,00';
+        },
+        buscaInfoPessoa() {
+            axios.get('https://random-data-api.com/api/v2/users').then((resposta) => {
+                this.pessoa = resposta.data;
+            });
         },
     },
 };
