@@ -209,14 +209,26 @@ export default {
     },
 
     methods: {
-        calcular() {
-            let valorRecebido = this.valor;
+        calcular(valorProRata = 0, diaInicioParametro, diaFimParametro) {
 
-            let [mes, ano] = this.dataInicialCalculo.split('/');
-            let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
 
-            let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
-            let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
+                let valorRecebido = this.valor;
+
+                let [mes, ano] = this.dataInicialCalculo.split('/');
+                let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
+
+                let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
+                let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
+            
+                if(valorProRata != 0){
+                    this.valor = valorProRata;
+
+                    dataInicio = new Date(diaInicioParametro)
+
+                    dataFim = new Date (diaFimParametro)
+                    dataFim.setMonth(dataFim.getMonth() - 1);
+                    
+                }
 
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
@@ -234,6 +246,7 @@ export default {
             } else {
                 this.result = '';
             }
+            return this.result
         },
 
         limpar() {
@@ -285,20 +298,34 @@ export default {
         calculoProRata() {
             let [dia, mes, ano] = this.proRataInicial.split('/');
             let dataInicio = new Date(ano, mes - 1, dia);
-            let dataDiaMaximo = new Date(ano, mes, 0);
+            let dataDiaMaximoInicio = new Date(ano, mes, 0);
+            let diaInicioParametro = new Date(ano, mes, 1);
+            let [diaFim, mesFim, anoFim] = this.proRataFinal.split('/');
+            let diaFimParametro = new Date(anoFim, mesFim, 1);  
+            let dataFim = new Date(anoFim, mesFim, diaFim);
+            dataFim.setMonth(dataFim.getMonth() - 1);
+            let dataDiaMaximoFinal = new Date(anoFim, mesFim, 0);;
 
-            let diaSubtraidoIndiceInicial = (dataDiaMaximo.getDate() - dataInicio.getDate()) + 1;
+            let diaSubtraidoIndiceInicial = (dataDiaMaximoInicio.getDate() - dataInicio.getDate()) + 1;
 
             let indicesAno = this.indices.filter((filtro) => filtro.ano == ano);
             let indiceMes = indicesAno[0].indices[parseInt(mes) - 1];
 
-            let indiceProRataInicio = parseFloat(indiceMes) / dataDiaMaximo.getDate();
+            let indiceProRataInicio = parseFloat(indiceMes) / dataDiaMaximoInicio.getDate();
             let indiceProRata = indiceProRataInicio * diaSubtraidoIndiceInicial;
             let valorProRata = parseFloat(this.valor) * (indiceProRata / 100) + parseFloat(this.valor);
 
-            
+            let valorProRataAtualizado = this.calcular(valorProRata, diaInicioParametro, diaFimParametro);
 
-            console.log(valorProRata, indiceProRata)
+            let indiceAnoFinal = this.indices.filter((filtroFinal) => filtroFinal.ano == anoFim);
+            let indiceMesFinal = indiceAnoFinal[0].indices[dataFim.getMonth()];
+
+            let indiceProRataFinal = parseFloat(indiceMesFinal) / dataDiaMaximoFinal.getDate();
+
+            this.result = parseFloat(valorProRataAtualizado) * (indiceProRataFinal / 100)
+            + parseFloat(valorProRataAtualizado);
+
+            console.log(valorProRataAtualizado, indiceMesFinal, indiceProRataFinal);
         }
     },
 };
