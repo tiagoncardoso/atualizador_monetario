@@ -25,7 +25,14 @@
                         v-on="on"
                     />
                 </template>
-                <v-date-picker v-model="date" no-title locale="pt-br" @input="menu1 = false" />
+                <v-date-picker 
+                    v-model="date" 
+                    no-title 
+                    locale="pt-br" 
+                    :min="min"
+                    :max="max"
+                    @input="menu1 = false" 
+                />
             </v-menu>
         </v-col>
     </v-row>
@@ -42,6 +49,18 @@ export default {
         },
         dataEnviada: {
             type: String,
+            default: '',
+        },
+        dataPadrao: {
+            type: [Number, String, null],
+            default: null,
+        },
+        min: {
+            type: [Number, String],
+            default: '',
+        },
+        max: {
+            type: [Number, String],
             default: '',
         },
     },
@@ -66,6 +85,9 @@ export default {
 
         dateFormatted(novaData) {
             this.$emit('input', novaData);
+        },
+        dataPadrao(novaData) {
+            this.date = novaData;
         },
     },
 
