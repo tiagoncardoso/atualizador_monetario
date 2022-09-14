@@ -288,16 +288,17 @@ export default {
             let dataDiaMaximo = new Date(ano, mes, 0);
 
             let diaSubtraidoIndiceInicial = (dataDiaMaximo.getDate() - dataInicio.getDate()) + 1;
-            
+
             let indicesAno = this.indices.filter((filtro) => filtro.ano == ano);
             let indiceMes = indicesAno[0].indices[parseInt(mes) - 1];
 
             let indiceProRataInicio = parseFloat(indiceMes) / dataDiaMaximo.getDate();
-
             let indiceProRata = indiceProRataInicio * diaSubtraidoIndiceInicial;
+            let valorProRata = parseFloat(this.valor) * (indiceProRata / 100) + parseFloat(this.valor);
 
-            console.log(diaSubtraidoIndiceInicial, indiceProRata, dataDiaMaximo)
-            console.log(dataInicio, dia, mes, ano)
+            
+
+            console.log(valorProRata, indiceProRata)
         }
     },
 };
