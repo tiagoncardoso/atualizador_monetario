@@ -9,27 +9,75 @@
                                 <v-col class="mb-4 mt-8" style="color: black">
                                     <h3>Informações Obrigatórias*</h3>
                                 </v-col>
+                                <v-col v-if="!null" cols="12" style="color: black">
+                                    <h3>Dados pessoais</h3>
+                                    <p>
+                                        <v-img max-width="60" :src="pessoa.avatar" /> Seja bem-vindo(a),{{
+                                            pessoa.first_name
+                                        }}
+                                        {{ pessoa.last_name }}. <br />
+                                        Telefone: {{ pessoa.phone_number }} <br />
+                                        E-mail: {{ pessoa.email }}
+                                    </p>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-checkbox
+                                        v-model="calculoProRata"
+                                        label="Utilizar cálculo de atualização pró-rata"
+                                    />
+                                </v-col>
                             </v-row>
-                            <v-row>
+                            <v-row v-show="!calculoProRata">
                                 <v-col cols="5" sm="5" offset="1">
                                     <input-month-year
-                                        v-model="mesAno"
+                                        v-model="dataInicialCalculo"
                                         label="Início"
                                         outlined
                                         dense
                                         :data-padrao="inicio"
+                                        :min="dataMinimaInputInicial"
+                                        :max="dataMaximaInputInicial"
                                     />
                                 </v-col>
 
                                 <v-col cols="5" sm="5">
                                     <input-month-year
-                                        v-model="final"
+                                        v-model="dataFinalCalculo"
                                         label="Final"
                                         outlined
                                         dense
                                         background-color="white"
                                         color="black"
                                         :data-padrao="fim"
+                                        :min="dataMinimaInputFinal"
+                                        :max="fim"
+                                    />
+                                </v-col>
+                            </v-row>
+                            <v-row v-show="calculoProRata">
+                                <v-col cols="5" sm="5" offset="1">
+                                    <input-date
+                                        v-model="dataInicialProRata"
+                                        label="Início"
+                                        outlined
+                                        dense
+                                        :data-padrao="inicio"
+                                        :min="dataMinimaInputInicial"
+                                        :max="dataMaximaInputInicial"
+                                    />
+                                </v-col>
+
+                                <v-col cols="5" sm="5">
+                                    <input-date
+                                        v-model="dataFinalProRata"
+                                        label="Final"
+                                        outlined
+                                        dense
+                                        background-color="white"
+                                        color="black"
+                                        :data-padrao="fim"
+                                        :min="dataMinimaInputFinal"
+                                        :max="fim"
                                     />
                                 </v-col>
                             </v-row>
@@ -58,21 +106,28 @@
                         <v-col cols="4" class="tabela">
                             <h4>Histórico (Últimos 10 cálculos)</h4>
                             <hr />
-                            <ul>
+                            <ol>
                                 <li v-for="(item, index) in listaHistorico" :key="index">
-                                    <span class="mr-5" style="font-size: 10px">{{ item.inicio }} - {{ item.fim }}</span>
-                                    <span style="font-size: 10px">
+                                    <span class="mr-3" style="font-size: 10px">{{ item.inicio }} - {{ item.fim }}</span>
+                                    <span style="font-size: 12px">
                                         [ {{ formataMoeda(item.valor) }} -> {{ formataMoeda(item.resultado) }} ]</span
                                     >
                                 </li>
-                            </ul>
+                            </ol>
                         </v-col>
                     </v-row>
                 </v-card-text>
                 <v-card-actions>
-                    <v-row>
+                    <v-row v-show="!calculoProRata">
                         <v-col cols="12" class="text-right">
                             <v-btn small class="mr-3" color="primary" @click="calcular()">Calcular</v-btn>
+                            <v-btn small color="error" class="mr-3" @click="limpar()">Limpar</v-btn>
+                            <v-btn small class="amarelo" color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-row v-show="calculoProRata">
+                        <v-col cols="12" class="text-right">
+                            <v-btn small class="mr-3" color="primary" @click="calcularProRata()">Calcular</v-btn>
                             <v-btn small color="error" class="mr-3" @click="limpar()">Limpar</v-btn>
                             <v-btn small class="amarelo" color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
                         </v-col>
@@ -87,19 +142,25 @@
 import { arrayIndices } from './Inpc';
 import InputMonthYear from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
+import InputDate from '../shared/InputDate.vue';
+import axios from 'axios';
 
 export default {
     name: 'CalculadoraInpc',
-    components: { InputMonthYear, InputMoney },
+    components: { InputMonthYear, InputMoney, InputDate },
     data() {
         return {
-            mesAno: '',
-            final: '',
+            dataInicialCalculo: '',
+            dataFinalCalculo: '',
             valor: 0,
             valorAtual: 0,
             inicio: null,
             fim: 0,
             historico: [],
+            calculoProRata: false,
+            dataInicialProRata: '',
+            dataFinalProRata: '',
+            pessoa: {},
         };
     },
     computed: {
@@ -114,28 +175,58 @@ export default {
             }
             return this.historico;
         },
+
+        dataMinimaInputInicial() {
+            return '1994-07';
+        },
+
+        dataMaximaInputInicial() {
+            let [mes, ano] = this.dataFinalCalculo.split('/');
+            let dataFormatada = new Date(ano, mes - 1, 1);
+
+            return dataFormatada.getFullYear() + '-' + dataFormatada.getMonth();
+        },
+
+        dataMinimaInputFinal() {
+            if (this.dataInicialCalculo) {
+                let [mes, ano] = this.dataInicialCalculo.split('/');
+                let dataFormatada = new Date(ano, mes);
+
+                dataFormatada.setMonth(dataFormatada.getMonth() + 1);
+
+                return dataFormatada.getFullYear() + '-' + dataFormatada.getMonth();
+            } else {
+                return '1994-08';
+            }
+        },
+
+        dataHoje() {
+            const dataAtual = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+            return dataAtual;
+        },
     },
 
     watch: {
-        mesAno() {
+        dataInicialCalculo() {
             this.inicio = null;
         },
-        final() {
-            this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+        dataFinalCalculo() {
+            this.fim = this.dataHoje;
         },
     },
 
     mounted() {
-        this.fim = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+        this.fim = this.dataHoje;
+        this.buscaInfoPessoa();
     },
 
     methods: {
         calcular() {
             let resultado = this.valor;
-            let [mes, ano] = this.mesAno.split('/');
+            let [mes, ano] = this.dataInicialCalculo.split('/');
             let dataInicio = new Date(ano, Number.parseInt(mes) - 1, 1);
 
-            [mes, ano] = this.final.split('/');
+            [mes, ano] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(ano, Number.parseInt(mes) - 1, 1);
 
             if (dataInicio < dataFim) {
@@ -150,26 +241,45 @@ export default {
                 this.valorAtual = this.valor;
                 this.valor = resultado;
 
-                this.acrescentaHistorico(this.mesAno, this.final, this.valor, this.valorAtual);
+                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, this.valor, this.valorAtual);
             } else {
                 this.valorAtual = 0;
             }
         },
+        calcularProRata() {
+            let [dia, mes, ano] = this.dataInicialProRata.split('/');
+
+            let dataConvertida = new Date(ano, mes - 1, dia);
+            let dataMaiorConvertida = new Date(ano, mes, 0);
+
+            let indiceInicio = dataMaiorConvertida.getDate() - dataConvertida.getDate() + 1;
+
+            let indiceAno = arrayIndices.filter((lista) => lista.ano == ano);
+            let indiceMes = indiceAno[0].indice[parseInt(mes) - 1];
+
+            let PrimeiroIndiceProRata = indiceMes / dataMaiorConvertida.getDate();
+            let indiceProRata = PrimeiroIndiceProRata * indiceInicio;
+
+            console.log(indiceProRata);
+
+            //[dia, mes, ano] = this.dataFinalProRata.split('/');
+            //let dataFim = new Date (ano, Number.parseInt(mes - 1), dia);
+        },
         limpar() {
-            if (this.mesAno != null) {
+            if (this.dataInicialCalculo != null) {
                 this.inicio = '';
             }
-            this.fim = '';
+            this.fim = '1998-05';
             this.valor = 0;
             this.valorAtual = 0;
         },
         limparHistorico() {
             this.historico = [];
         },
-        acrescentaHistorico(mesAno, final, valor, valorAtual) {
+        acrescentaHistorico(dataInicialCalculo, dataFinalCalculo, valor, valorAtual) {
             this.historico.push({
-                inicio: mesAno,
-                fim: final,
+                inicio: dataInicialCalculo,
+                fim: dataFinalCalculo,
                 valor,
                 resultado: valorAtual,
             });
@@ -188,6 +298,11 @@ export default {
             }
 
             return '0,00';
+        },
+        buscaInfoPessoa() {
+            axios.get('https://random-data-api.com/api/v2/users').then((resposta) => {
+                this.pessoa = resposta.data;
+            });
         },
     },
 };
@@ -215,6 +330,6 @@ export default {
 }
 
 .v-btn {
-    width: 150px;
+    width: 135px;
 }
 </style>

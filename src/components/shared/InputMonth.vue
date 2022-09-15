@@ -31,6 +31,8 @@
                     no-title
                     scrollable
                     locale="pt-br"
+                    :min="min"
+                    :max="max"
                     @input="menu = false"
                     @blur="$refs.menu.save(date)"
                 />
@@ -60,6 +62,14 @@ export default {
         dataPadrao: {
             type: [Number, String, null],
             default: null,
+        },
+        min: {
+            type: [Number, String],
+            default: '',
+        },
+        max: {
+            type: [Number, String],
+            default: '',
         },
     },
     data: () => ({
