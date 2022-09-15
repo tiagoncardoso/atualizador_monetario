@@ -225,7 +225,7 @@ export default {
     },
 
     methods: {
-        calcular() {
+        calcular(valorFinalProRata= 0, dataConvertidaInicio, dataConvertidaFinal) {
             let resultado = this.valor;
             let [mes, ano] = this.dataInicialCalculo.split('/');
             let dataInicio = new Date(ano, Number.parseInt(mes) - 1, 1);
@@ -233,10 +233,18 @@ export default {
             [mes, ano] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(ano, Number.parseInt(mes) - 1, 1);
 
+            debugger
+            if (valorFinalProRata != 0){
+               this.valor = valorFinalProRata;
+               dataInicio = dataConvertidaInicio
+               dataFim = dataConvertidaFinal
+
+            }
+
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
                     let indicesAno = arrayIndices.filter((lista) => lista.ano == dataInicio.getFullYear());
-                    let indicesMes = indicesAno[0].indice[dataInicio.getMonth()];
+                    let indicesMes = indicesAno[0].indice[dataInicio.getMonth() + 1];
 
                     dataInicio.setMonth(dataInicio.getMonth() + 1);
                     let total = parseFloat(this.valor) * (indicesMes / 100) + parseFloat(this.valor);
@@ -249,15 +257,21 @@ export default {
             } else {
                 this.valorAtual = 0;
             }
+            return resultado;
         },
         calcularProRata() {
-            let resultado = this.valor;
+            //let resultado = this.valor;
             let [dia, mes, ano] = this.dataInicialProRata.split('/');
 
-            let dataConvertida = new Date(ano, (mes - 1), dia);
+            let dataConvertidaInicio = new Date(ano, mes, dia);
+            dataConvertidaInicio.setMonth(dataConvertidaInicio.getMonth() - 1)
             let dataConvertidaMaior = new Date(ano, mes, 0);
 
-            let indiceInicio = dataConvertidaMaior.getDate() - dataConvertida.getDate() + 1;
+            let [diaFim, mesFim, anoFim] = this.dataFinalProRata.split('/');
+            let dataConvertidaFinal = new Date (anoFim, mesFim, diaFim);
+            dataConvertidaFinal.setMonth(dataConvertidaFinal.getMonth() - 1)
+
+            let indiceInicio = dataConvertidaMaior.getDate() - dataConvertidaInicio.getDate() + 1;
 
             let indiceAno = arrayIndices.filter((lista) => lista.ano == ano);
             let indiceMes = indiceAno[0].indice[parseInt(mes) - 1];
@@ -265,14 +279,14 @@ export default {
             let PrimeiroIndiceProRata = indiceMes / dataConvertidaMaior.getDate();
             let indiceProRata = PrimeiroIndiceProRata * indiceInicio;
             let valorTotalProRata = parseFloat(this.valor) * (indiceProRata / 100) + parseFloat(this.valor);
-            this.valor = valorTotalProRata;
 
-            this.valorAtual = this.valor;
-            this.valor = resultado;
-            console.log(indiceProRata, valorTotalProRata);
+            debugger
+            let valorFinalProRata = this.calcular(valorTotalProRata, dataConvertidaInicio, dataConvertidaFinal)
 
-            //[dia, mes, ano] = this.dataFinalProRata.split('/');
-            //let dataFim = new Date (ano, Number.parseInt(mes - 1), dia);
+            //this.valorAtual = this.valor;
+            //this.valor = resultado;
+
+            console.log(valorFinalProRata, valorTotalProRata)
         },
         limpar() {
             if (this.dataInicialCalculo != null) {
