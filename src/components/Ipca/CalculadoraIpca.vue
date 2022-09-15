@@ -1,10 +1,10 @@
 <template>
     <v-row>
-        <v-col cols="8" offset="2" v-if="pessoa">
-            <v-img :src="pessoa.avatar" max-height="150" max-width="80"/>
+        <v-col v-if="pessoa" cols="8" offset="2">
+            <v-img :src="pessoa.avatar" max-height="150" max-width="80" />
         </v-col>
-        <v-col cols="8" offset="2" v-if="pessoa">
-            <h5>Bom dia {{pessoa.last_name}}, {{pessoa.first_name}}</h5>
+        <v-col v-if="pessoa" cols="8" offset="2">
+            <h5>Bom dia {{ pessoa.last_name }}, {{ pessoa.first_name }}</h5>
         </v-col>
         <v-col cols="8" offset="2">
             <v-card elevation="20" class="blue">
@@ -16,8 +16,8 @@
                                     <h3>Informações Obrigatórias*</h3>
                                 </v-col>
                             </v-row>
-                            <v-checkbox v-model="checkbox"/>
-                            <v-row> 
+                            <v-checkbox v-model="checkbox" />
+                            <v-row>
                                 <v-col v-show="!checkbox" cols="5" sm="5" offset="1">
                                     <p class="letra-pro-rata">Cálculo Normal</p>
                                     <input-month
@@ -44,19 +44,13 @@
                                 </v-col>
                                 <v-col v-show="checkbox" cols="5" sm="5" offset="1">
                                     <p class="letra-pro-rata">Cálculo Pró-rata</p>
-                                    <input-date 
-                                        v-model="proRataInicial" 
-                                        label="Início"
-                                    />
+                                    <input-date v-model="proRataInicial" label="Início" />
                                 </v-col>
                                 <v-col v-show="checkbox" cols="5" sm="5" class="margin-topo">
-                                    <input-date
-                                       v-model="proRataFinal"
-                                       label="Fim"
-                                    />
+                                    <input-date v-model="proRataFinal" label="Fim" />
                                 </v-col>
                             </v-row>
-                            
+
                             <v-row>
                                 <v-col cols="5" sm="5" offset="1" class="espaco">
                                     <input-money
@@ -99,7 +93,7 @@
                         </v-col>
                         <v-col v-show="checkbox" cols="12" class="text-right">
                             <v-btn small class="mr-3" color="primary" @click="calculoProRata()">Calcular</v-btn>
-                            
+
                             <v-btn small color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
                         </v-col>
                     </v-row>
@@ -184,11 +178,11 @@ export default {
 
         tratamento() {
             if (this.pessoa.gender === 'male') {
-                return 'senhor'
+                return 'senhor';
             } else {
-                return 'senhora'
+                return 'senhora';
             }
-        }
+        },
     },
 
     watch: {
@@ -210,25 +204,22 @@ export default {
 
     methods: {
         calcular(valorProRata = 0, diaInicioParametro, diaFimParametro) {
+            let valorRecebido = this.valor;
 
+            let [mes, ano] = this.dataInicialCalculo.split('/');
+            let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
 
-                let valorRecebido = this.valor;
+            let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
+            let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
 
-                let [mes, ano] = this.dataInicialCalculo.split('/');
-                let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
+            if (valorProRata != 0) {
+                this.valor = valorProRata;
 
-                let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
-                let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
-            
-                if(valorProRata != 0){
-                    this.valor = valorProRata;
+                dataInicio = new Date(diaInicioParametro);
 
-                    dataInicio = new Date(diaInicioParametro)
-
-                    dataFim = new Date (diaFimParametro)
-                    dataFim.setMonth(dataFim.getMonth() - 1);
-                    
-                }
+                dataFim = new Date(diaFimParametro);
+                dataFim.setMonth(dataFim.getMonth() - 1);
+            }
 
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
@@ -246,7 +237,7 @@ export default {
             } else {
                 this.result = '';
             }
-            return this.result
+            return this.result;
         },
 
         limpar() {
@@ -290,10 +281,9 @@ export default {
             this.historico = [];
         },
         buscaInfoPessoa() {
-            axios.get('https://random-data-api.com/api/v2/users')
-            .then((resposta) =>  {
-                this.pessoa = resposta.data
-            })
+            axios.get('https://random-data-api.com/api/v2/users').then((resposta) => {
+                this.pessoa = resposta.data;
+            });
         },
         calculoProRata() {
             let [dia, mes, ano] = this.proRataInicial.split('/');
@@ -301,12 +291,14 @@ export default {
             let dataDiaMaximoInicio = new Date(ano, mes, 0);
             let diaInicioParametro = new Date(ano, mes, 1);
             let [diaFim, mesFim, anoFim] = this.proRataFinal.split('/');
-            let diaFimParametro = new Date(anoFim, mesFim, 1);  
+            let diaFimParametro = new Date(anoFim, mesFim, 1);
+
             let dataFim = new Date(anoFim, mesFim, diaFim);
             dataFim.setMonth(dataFim.getMonth() - 1);
-            let dataDiaMaximoFinal = new Date(anoFim, mesFim, 0);;
 
-            let diaSubtraidoIndiceInicial = (dataDiaMaximoInicio.getDate() - dataInicio.getDate()) + 1;
+            let dataDiaMaximoFinal = new Date(anoFim, mesFim, 0);
+
+            let diaSubtraidoIndiceInicial = dataDiaMaximoInicio.getDate() - dataInicio.getDate() + 1;
 
             let indicesAno = this.indices.filter((filtro) => filtro.ano == ano);
             let indiceMes = indicesAno[0].indices[parseInt(mes) - 1];
@@ -321,12 +313,10 @@ export default {
             let indiceMesFinal = indiceAnoFinal[0].indices[dataFim.getMonth()];
 
             let indiceProRataFinal = parseFloat(indiceMesFinal) / dataDiaMaximoFinal.getDate();
+            let indiceFinal = indiceProRataFinal * dataFim.getDate();
 
-            this.result = parseFloat(valorProRataAtualizado) * (indiceProRataFinal / 100)
-            + parseFloat(valorProRataAtualizado);
-
-            console.log(valorProRataAtualizado, indiceMesFinal, indiceProRataFinal);
-        }
+            this.result = parseFloat(valorProRataAtualizado) * (indiceFinal / 100) + parseFloat(valorProRataAtualizado);
+        },
     },
 };
 </script>
@@ -385,11 +375,11 @@ export default {
     color: black;
 }
 
-.margin-topo{
+.margin-topo {
     margin-top: 38px !important;
 }
 
-.letra-pro-rata{
+.letra-pro-rata {
     font-size: 16px;
     color: black;
 }

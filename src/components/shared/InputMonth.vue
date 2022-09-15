@@ -65,12 +65,12 @@ export default {
         },
         min: {
             type: String,
-            default: "",
+            default: '',
         },
         max: {
             type: String,
-            default: "",
-        }
+            default: '',
+        },
     },
     data: () => ({
         date: '',
