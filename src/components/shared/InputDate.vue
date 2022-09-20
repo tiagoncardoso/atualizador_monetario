@@ -63,6 +63,10 @@ export default {
             type: [Number, String],
             default: '',
         },
+        checkbox: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
