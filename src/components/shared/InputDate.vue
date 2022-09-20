@@ -44,6 +44,10 @@ export default {
             type: String,
             default: '',
         },
+        checkbox: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {

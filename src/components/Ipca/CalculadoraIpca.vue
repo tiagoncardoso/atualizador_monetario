@@ -1,36 +1,56 @@
 <template>
     <v-row>
+        <v-col v-if="pessoa" cols="8" offset="2">
+            <v-img :src="pessoa.avatar" max-height="150" max-width="80" />
+        </v-col>
+        <v-col v-if="pessoa" cols="8" offset="2">
+            <h5>Bom dia {{ pessoa.last_name }}, {{ pessoa.first_name }}</h5>
+        </v-col>
         <v-col cols="8" offset="2">
             <v-card elevation="20" class="blue">
                 <v-card-text class="white">
                     <v-row>
                         <v-col cols="8" class="top-line">
                             <v-row>
-                                <v-col class="mb-4 mt-8 letra">
+                                <v-col class="letra">
                                     <h3>Informações Obrigatórias*</h3>
                                 </v-col>
                             </v-row>
+                            <v-checkbox v-model="checkbox" />
                             <v-row>
-                                <v-col cols="5" sm="5" offset="1">
+                                <v-col v-show="!checkbox" cols="5" sm="5" offset="1">
+                                    <p class="letra-pro-rata">Cálculo Normal</p>
                                     <input-month
-                                        v-model="mesAno"
+                                        v-model="dataInicialCalculo"
                                         dense
+                                        :min="dataMinimaInputInicial"
+                                        :max="dataMaximaInputInicial ? dataMaximaInputInicial : dateToday"
                                         :data-padrao="limpaAno"
                                         label="Início"
                                         outlined
                                     />
                                 </v-col>
 
-                                <v-col cols="5" sm="5">
+                                <v-col v-show="!checkbox" cols="5" sm="5" class="margin-topo">
                                     <input-month
-                                        v-model="fimMesAno"
+                                        v-model="dataFinalCalculo"
                                         dense
+                                        :min="dataMinimaInputFinal"
+                                        :max="dateToday"
                                         :data-padrao="dateToday"
                                         label="Fim"
                                         outlined
                                     />
                                 </v-col>
+                                <v-col v-show="checkbox" cols="5" sm="5" offset="1">
+                                    <p class="letra-pro-rata">Cálculo Pró-rata</p>
+                                    <input-date v-model="proRataInicial" label="Início" />
+                                </v-col>
+                                <v-col v-show="checkbox" cols="5" sm="5" class="margin-topo">
+                                    <input-date v-model="proRataFinal" label="Fim" />
+                                </v-col>
                             </v-row>
+
                             <v-row>
                                 <v-col cols="5" sm="5" offset="1" class="espaco">
                                     <input-money
@@ -45,8 +65,8 @@
                                 <v-col cols="5" sm="5">
                                     <span>VALOR ATUALIZADO</span>
                                     <br />
-                                    <span>R$ </span>
-                                    <span>{{ formataMoeda(result, false) }}</span>
+                                    <span class="letraCor">R$ </span>
+                                    <span class="letraCor">{{ formataMoeda(result, false) }}</span>
                                 </v-col>
                             </v-row>
                         </v-col>
@@ -66,9 +86,14 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-row>
-                        <v-col cols="12" class="text-right">
+                        <v-col v-show="!checkbox" cols="12" class="text-right">
                             <v-btn small class="mr-3" color="primary" @click="calcular()">Calcular</v-btn>
                             <v-btn small color="error" class="mr-3" @click="limpar()">Limpar</v-btn>
+                            <v-btn small color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
+                        </v-col>
+                        <v-col v-show="checkbox" cols="12" class="text-right">
+                            <v-btn small class="mr-3" color="primary" @click="calculoProRata()">Calcular</v-btn>
+
                             <v-btn small color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
                         </v-col>
                     </v-row>
@@ -82,6 +107,8 @@
 import { indices } from './Ipca';
 import InputMonth from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
+import InputDate from '../shared/InputDate.vue';
+import axios from 'axios';
 
 export default {
     name: 'CalculadoraIpca',
@@ -89,6 +116,7 @@ export default {
     components: {
         InputMonth,
         InputMoney,
+        InputDate,
     },
 
     data() {
@@ -96,15 +124,17 @@ export default {
             valor: 0,
             result: 0,
             label: 'valor, result',
-
             valorPadrao: 0,
-            mesAno: '',
-            fimMesAno: '',
+            dataInicialCalculo: '',
+            dataFinalCalculo: '',
             limpaAno: 0,
             dateToday: '',
             validador: 0,
-
             historico: [],
+            checkbox: false,
+            proRataInicial: '',
+            proRataFinal: '',
+            pessoa: null,
         };
     },
 
@@ -126,33 +156,70 @@ export default {
 
             return this.historico;
         },
+        dataMinimaInputInicial() {
+            return '1994-07';
+        },
+        dataMaximaInputInicial() {
+            if (this.dataFinalCalculo) {
+                let [mes, ano] = this.dataFinalCalculo.split('/');
+                let dataTemporaria = new Date(ano, mes);
+                return `${dataTemporaria.getFullYear()}-${dataTemporaria.getMonth() - 1}`;
+            }
+            return false;
+        },
+        dataMinimaInputFinal() {
+            if (this.dataInicialCalculo != null) {
+                let [mes, ano] = this.dataInicialCalculo.split('/');
+                let dataTemporaria = new Date(ano, mes);
+                return `${dataTemporaria.getFullYear()}-${dataTemporaria.getMonth() + 1}`;
+            }
+            return this.dateToday;
+        },
+
+        tratamento() {
+            if (this.pessoa.gender === 'male') {
+                return 'senhor';
+            } else {
+                return 'senhora';
+            }
+        },
     },
 
     watch: {
-        mesAno() {
+        dataInicialCalculo() {
             if (this.limpaAno != 0 && this.validador == 1) {
                 this.limpaAno = '';
                 this.validador = 0;
             }
         },
-        fimMesAno() {
+        dataFinalCalculo() {
             this.dateToday = this.dataHoje;
         },
     },
 
     mounted() {
         this.dateToday = this.dataHoje;
+        this.buscaInfoPessoa();
     },
 
     methods: {
-        calcular() {
+        calcular(valorProRata = 0, diaInicioParametro, diaFimParametro) {
             let valorRecebido = this.valor;
 
-            let [mes, ano] = this.mesAno.split('/');
+            let [mes, ano] = this.dataInicialCalculo.split('/');
             let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
 
-            let [mesFim, anoFim] = this.fimMesAno.split('/');
+            let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
+
+            if (valorProRata != 0) {
+                this.valor = valorProRata;
+
+                dataInicio = new Date(diaInicioParametro);
+
+                dataFim = new Date(diaFimParametro);
+                dataFim.setMonth(dataFim.getMonth() - 1);
+            }
 
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
@@ -166,14 +233,15 @@ export default {
                 this.result = this.valor;
                 this.valor = valorRecebido;
 
-                this.acrescentaHistorico(this.mesAno, this.fimMesAno, this.valor, this.result);
+                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, this.valor, this.result);
             } else {
                 this.result = '';
             }
+            return this.result;
         },
 
         limpar() {
-            if (this.mesAno != null) {
+            if (this.dataInicialCalculo != null) {
                 this.validador = 1;
                 this.limpaAno = null;
             } else {
@@ -185,10 +253,10 @@ export default {
             this.dateToday = '';
         },
 
-        acrescentaHistorico(mesAno, fimMesAno, valor, result) {
+        acrescentaHistorico(dataInicialCalculo, dataFinalCalculo, valor, result) {
             this.historico.push({
-                mesInicio: mesAno,
-                mesFim: fimMesAno,
+                mesInicio: dataInicialCalculo,
+                mesFim: dataFinalCalculo,
                 valor,
                 resultado: result,
             });
@@ -211,6 +279,43 @@ export default {
 
         limparHistorico() {
             this.historico = [];
+        },
+        buscaInfoPessoa() {
+            axios.get('https://random-data-api.com/api/v2/users').then((resposta) => {
+                this.pessoa = resposta.data;
+            });
+        },
+        calculoProRata() {
+            let [dia, mes, ano] = this.proRataInicial.split('/');
+            let dataInicio = new Date(ano, mes - 1, dia);
+            let dataDiaMaximoInicio = new Date(ano, mes, 0);
+            let diaInicioParametro = new Date(ano, mes, 1);
+            let [diaFim, mesFim, anoFim] = this.proRataFinal.split('/');
+            let diaFimParametro = new Date(anoFim, mesFim, 1);
+
+            let dataFim = new Date(anoFim, mesFim, diaFim);
+            dataFim.setMonth(dataFim.getMonth() - 1);
+
+            let dataDiaMaximoFinal = new Date(anoFim, mesFim, 0);
+
+            let diaSubtraidoIndiceInicial = dataDiaMaximoInicio.getDate() - dataInicio.getDate() + 1;
+
+            let indicesAno = this.indices.filter((filtro) => filtro.ano == ano);
+            let indiceMes = indicesAno[0].indices[parseInt(mes) - 1];
+
+            let indiceProRataInicio = parseFloat(indiceMes) / dataDiaMaximoInicio.getDate();
+            let indiceProRata = indiceProRataInicio * diaSubtraidoIndiceInicial;
+            let valorProRata = parseFloat(this.valor) * (indiceProRata / 100) + parseFloat(this.valor);
+
+            let valorProRataAtualizado = this.calcular(valorProRata, diaInicioParametro, diaFimParametro);
+
+            let indiceAnoFinal = this.indices.filter((filtroFinal) => filtroFinal.ano == anoFim);
+            let indiceMesFinal = indiceAnoFinal[0].indices[dataFim.getMonth()];
+
+            let indiceProRataFinal = parseFloat(indiceMesFinal) / dataDiaMaximoFinal.getDate();
+            let indiceFinal = indiceProRataFinal * dataFim.getDate();
+
+            this.result = parseFloat(valorProRataAtualizado) * (indiceFinal / 100) + parseFloat(valorProRataAtualizado);
         },
     },
 };
@@ -264,5 +369,22 @@ export default {
 .div-resultado {
     height: 41px;
     background-color: bisque;
+}
+
+.letraCor {
+    color: black;
+}
+
+.margin-topo {
+    margin-top: 38px !important;
+}
+
+.letra-pro-rata {
+    font-size: 16px;
+    color: black;
+}
+
+.test {
+    background-color: black;
 }
 </style>

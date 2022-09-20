@@ -122,14 +122,18 @@
                         <v-col cols="12" class="text-right">
                             <v-btn small class="mr-3" color="primary" @click="calcular()">Calcular</v-btn>
                             <v-btn small color="error" class="mr-3" @click="limpar()">Limpar</v-btn>
-                            <v-btn small class="amarelo" color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
+                            <v-btn small class="amarelo" color="warning" @click="limparHistorico()"
+                            >Limpar Histórico</v-btn
+                            >
                         </v-col>
                     </v-row>
                     <v-row v-show="calculoProRata">
                         <v-col cols="12" class="text-right">
                             <v-btn small class="mr-3" color="primary" @click="calcularProRata()">Calcular</v-btn>
                             <v-btn small color="error" class="mr-3" @click="limpar()">Limpar</v-btn>
-                            <v-btn small class="amarelo" color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
+                            <v-btn small class="amarelo" color="warning" @click="limparHistorico()"
+                            >Limpar Histórico</v-btn
+                            >
                         </v-col>
                     </v-row>
                 </v-card-actions>
