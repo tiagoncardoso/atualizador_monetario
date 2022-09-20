@@ -260,7 +260,6 @@ export default {
             return this.valorAtual;
         },
         calcularProRata() {
-            //let resultado = this.valor;
             let [dia, mes, ano] = this.dataInicialProRata.split('/');
 
             let dataConvertidaInicio = new Date(ano, mes, dia);
