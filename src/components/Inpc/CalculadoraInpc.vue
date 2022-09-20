@@ -165,6 +165,7 @@ export default {
             dataInicialProRata: '',
             dataFinalProRata: '',
             pessoa: {},
+            finalProRata: 0,
         };
     },
     computed: {
@@ -217,6 +218,9 @@ export default {
         dataFinalCalculo() {
             this.fim = this.dataHoje;
         },
+        dataFinalProRata() {
+            this.fim = this.dataHoje;
+        }
     },
 
     mounted() {
@@ -225,7 +229,7 @@ export default {
     },
 
     methods: {
-        calcular() {
+        calcular(valorFinalProRata = 0, dataConvertidaInicio, dataConvertidaFinal) {
             let resultado = this.valor;
             let [mes, ano] = this.dataInicialCalculo.split('/');
             let dataInicio = new Date(ano, Number.parseInt(mes) - 1, 1);
@@ -233,6 +237,13 @@ export default {
             [mes, ano] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(ano, Number.parseInt(mes) - 1, 1);
 
+            if (valorFinalProRata != 0){
+               this.valor = valorFinalProRata;
+               dataInicio = dataConvertidaInicio
+               dataFim = dataConvertidaFinal
+               dataFim.setMonth(dataFim.getMonth() - 1);
+            }
+            
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
                     let indicesAno = arrayIndices.filter((lista) => lista.ano == dataInicio.getFullYear());
@@ -249,25 +260,43 @@ export default {
             } else {
                 this.valorAtual = 0;
             }
+            return this.valorAtual;
         },
         calcularProRata() {
             let [dia, mes, ano] = this.dataInicialProRata.split('/');
 
-            let dataConvertida = new Date(ano, mes - 1, dia);
-            let dataMaiorConvertida = new Date(ano, mes, 0);
+            let dataConvertidaInicio = new Date(ano, mes, dia);
+            dataConvertidaInicio.setMonth(dataConvertidaInicio.getMonth() - 1)
+            let dataConvertidaMaior = new Date(ano, mes, 0);
+            let dataParametroInicio = new Date(ano, mes, 1)
 
-            let indiceInicio = dataMaiorConvertida.getDate() - dataConvertida.getDate() + 1;
+            let [diaFim, mesFim, anoFim] = this.dataFinalProRata.split('/');
+            let dataConvertidaFinal = new Date (anoFim, mesFim, diaFim);
+            dataConvertidaFinal.setMonth(dataConvertidaFinal.getMonth() - 1)
+            let dataConvertidaMaiorFinal = new Date(anoFim, mesFim, 0);
+            let dataParametroFim = new Date(anoFim, mesFim, 1)
 
+            let indiceInicio = dataConvertidaMaior.getDate() - dataConvertidaInicio.getDate() + 1;
+            
             let indiceAno = arrayIndices.filter((lista) => lista.ano == ano);
             let indiceMes = indiceAno[0].indice[parseInt(mes) - 1];
 
-            let PrimeiroIndiceProRata = indiceMes / dataMaiorConvertida.getDate();
-            let indiceProRata = PrimeiroIndiceProRata * indiceInicio;
+            let primeiroIndiceProRata = indiceMes / dataConvertidaMaior.getDate();
+            let indiceProRata = primeiroIndiceProRata * indiceInicio;
+            let valorTotalProRataInicial = parseFloat(this.valor) * (indiceProRata / 100) + parseFloat(this.valor);
+            
+            let valorTotalProRata = this.calcular(valorTotalProRataInicial, 
+            dataParametroInicio, dataParametroFim);
 
-            console.log(indiceProRata);
-
-            //[dia, mes, ano] = this.dataFinalProRata.split('/');
-            //let dataFim = new Date (ano, Number.parseInt(mes - 1), dia);
+            let indiceAnoFinal = arrayIndices.filter((listaFim) => listaFim.ano == anoFim);
+            let indicesMesFinal = indiceAnoFinal[0].indice[parseInt(mesFim) - 1];
+            
+            let segundoIndiceProRata = indicesMesFinal / dataConvertidaMaiorFinal.getDate();
+            let indiceProRataFinal = segundoIndiceProRata * parseFloat(diaFim);
+            this.valorAtual = parseFloat(valorTotalProRata) * (indiceProRataFinal / 100)
+             + parseFloat(valorTotalProRata);
+            
+            console.log(this.valorAtual);
         },
         limpar() {
             if (this.dataInicialCalculo != null) {
