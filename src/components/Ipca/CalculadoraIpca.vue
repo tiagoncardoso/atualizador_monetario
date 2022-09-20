@@ -323,7 +323,7 @@ export default {
 
 <style scoped>
 .v-btn {
-    width: 130px;
+    width: 100px;
     color: #ffff;
 }
 

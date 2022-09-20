@@ -13,7 +13,7 @@
                 <template #activator="{ on, attrs }">
                     <v-text-field
                         v-model="dateFormatted"
-                        label="Data"
+                        :label="label"
                         hint="MM/DD/YYYY"
                         outlined
                         dense

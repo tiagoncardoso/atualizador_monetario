@@ -33,6 +33,8 @@
                     :max="max"
                     scrollable
                     locale="pt-br"
+                    :min="min"
+                    :max="max"
                     @input="menu = false"
                     @blur="$refs.menu.save(date)"
                 />
@@ -64,11 +66,11 @@ export default {
             default: null,
         },
         min: {
-            type: String,
+            type: [Number, String],
             default: '',
         },
         max: {
-            type: String,
+            type: [Number, String],
             default: '',
         },
     },
