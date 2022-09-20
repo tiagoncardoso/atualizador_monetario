@@ -229,7 +229,7 @@ export default {
     },
 
     methods: {
-        calcular(valorFinalProRata= 0, dataConvertidaInicio, dataConvertidaFinal) {
+        calcular(valorFinalProRata = 0, dataConvertidaInicio, dataConvertidaFinal) {
             let resultado = this.valor;
             let [mes, ano] = this.dataInicialCalculo.split('/');
             let dataInicio = new Date(ano, Number.parseInt(mes) - 1, 1);
@@ -237,7 +237,6 @@ export default {
             [mes, ano] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(ano, Number.parseInt(mes) - 1, 1);
 
-            debugger
             if (valorFinalProRata != 0){
                this.valor = valorFinalProRata;
                dataInicio = dataConvertidaInicio
