@@ -251,12 +251,12 @@ export default {
 
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
+
                     if (dataInicio.getFullYear() != dataFixa){
                         await this.buscaIndices(dataInicio.getFullYear());
                         dataFixa = dataInicio.getFullYear();
                     }
-                    //this.buscaIndices() = dados.getFullYear('2022');
-                    //let indicesAno = arrayIndices.filter((lista) => lista.ano == dataInicio.getFullYear());
+                    
                     let indicesMes = this.dados[dataInicio.getMonth()];
 
                     dataInicio.setMonth(dataInicio.getMonth() + 1);
