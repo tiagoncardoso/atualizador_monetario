@@ -32,7 +32,7 @@
                     scrollable
                     locale="pt-br"
                     :min="min"
-                    :max='max'
+                    :max="max"
                     @input="menu = false"
                     @blur="$refs.menu.save(date)"
                 />
