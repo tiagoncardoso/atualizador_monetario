@@ -165,6 +165,7 @@ export default {
             dataInicialProRata: '',
             dataFinalProRata: '',
             pessoa: {},
+            dados: {},
             finalProRata: 0,
         };
     },
@@ -174,7 +175,7 @@ export default {
         },
 
         listaHistorico() {
-            if (this.historico.length > 0) {
+            if (this.historico > 0) {
                 let historicoInvertido = this.historico.reverse();
                 return historicoInvertido.slice(0, 10);
             }
@@ -226,11 +227,13 @@ export default {
     mounted() {
         this.fim = this.dataHoje;
         this.buscaInfoPessoa();
+        this.buscaIndices();
     },
 
     methods: {
-        calcular(valorFinalProRata = 0, dataConvertidaInicio, dataConvertidaFinal) {
+        async calcular(valorFinalProRata = 0, dataConvertidaInicio, dataConvertidaFinal) {
             let resultado = this.valor;
+            let substituiValor = this.valor;
             let [mes, ano] = this.dataInicialCalculo.split('/');
             let dataInicio = new Date(ano, Number.parseInt(mes) - 1, 1);
 
@@ -238,25 +241,33 @@ export default {
             let dataFim = new Date(ano, Number.parseInt(mes) - 1, 1);
 
             if (valorFinalProRata != 0){
-               this.valor = valorFinalProRata;
+               substituiValor = valorFinalProRata;
                dataInicio = dataConvertidaInicio
                dataFim = dataConvertidaFinal
                dataFim.setMonth(dataFim.getMonth() - 1);
             }
-            
+
+            let dataFixa = '2023'
+
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
-                    let indicesAno = arrayIndices.filter((lista) => lista.ano == dataInicio.getFullYear());
-                    let indicesMes = indicesAno[0].indice[dataInicio.getMonth()];
+                    if (dataInicio.getFullYear() != dataFixa){
+                        await this.buscaIndices(dataInicio.getFullYear());
+                        dataFixa = dataInicio.getFullYear();
+                    }
+                    //this.buscaIndices() = dados.getFullYear('2022');
+                    //let indicesAno = arrayIndices.filter((lista) => lista.ano == dataInicio.getFullYear());
+                    let indicesMes = this.dados[dataInicio.getMonth()];
 
                     dataInicio.setMonth(dataInicio.getMonth() + 1);
-                    let total = parseFloat(this.valor) * (indicesMes / 100) + parseFloat(this.valor);
-                    this.valor = total;
+                    let total = parseFloat(substituiValor) * (indicesMes / 100) + parseFloat(substituiValor);
+                    substituiValor = total;
                 }
-                this.valorAtual = this.valor;
-                this.valor = resultado;
+                this.valorAtual = substituiValor;
+                substituiValor = resultado;
 
-                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, this.valor, this.valorAtual);
+                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, substituiValor, 
+                this.valorAtual);
             } else {
                 this.valorAtual = 0;
             }
@@ -336,6 +347,11 @@ export default {
             axios.get('https://random-data-api.com/api/v2/users').then((resposta) => {
                 this.pessoa = resposta.data;
             });
+        },
+        async buscaIndices(ano) {
+            let resp = await axios.get(`http://localhost:8000/api/${ano}/inpc`);
+            this.dados = resp.data.data;
+            
         },
     },
 };
