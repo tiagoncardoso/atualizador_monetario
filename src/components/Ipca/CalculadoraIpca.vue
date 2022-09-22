@@ -220,7 +220,6 @@ export default {
                 dataFim = new Date(diaFimParametro);
                 dataFim.setMonth(dataFim.getMonth() - 1);
             }
-            debugger;
 
             let valida = '2023';
 
