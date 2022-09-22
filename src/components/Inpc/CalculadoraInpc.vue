@@ -178,7 +178,7 @@ export default {
     computed: {
 
         listaHistorico() {
-            if (this.historico > 0) {
+            if (this.historico.length > 0) {
                 let historicoInvertido = this.historico.reverse();
                 return historicoInvertido.slice(0, 10);
             }
@@ -354,8 +354,8 @@ export default {
             this.pessoa = resposta.data;
         },
         async buscaIndices(ano) {
-            let resp = await axios.get(`http://localhost:8000/api/${ano}/inpc`);
-            this.dados = resp.data.data;
+            let resp = await axios.get(`http://localhost:8000/api/inpc/${ano}`);
+            this.dados = resp.data.indices;
         },
         paradaCarregando(){
             this.carregando = false;
