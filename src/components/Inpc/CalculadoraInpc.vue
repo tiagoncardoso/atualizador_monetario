@@ -12,7 +12,8 @@
                                 <v-col v-if="!null" cols="12" style="color: black">
                                     <h3>Dados pessoais</h3>
                                     <p>
-                                        <v-img max-width="60" :src="pessoa.avatar" /> Seja bem-vindo(a),{{
+                                        <v-img max-width="60" :src="pessoa.avatar" lazy-src="../../assets/logo.png"/> 
+                                        Seja bem-vindo(a),{{
                                             pessoa.first_name
                                         }}
                                         {{ pessoa.last_name }}. <br />
@@ -139,6 +140,10 @@
                 </v-card-actions>
             </v-card>
         </v-col>
+
+        <v-overlay :value="carregando">
+            <v-progress-circular indeterminate size="64" />
+        </v-overlay>
     </v-row>
 </template>
 
@@ -167,12 +172,10 @@ export default {
             pessoa: {},
             dados: {},
             finalProRata: 0,
+            carregando: true,
         };
     },
     computed: {
-        arrayIndices() {
-            return arrayIndices;
-        },
 
         listaHistorico() {
             if (this.historico > 0) {
@@ -221,12 +224,13 @@ export default {
         },
         dataFinalProRata() {
             this.fim = this.dataHoje;
-        }
+        },
     },
 
-    mounted() {
+    async mounted() {
         this.fim = this.dataHoje;
-        this.buscaInfoPessoa();
+        await this.buscaInfoPessoa();
+        this.paradaCarregando();
         this.buscaIndices();
     },
 
@@ -240,23 +244,22 @@ export default {
             [mes, ano] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(ano, Number.parseInt(mes) - 1, 1);
 
-            if (valorFinalProRata != 0){
-               substituiValor = valorFinalProRata;
-               dataInicio = dataConvertidaInicio
-               dataFim = dataConvertidaFinal
-               dataFim.setMonth(dataFim.getMonth() - 1);
+            if (valorFinalProRata != 0) {
+                substituiValor = valorFinalProRata;
+                dataInicio = dataConvertidaInicio;
+                dataFim = dataConvertidaFinal;
+                dataFim.setMonth(dataFim.getMonth() - 1);
             }
 
-            let dataFixa = '2023'
+            let dataFixa = '2023';
 
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
-
-                    if (dataInicio.getFullYear() != dataFixa){
+                    if (dataInicio.getFullYear() != dataFixa) {
                         await this.buscaIndices(dataInicio.getFullYear());
                         dataFixa = dataInicio.getFullYear();
                     }
-                    
+
                     let indicesMes = this.dados[dataInicio.getMonth()];
 
                     dataInicio.setMonth(dataInicio.getMonth() + 1);
@@ -266,8 +269,12 @@ export default {
                 this.valorAtual = substituiValor;
                 substituiValor = resultado;
 
-                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, substituiValor, 
-                this.valorAtual);
+                this.acrescentaHistorico(
+                    this.dataInicialCalculo,
+                    this.dataFinalCalculo,
+                    substituiValor,
+                    this.valorAtual
+                );
             } else {
                 this.valorAtual = 0;
             }
@@ -277,36 +284,35 @@ export default {
             let [dia, mes, ano] = this.dataInicialProRata.split('/');
 
             let dataConvertidaInicio = new Date(ano, mes, dia);
-            dataConvertidaInicio.setMonth(dataConvertidaInicio.getMonth() - 1)
+            dataConvertidaInicio.setMonth(dataConvertidaInicio.getMonth() - 1);
             let dataConvertidaMaior = new Date(ano, mes, 0);
-            let dataParametroInicio = new Date(ano, mes, 1)
+            let dataParametroInicio = new Date(ano, mes, 1);
 
             let [diaFim, mesFim, anoFim] = this.dataFinalProRata.split('/');
-            let dataConvertidaFinal = new Date (anoFim, mesFim, diaFim);
-            dataConvertidaFinal.setMonth(dataConvertidaFinal.getMonth() - 1)
+            let dataConvertidaFinal = new Date(anoFim, mesFim, diaFim);
+            dataConvertidaFinal.setMonth(dataConvertidaFinal.getMonth() - 1);
             let dataConvertidaMaiorFinal = new Date(anoFim, mesFim, 0);
-            let dataParametroFim = new Date(anoFim, mesFim, 1)
+            let dataParametroFim = new Date(anoFim, mesFim, 1);
 
             let indiceInicio = dataConvertidaMaior.getDate() - dataConvertidaInicio.getDate() + 1;
-            
+
             let indiceAno = arrayIndices.filter((lista) => lista.ano == ano);
             let indiceMes = indiceAno[0].indice[parseInt(mes) - 1];
 
             let primeiroIndiceProRata = indiceMes / dataConvertidaMaior.getDate();
             let indiceProRata = primeiroIndiceProRata * indiceInicio;
             let valorTotalProRataInicial = parseFloat(this.valor) * (indiceProRata / 100) + parseFloat(this.valor);
-            
-            let valorTotalProRata = this.calcular(valorTotalProRataInicial, 
-            dataParametroInicio, dataParametroFim);
+
+            let valorTotalProRata = this.calcular(valorTotalProRataInicial, dataParametroInicio, dataParametroFim);
 
             let indiceAnoFinal = arrayIndices.filter((listaFim) => listaFim.ano == anoFim);
             let indicesMesFinal = indiceAnoFinal[0].indice[parseInt(mesFim) - 1];
-            
+
             let segundoIndiceProRata = indicesMesFinal / dataConvertidaMaiorFinal.getDate();
             let indiceProRataFinal = segundoIndiceProRata * parseFloat(diaFim);
-            this.valorAtual = parseFloat(valorTotalProRata) * (indiceProRataFinal / 100)
-             + parseFloat(valorTotalProRata);
-            
+            this.valorAtual =
+                parseFloat(valorTotalProRata) * (indiceProRataFinal / 100) + parseFloat(valorTotalProRata);
+
             console.log(this.valorAtual);
         },
         limpar() {
@@ -343,15 +349,16 @@ export default {
 
             return '0,00';
         },
-        buscaInfoPessoa() {
-            axios.get('https://random-data-api.com/api/v2/users').then((resposta) => {
-                this.pessoa = resposta.data;
-            });
+        async buscaInfoPessoa() {
+            let resposta = await axios.get('https://random-data-api.com/api/v2/users');
+            this.pessoa = resposta.data;
         },
         async buscaIndices(ano) {
             let resp = await axios.get(`http://localhost:8000/api/${ano}/inpc`);
             this.dados = resp.data.data;
-            
+        },
+        paradaCarregando(){
+            this.carregando = false;
         },
     },
 };
