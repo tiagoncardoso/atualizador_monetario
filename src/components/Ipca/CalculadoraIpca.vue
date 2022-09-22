@@ -323,7 +323,6 @@ export default {
         async buscaIndices(ano = '2000') {
             let resp = await axios.get(`http://localhost:8000/api/ipca/${ano}`);
             this.indice = resp.data.indices;
-            console.log(this.indice)
         },
     },
 };
