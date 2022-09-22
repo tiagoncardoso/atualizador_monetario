@@ -196,8 +196,7 @@ export default {
 
     async mounted() {
         this.dateToday = this.dataHoje;
-        await this.buscaInfoPessoa();
-        
+        await this.buscaInfoPessoa(); 
         this.carregando = false
     },
 
@@ -221,14 +220,12 @@ export default {
                 dataFim.setMonth(dataFim.getMonth() - 1);
             }
 
-            let valida = '2023';
+            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear());
+            let indicesFiltrados = this.indice
+            console.log(indicesFiltrados)
 
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
-                    if (dataInicio.getFullYear() != valida) {
-                        await this.buscaIndices(dataInicio.getFullYear());
-                        valida = dataInicio.getFullYear();
-                    }
                     let indiceMes = this.indice[dataInicio.getMonth()];
                     dataInicio.setMonth(dataInicio.getMonth() + 1);
                     let total = parseFloat(valorSimulado) * (indiceMes / 100) + parseFloat(valorSimulado);
@@ -320,9 +317,9 @@ export default {
 
             this.result = parseFloat(valorProRataAtualizado) * (indiceFinal / 100) + parseFloat(valorProRataAtualizado);
         },
-        async buscaIndices(ano = '2000') {
-            let resp = await axios.get(`http://localhost:8000/api/ipca/${ano}`);
-            this.indice = resp.data.indices;
+        async buscaIndices(anoInicial = '2000', anoFinal = '2022') {
+            let resp = await axios.get(`http://localhost:8000/api/ipca/${anoInicial}/${anoFinal}`);
+            this.indice = resp.data;
         },
     },
 };
