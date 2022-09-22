@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col v-if="pessoa" cols="8" offset="2">
-            <v-img :src="pessoa.avatar" max-height="150" max-width="80" />
+            <v-img :src="pessoa.avatar" lazy-src="../../assets/logo.png" max-height="150" max-width="80" />
         </v-col>
         <v-col v-if="pessoa" cols="8" offset="2">
             <h5>Bom dia {{ pessoa.last_name }}, {{ pessoa.first_name }}</h5>
@@ -100,6 +100,9 @@
                 </v-card-actions>
             </v-card>
         </v-col>
+        <v-overlay :value="carregando">
+            <v-progress-circular indeterminate size="64" />
+        </v-overlay>
     </v-row>
 </template>
 
@@ -135,6 +138,8 @@ export default {
             proRataInicial: '',
             proRataFinal: '',
             pessoa: null,
+            indice: null,
+            carregando: true,
         };
     },
 
@@ -175,14 +180,6 @@ export default {
             }
             return this.dateToday;
         },
-
-        tratamento() {
-            if (this.pessoa.gender === 'male') {
-                return 'senhor';
-            } else {
-                return 'senhora';
-            }
-        },
     },
 
     watch: {
@@ -197,14 +194,17 @@ export default {
         },
     },
 
-    mounted() {
+    async mounted() {
         this.dateToday = this.dataHoje;
-        this.buscaInfoPessoa();
+        await this.buscaInfoPessoa();
+        
+        this.carregando = false
     },
 
     methods: {
-        calcular(valorProRata = 0, diaInicioParametro, diaFimParametro) {
+        async calcular(valorProRata = 0, diaInicioParametro, diaFimParametro) {
             let valorRecebido = this.valor;
+            let valorSimulado = this.valor;
 
             let [mes, ano] = this.dataInicialCalculo.split('/');
             let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
@@ -213,7 +213,7 @@ export default {
             let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
 
             if (valorProRata != 0) {
-                this.valor = valorProRata;
+                valorSimulado = valorProRata;
 
                 dataInicio = new Date(diaInicioParametro);
 
@@ -221,19 +221,23 @@ export default {
                 dataFim.setMonth(dataFim.getMonth() - 1);
             }
 
+            let valida = '2023';
+
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
-                    let indiceAno = this.indices.filter((temp) => temp.ano == dataInicio.getFullYear());
-                    let indiceMes = indiceAno[0].indices[dataInicio.getMonth()];
+                    if (dataInicio.getFullYear() != valida) {
+                        await this.buscaIndices(dataInicio.getFullYear());
+                        valida = dataInicio.getFullYear();
+                    }
+                    let indiceMes = this.indice[dataInicio.getMonth()];
                     dataInicio.setMonth(dataInicio.getMonth() + 1);
-
-                    let total = parseFloat(this.valor) * (indiceMes / 100) + parseFloat(this.valor);
-                    this.valor = total;
+                    let total = parseFloat(valorSimulado) * (indiceMes / 100) + parseFloat(valorSimulado);
+                    valorSimulado = total;
                 }
-                this.result = this.valor;
-                this.valor = valorRecebido;
+                this.result = valorSimulado;
+                valorSimulado = valorRecebido;
 
-                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, this.valor, this.result);
+                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, valorSimulado, this.result);
             } else {
                 this.result = '';
             }
@@ -280,10 +284,9 @@ export default {
         limparHistorico() {
             this.historico = [];
         },
-        buscaInfoPessoa() {
-            axios.get('https://random-data-api.com/api/v2/users').then((resposta) => {
-                this.pessoa = resposta.data;
-            });
+        async buscaInfoPessoa() {
+            let resposta = await axios.get('https://random-data-api.com/api/v2/users')
+            this.pessoa = resposta.data;
         },
         calculoProRata() {
             let [dia, mes, ano] = this.proRataInicial.split('/');
@@ -316,6 +319,10 @@ export default {
             let indiceFinal = indiceProRataFinal * dataFim.getDate();
 
             this.result = parseFloat(valorProRataAtualizado) * (indiceFinal / 100) + parseFloat(valorProRataAtualizado);
+        },
+        async buscaIndices(ano = '2000') {
+            let resp = await axios.get(`http://localhost:8000/api/ipca/${ano}`);
+            this.indice = resp.data.indices;
         },
     },
 };
