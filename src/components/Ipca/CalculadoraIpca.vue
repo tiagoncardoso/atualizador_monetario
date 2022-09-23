@@ -44,10 +44,14 @@
                                 </v-col>
                                 <v-col v-show="checkbox" cols="5" sm="5" offset="1">
                                     <p class="letra-pro-rata">Cálculo Pró-rata</p>
-                                    <input-date v-model="proRataInicial" label="Início" />
+                                    <input-date v-model="proRataInicial" 
+                                    label="Início" 
+                                    />
                                 </v-col>
                                 <v-col v-show="checkbox" cols="5" sm="5" class="margin-topo">
-                                    <input-date v-model="proRataFinal" label="Fim" />
+                                    <input-date v-model="proRataFinal" 
+                                    label="Fim"
+                                    />
                                 </v-col>
                             </v-row>
 
@@ -285,7 +289,7 @@ export default {
             let resposta = await axios.get('https://random-data-api.com/api/v2/users')
             this.pessoa = resposta.data;
         },
-        calculoProRata() {
+        async calculoProRata() {
             let [dia, mes, ano] = this.proRataInicial.split('/');
             let dataInicio = new Date(ano, mes - 1, dia);
             let dataDiaMaximoInicio = new Date(ano, mes, 0);
@@ -298,18 +302,20 @@ export default {
 
             let dataDiaMaximoFinal = new Date(anoFim, mesFim, 0);
 
+            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear());
+
             let diaSubtraidoIndiceInicial = dataDiaMaximoInicio.getDate() - dataInicio.getDate() + 1;
 
-            let indicesAno = this.indice.filter((filtro) => filtro.ano == ano);
+            let indicesAno = this.indice.filter((filtro) => filtro.ano == dataInicio.getFullYear());
             let indiceMes = indicesAno[0].indices[parseInt(mes) - 1];
 
             let indiceProRataInicio = parseFloat(indiceMes) / dataDiaMaximoInicio.getDate();
             let indiceProRata = indiceProRataInicio * diaSubtraidoIndiceInicial;
             let valorProRata = parseFloat(this.valor) * (indiceProRata / 100) + parseFloat(this.valor);
 
-            let valorProRataAtualizado = this.calcular(valorProRata, diaInicioParametro, diaFimParametro);
+            let valorProRataAtualizado = await this.calcular(valorProRata, diaInicioParametro, diaFimParametro);
 
-            let indiceAnoFinal = this.indice.filter((filtroFinal) => filtroFinal.ano == anoFim);
+            let indiceAnoFinal = this.indice.filter((filtroFinal) => filtroFinal.ano == dataFim.getFullYear());
             let indiceMesFinal = indiceAnoFinal[0].indices[dataFim.getMonth()];
 
             let indiceProRataFinal = parseFloat(indiceMesFinal) / dataDiaMaximoFinal.getDate();
