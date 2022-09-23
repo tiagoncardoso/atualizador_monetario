@@ -221,12 +221,16 @@ export default {
             }
 
             await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear());
-            let indicesFiltrados = this.indice
-            console.log(indicesFiltrados)
-
+            let indicesFiltrados = this.indice // chama indice this.indice[0].indices[0]
+                                   // chama ano this.indice[0].ano
+            debugger
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
-                    let indiceMes = this.indice[dataInicio.getMonth()];
+                    let indicesAno = indicesFiltrados.filter((filtro) => filtro.ano == dataInicio.getFullYear());
+
+                    console.log(indicesFiltrados, indicesAno)
+
+                    let indiceMes = indicesAno[0].indices[dataInicio.getMonth()];
                     dataInicio.setMonth(dataInicio.getMonth() + 1);
                     let total = parseFloat(valorSimulado) * (indiceMes / 100) + parseFloat(valorSimulado);
                     valorSimulado = total;
