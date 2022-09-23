@@ -251,11 +251,9 @@ export default {
                 dataFim.setMonth(dataFim.getMonth() - 1);
             }
 
-            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear());
-
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
-
+                    
                     let indicesAno = this.dados.filter((lista) => lista.ano == dataInicio.getFullYear());
                     let indicesMes = indicesAno[0].indices[dataInicio.getMonth()];
 
@@ -281,7 +279,7 @@ export default {
             this.carregando = false;
             return this.valorAtual;
         },
-        calcularProRata() {
+        async calcularProRata() {
             let [dia, mes, ano] = this.dataInicialProRata.split('/');
 
             let dataConvertidaInicio = new Date(ano, mes, dia);
@@ -297,17 +295,20 @@ export default {
 
             let indiceInicio = dataConvertidaMaior.getDate() - dataConvertidaInicio.getDate() + 1;
 
-            let indiceAno = this.dados.filter((lista) => lista.ano == ano);
-            let indiceMes = indiceAno[0].indice[parseInt(mes) - 1];
+            await this.buscaIndices(dataConvertidaInicio.getFullYear(), dataConvertidaFinal.getFullYear());
+            
+            let indiceAno = this.dados.filter((lista) => lista.ano == dataConvertidaInicio.getFullYear());
+            let indiceMes = indiceAno[0].indices[dataConvertidaInicio.getMonth()];
 
             let primeiroIndiceProRata = indiceMes / dataConvertidaMaior.getDate();
             let indiceProRata = primeiroIndiceProRata * indiceInicio;
             let valorTotalProRataInicial = parseFloat(this.valor) * (indiceProRata / 100) + parseFloat(this.valor);
 
-            let valorTotalProRata = this.calcular(valorTotalProRataInicial, dataParametroInicio, dataParametroFim);
+            let valorTotalProRata = await this.calcular(valorTotalProRataInicial, dataParametroInicio, 
+            dataParametroFim);
 
-            let indiceAnoFinal = this.dados.filter((listaFim) => listaFim.ano == anoFim);
-            let indicesMesFinal = indiceAnoFinal[0].indice[parseInt(mesFim) - 1];
+            let indiceAnoFinal = this.dados.filter((listaFim) => listaFim.ano == dataConvertidaFinal.getFullYear());
+            let indicesMesFinal = indiceAnoFinal[0].indices[dataConvertidaFinal.getMonth()];
 
             let segundoIndiceProRata = indicesMesFinal / dataConvertidaMaiorFinal.getDate();
             let indiceProRataFinal = segundoIndiceProRata * parseFloat(diaFim);
