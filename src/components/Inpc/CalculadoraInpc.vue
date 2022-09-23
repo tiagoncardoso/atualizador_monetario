@@ -148,7 +148,6 @@
 </template>
 
 <script>
-import { arrayIndices } from './Inpc';
 import InputMonthYear from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
 import InputDate from '../shared/InputDate.vue';
@@ -236,6 +235,7 @@ export default {
 
     methods: {
         async calcular(valorFinalProRata = 0, dataConvertidaInicio, dataConvertidaFinal) {
+            this.carregando = true;
             let resultado = this.valor;
             let substituiValor = this.valor;
             let [mes, ano] = this.dataInicialCalculo.split('/');
@@ -251,19 +251,18 @@ export default {
                 dataFim.setMonth(dataFim.getMonth() - 1);
             }
 
-            let dataFixa = '2023';
+            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear());
 
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
-                    if (dataInicio.getFullYear() != dataFixa) {
-                        await this.buscaIndices(dataInicio.getFullYear());
-                        dataFixa = dataInicio.getFullYear();
-                    }
 
-                    let indicesMes = this.dados[dataInicio.getMonth()];
+                    let indicesAno = this.dados.filter((lista) => lista.ano == dataInicio.getFullYear());
+                    let indicesMes = indicesAno[0].indices[dataInicio.getMonth()];
 
                     dataInicio.setMonth(dataInicio.getMonth() + 1);
+
                     let total = parseFloat(substituiValor) * (indicesMes / 100) + parseFloat(substituiValor);
+                   
                     substituiValor = total;
                 }
                 this.valorAtual = substituiValor;
@@ -276,8 +275,10 @@ export default {
                     this.valorAtual
                 );
             } else {
+                this.carregando = false;
                 this.valorAtual = 0;
             }
+            this.carregando = false;
             return this.valorAtual;
         },
         calcularProRata() {
@@ -296,7 +297,7 @@ export default {
 
             let indiceInicio = dataConvertidaMaior.getDate() - dataConvertidaInicio.getDate() + 1;
 
-            let indiceAno = arrayIndices.filter((lista) => lista.ano == ano);
+            let indiceAno = this.dados.filter((lista) => lista.ano == ano);
             let indiceMes = indiceAno[0].indice[parseInt(mes) - 1];
 
             let primeiroIndiceProRata = indiceMes / dataConvertidaMaior.getDate();
@@ -305,7 +306,7 @@ export default {
 
             let valorTotalProRata = this.calcular(valorTotalProRataInicial, dataParametroInicio, dataParametroFim);
 
-            let indiceAnoFinal = arrayIndices.filter((listaFim) => listaFim.ano == anoFim);
+            let indiceAnoFinal = this.dados.filter((listaFim) => listaFim.ano == anoFim);
             let indicesMesFinal = indiceAnoFinal[0].indice[parseInt(mesFim) - 1];
 
             let segundoIndiceProRata = indicesMesFinal / dataConvertidaMaiorFinal.getDate();
@@ -313,7 +314,6 @@ export default {
             this.valorAtual =
                 parseFloat(valorTotalProRata) * (indiceProRataFinal / 100) + parseFloat(valorTotalProRata);
 
-            console.log(this.valorAtual);
         },
         limpar() {
             if (this.dataInicialCalculo != null) {
@@ -353,9 +353,9 @@ export default {
             let resposta = await axios.get('https://random-data-api.com/api/v2/users');
             this.pessoa = resposta.data;
         },
-        async buscaIndices(ano) {
-            let resp = await axios.get(`http://localhost:8000/api/inpc/${ano}`);
-            this.dados = resp.data.indices;
+        async buscaIndices(anoInicial = '1994', anoFinal = '2022') {
+            let resp = await axios.get(`http://localhost:8000/api/inpc/${anoInicial}/${anoFinal}`);
+            this.dados = resp.data;
         },
         paradaCarregando(){
             this.carregando = false;
