@@ -107,7 +107,6 @@
 </template>
 
 <script>
-import { indices } from './Ipca';
 import InputMonth from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
 import InputDate from '../shared/InputDate.vue';
@@ -144,10 +143,6 @@ export default {
     },
 
     computed: {
-        indices() {
-            return indices;
-        },
-
         dataHoje() {
             const dataAtual = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
             return dataAtual;
@@ -196,13 +191,13 @@ export default {
 
     async mounted() {
         this.dateToday = this.dataHoje;
-        await this.buscaInfoPessoa();
-        
+        await this.buscaInfoPessoa(); 
         this.carregando = false
     },
 
     methods: {
         async calcular(valorProRata = 0, diaInicioParametro, diaFimParametro) {
+            this.carregando = true;
             let valorRecebido = this.valor;
             let valorSimulado = this.valor;
 
@@ -221,16 +216,16 @@ export default {
                 dataFim.setMonth(dataFim.getMonth() - 1);
             }
 
-            let valida = '2023';
+            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear());
+            let indicesFiltrados = this.indice
 
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
-                    if (dataInicio.getFullYear() != valida) {
-                        await this.buscaIndices(dataInicio.getFullYear());
-                        valida = dataInicio.getFullYear();
-                    }
-                    let indiceMes = this.indice[dataInicio.getMonth()];
+                    let indicesAno = indicesFiltrados.filter((filtro) => filtro.ano == dataInicio.getFullYear());
+
+                    let indiceMes = indicesAno[0].indices[dataInicio.getMonth()];
                     dataInicio.setMonth(dataInicio.getMonth() + 1);
+
                     let total = parseFloat(valorSimulado) * (indiceMes / 100) + parseFloat(valorSimulado);
                     valorSimulado = total;
                 }
@@ -239,8 +234,10 @@ export default {
 
                 this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, valorSimulado, this.result);
             } else {
+                this.carregando = false;
                 this.result = '';
             }
+            this.carregando = false;
             return this.result;
         },
 
@@ -303,7 +300,7 @@ export default {
 
             let diaSubtraidoIndiceInicial = dataDiaMaximoInicio.getDate() - dataInicio.getDate() + 1;
 
-            let indicesAno = this.indices.filter((filtro) => filtro.ano == ano);
+            let indicesAno = this.indice.filter((filtro) => filtro.ano == ano);
             let indiceMes = indicesAno[0].indices[parseInt(mes) - 1];
 
             let indiceProRataInicio = parseFloat(indiceMes) / dataDiaMaximoInicio.getDate();
@@ -312,7 +309,7 @@ export default {
 
             let valorProRataAtualizado = this.calcular(valorProRata, diaInicioParametro, diaFimParametro);
 
-            let indiceAnoFinal = this.indices.filter((filtroFinal) => filtroFinal.ano == anoFim);
+            let indiceAnoFinal = this.indice.filter((filtroFinal) => filtroFinal.ano == anoFim);
             let indiceMesFinal = indiceAnoFinal[0].indices[dataFim.getMonth()];
 
             let indiceProRataFinal = parseFloat(indiceMesFinal) / dataDiaMaximoFinal.getDate();
@@ -320,9 +317,9 @@ export default {
 
             this.result = parseFloat(valorProRataAtualizado) * (indiceFinal / 100) + parseFloat(valorProRataAtualizado);
         },
-        async buscaIndices(ano = '2000') {
-            let resp = await axios.get(`http://localhost:8000/api/ipca/${ano}`);
-            this.indice = resp.data.indices;
+        async buscaIndices(anoInicial = '2000', anoFinal = '2022') {
+            let resp = await axios.get(`http://localhost:8000/api/ipca/${anoInicial}/${anoFinal}`);
+            this.indice = resp.data;
         },
     },
 };
