@@ -25,9 +25,31 @@
                 </v-row>
                 <p class="ajusteLogin">Login into Your Account</p>
                 <v-col class="semPadding">
-                    <label for="">Email</label>
-                    <input type="text" name="" id=""/>
+                    <label class="letraPadrao" for="">Email ID</label>
+                    <v-text-field type="text" name="#" id="#" outlined dense
+                    class="semPadding inputPadrao"/>
+
+                    <label class="letraPadrao" for="">Password</label>                        
+                    <v-text-field type="text" name="#" id="#" outlined dense
+                    class="semPadding inputPadrao"/>
+                    <v-row class="letraPequena">
+                        <v-col cols="1">
+                            <v-checkbox/>
+                        </v-col>
+                        <v-col cols="4" class="mt-6">
+                            <span class="letraPequena semPadding">Keep me Sign In</span>
+                        </v-col>
+                        <v-col cols="6" class="mt-6">
+                            <a href="#">Forget Password ?</a>
+                        </v-col>
+                    </v-row>
+                    <v-col>
+                        <v-btn color="primary ml-16 mt-6">
+                            Login
+                        </v-btn>
+                    </v-col>
                 </v-col>
+
             </v-col>
         </v-row>
     </div>
@@ -40,7 +62,8 @@
                 imageLink: {
                     sub_main:
                         "https://firebasestorage.googleapis.com/v0/b/endorfinevue.appspot.com/o/assets%2FNight-Club-Clubbing-Jobs-Abroad2.jpg?alt=media&token=82bbda7d-5df4-430b-9217-adaf1c8485c5",
-                }
+                },
+                po: "osdsaadsi",
             }
         }
     }
@@ -104,5 +127,19 @@ hr{
     padding: 20px;
     margin-left: 70px;
     font-size: 12.8px;
+}
+
+.inputPadrao{
+    width: 250px;
+}
+
+.letraPadrao {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12.8px;
+}
+
+.letraPequena{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10.8px !important;
 }
 </style>
