@@ -12,11 +12,8 @@
                                 <v-col v-if="!null" cols="12" style="color: black">
                                     <h3>Dados pessoais</h3>
                                     <p>
-                                        <v-img max-width="60" :src="pessoa.avatar" lazy-src="../../assets/logo.png"/> 
-                                        Seja bem-vindo(a),{{
-                                            pessoa.first_name
-                                        }}
-                                        {{ pessoa.last_name }}. <br />
+                                        <v-img max-width="60" :src="pessoa.avatar" lazy-src="../../assets/logo.png" />
+                                        Seja bem-vindo(a),{{ pessoa.first_name }} {{ pessoa.last_name }}. <br />
                                         Telefone: {{ pessoa.phone_number }} <br />
                                         E-mail: {{ pessoa.email }}
                                     </p>
@@ -175,7 +172,6 @@ export default {
         };
     },
     computed: {
-
         listaHistorico() {
             if (this.historico.length > 0) {
                 let historicoInvertido = this.historico.reverse();
@@ -253,14 +249,13 @@ export default {
 
             if (dataInicio < dataFim) {
                 while (dataInicio < dataFim) {
-                    
                     let indicesAno = this.dados.filter((lista) => lista.ano == dataInicio.getFullYear());
                     let indicesMes = indicesAno[0].indices[dataInicio.getMonth()];
 
                     dataInicio.setMonth(dataInicio.getMonth() + 1);
 
                     let total = parseFloat(substituiValor) * (indicesMes / 100) + parseFloat(substituiValor);
-                   
+
                     substituiValor = total;
                 }
                 this.valorAtual = substituiValor;
@@ -296,7 +291,7 @@ export default {
             let indiceInicio = dataConvertidaMaior.getDate() - dataConvertidaInicio.getDate() + 1;
 
             await this.buscaIndices(dataConvertidaInicio.getFullYear(), dataConvertidaFinal.getFullYear());
-            
+
             let indiceAno = this.dados.filter((lista) => lista.ano == dataConvertidaInicio.getFullYear());
             let indiceMes = indiceAno[0].indices[dataConvertidaInicio.getMonth()];
 
@@ -304,8 +299,11 @@ export default {
             let indiceProRata = primeiroIndiceProRata * indiceInicio;
             let valorTotalProRataInicial = parseFloat(this.valor) * (indiceProRata / 100) + parseFloat(this.valor);
 
-            let valorTotalProRata = await this.calcular(valorTotalProRataInicial, dataParametroInicio, 
-            dataParametroFim);
+            let valorTotalProRata = await this.calcular(
+                valorTotalProRataInicial,
+                dataParametroInicio,
+                dataParametroFim
+            );
 
             let indiceAnoFinal = this.dados.filter((listaFim) => listaFim.ano == dataConvertidaFinal.getFullYear());
             let indicesMesFinal = indiceAnoFinal[0].indices[dataConvertidaFinal.getMonth()];
@@ -314,7 +312,6 @@ export default {
             let indiceProRataFinal = segundoIndiceProRata * parseFloat(diaFim);
             this.valorAtual =
                 parseFloat(valorTotalProRata) * (indiceProRataFinal / 100) + parseFloat(valorTotalProRata);
-
         },
         limpar() {
             if (this.dataInicialCalculo != null) {
@@ -358,7 +355,7 @@ export default {
             let resp = await axios.get(`http://localhost:8000/api/inpc/${anoInicial}/${anoFinal}`);
             this.dados = resp.data;
         },
-        paradaCarregando(){
+        paradaCarregando() {
             this.carregando = false;
         },
     },
