@@ -197,8 +197,8 @@ export default {
     async mounted() {
         this.dateToday = this.dataHoje;
         await this.buscaInfoPessoa();
-        
-        this.carregando = false
+
+        this.carregando = false;
     },
 
     methods: {
@@ -285,7 +285,7 @@ export default {
             this.historico = [];
         },
         async buscaInfoPessoa() {
-            let resposta = await axios.get('https://random-data-api.com/api/v2/users')
+            let resposta = await axios.get('https://random-data-api.com/api/v2/users');
             this.pessoa = resposta.data;
         },
         calculoProRata() {

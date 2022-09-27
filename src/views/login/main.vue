@@ -1,16 +1,16 @@
 <template>
     <v-app>
         <v-main>
-            <login-secundary/>
+            <login-secundary />
         </v-main>
     </v-app>
 </template>
 
 <script>
-import loginSecundary from './components/loginb/loginSecundary.vue';
+import loginSecundary from '@/components/loginb/loginSecundary.vue';
 
 export default {
-    name: 'App',
+    name: 'LoginPage',
     components: { loginSecundary },
     data: () => ({
         currentItem: 'tab-Web',

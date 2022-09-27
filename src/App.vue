@@ -1,26 +1,8 @@
 <template>
-    <v-app>
-        <v-main>
-            <login-secundary/>
-        </v-main>
-    </v-app>
+    <div id="app">
+        <router-view />
+    </div>
 </template>
 
-<script>
-import loginSecundary from './components/loginb/loginSecundary.vue';
-
-export default {
-    name: 'App',
-    components: { loginSecundary },
-    data: () => ({
-        currentItem: 'tab-Web',
-    }),
-};
-</script>
-
-<style scoped>
-div.v-toolbar__title {
-    margin: auto;
-    font-size: 25px;
-}
+<style lang="scss">
 </style>

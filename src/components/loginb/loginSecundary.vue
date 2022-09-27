@@ -1,10 +1,10 @@
 <template>
     <v-app>
         <v-content>
-            <v-container fluid fill-height id="principal">
+            <v-container id="principal" fluid fill-height>
                 <v-layout align-center justify-center>
                     <v-flex xs12 sm8 md4>
-                        <h1><img src="../../assets/logo.png" alt="#" width="80" height="80"/></h1>
+                        <h1><img src="../../assets/logo.png" alt="#" width="80" height="80" /></h1>
                         <v-card class="elevation-12">
                             <v-toolbar dark color="primary">
                                 <v-toolbar-title>ACESSE SUA CONTA</v-toolbar-title>
@@ -27,8 +27,8 @@
                                         placeholder="********"
                                         :type="show1 ? 'text' : 'password'"
                                         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                                        @click:append="show1 = !show1"
                                         :rules="[rules.required, rules.min]"
+                                        @click:append="show1 = !show1"
                                     />
                                     <v-row>
                                         <v-col cols="12" offset="8">
@@ -57,7 +57,6 @@
 </template>
 
 <script>
-
 export default {
     data() {
         return {
@@ -84,14 +83,14 @@ export default {
     opacity: 0.8;
 }
 
-h1{
+h1 {
     text-align: center;
     font-family: 'Poppins', sans-serif;
     font-weight: 100;
     color: rgb(13, 131, 194);
 }
 
-.link{
+.link {
     text-align: center;
     margin-top: 10px;
     padding: 20px;

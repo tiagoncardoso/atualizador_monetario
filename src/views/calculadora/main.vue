@@ -24,11 +24,11 @@
 </template>
 
 <script>
-import CalculadoraInpc from './components/Inpc/CalculadoraInpc.vue';
-import CalculadoraIpca from './components/Ipca/CalculadoraIpca.vue';
+import CalculadoraInpc from '@/components/Inpc/CalculadoraInpc.vue';
+import CalculadoraIpca from '@/components/Ipca/CalculadoraIpca.vue';
 
 export default {
-    name: 'App',
+    name: 'CalculadoraPage',
     components: { CalculadoraIpca, CalculadoraInpc },
     data: () => ({
         currentItem: 'tab-Web',
