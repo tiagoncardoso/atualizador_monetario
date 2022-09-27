@@ -14,6 +14,11 @@ const routes = [
         name: 'calculadora',
         component: () => import(/* webpackChunkName: "calculadora" */ '@/views/calculadora/main'),
     },
+    {
+        path: '/indices/Inpc',
+        name: 'indices',
+        component: () => import(/* webpackChunkName: "indices" */ '@/views/indices/IndicesInpc'),
+    },
 ];
 
 const router = new VueRouter({
