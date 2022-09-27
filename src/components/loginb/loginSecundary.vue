@@ -12,6 +12,7 @@
                             <v-card-text>
                                 <v-form>
                                     <v-text-field
+                                        v-model="login"
                                         label="Login"
                                         type="text"
                                         outlined
@@ -19,6 +20,7 @@
                                         placeholder="exemplo@empresa.com"
                                     />
                                     <v-text-field
+                                        v-model="senha"
                                         label="Senha"
                                         hint="Mínimo 8 caracteres"
                                         outlined
@@ -38,7 +40,7 @@
                                 </v-form>
                             </v-card-text>
                             <v-card-actions>
-                                <v-btn block depressed color="primary"> ENTRAR </v-btn>
+                                <v-btn block depressed color="primary" @click="retornaCadastro()"> ENTRAR </v-btn>
                             </v-card-actions>
                             <v-row>
                                 <v-col cols="12" class="link">
@@ -60,6 +62,8 @@
 export default {
     data() {
         return {
+            login: '',
+            senha: '',
             show1: false,
             rules: {
                 required: (value) => !!value || 'Required.',
@@ -67,6 +71,17 @@ export default {
                 emailMatch: () => `The email and password you entered don't match`,
             },
         };
+    },
+
+    methods: {
+
+        retornaCadastro(){
+            if (this.login == 'Admin' && this.senha == 'Admin'){
+                alert('Login correto')
+            }else{
+                alert('Login incorreto')
+            }
+        }
     },
 };
 </script>
