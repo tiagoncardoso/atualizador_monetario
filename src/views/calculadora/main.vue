@@ -24,7 +24,6 @@
 </template>
 
 <script>
-
 import CalculadoraInpc from '@/components/Inpc/CalculadoraInpc.vue';
 import CalculadoraIpca from '@/components/Ipca/CalculadoraIpca.vue';
 
