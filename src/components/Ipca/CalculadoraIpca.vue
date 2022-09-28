@@ -195,6 +195,7 @@ export default {
 
     async mounted() {
         this.dateToday = this.dataHoje;
+
         await this.buscaInfoPessoa(); 
         this.carregando = false
     },

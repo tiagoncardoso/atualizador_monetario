@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>Formumário criado</p>
+        <p>Formulário criado</p>
     </div>
 </template>
 

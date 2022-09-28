@@ -18,13 +18,13 @@
 
             <v-col cols="3">
                 <v-row class="segundoTitulo semPadding">
-                    <img src="../../assets/logo.png" alt="#" width="45" height="45"/>
+                    <img src="../../assets/logo.png" alt="#" width="45" height="45" style="opacity:0.8"/>
                     <v-col class="semPadding">
                         <span class="letraSegundoTitulo">True Login</span>
                     </v-col>
                 </v-row>
                 <p class="ajusteLogin">Login into Your Account</p>
-                <v-col class="semPadding">
+                <v-col class="semPadding" offset="1">
                     <label class="letraPadrao" for="">Email ID</label>
                     <v-text-field type="text" name="#" id="#" outlined dense
                     class="semPadding inputPadrao"/>
@@ -61,7 +61,8 @@
             return{
                 imageLink: {
                     sub_main:
-                        "https://firebasestorage.googleapis.com/v0/b/endorfinevue.appspot.com/o/assets%2FNight-Club-Clubbing-Jobs-Abroad2.jpg?alt=media&token=82bbda7d-5df4-430b-9217-adaf1c8485c5",
+                        "https://images.pexels.com/photos/313032/pexels-photo-313032.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        //"https://firebasestorage.googleapis.com/v0/b/endorfinevue.appspot.com/o/assets%2FNight-Club-Clubbing-Jobs-Abroad2.jpg?alt=media&token=82bbda7d-5df4-430b-9217-adaf1c8485c5",
                 },
                 po: "osdsaadsi",
             }
