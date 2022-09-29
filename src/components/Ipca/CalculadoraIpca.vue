@@ -47,12 +47,13 @@
                                     <input-date v-model="proRataInicial" 
                                     label="Início"
                                     min="1994-07"
-                                    :max="dataMaximaInputInicial ? dataMaximaInputInicial : dateToday"
+                                    :max="dateMaxInputInicial ? dateMaxInputInicial : dateToday"
                                     />
                                 </v-col>
                                 <v-col v-show="checkbox" cols="5" sm="5" class="margin-topo">
                                     <input-date v-model="proRataFinal" 
                                     label="Fim"
+                                    :min="dateMinInputInicial"
                                     :max="dateToday"
                                     :dataPadrao="dateToday"
                                     />
@@ -190,6 +191,21 @@ export default {
             }
             return this.dateToday;
         },
+        dateMaxInputInicial() {
+            let [dia, mes, ano] = this.proRataFinal.split("/");
+            console.log(ano, mes, dia-1)
+            debugger;
+            if(dia <= 10){
+                return `${ano}-${mes}-0${dia - 1}`;
+            }else {
+                return `${ano}-${mes}-${dia - 1}`
+            }
+        },
+
+        dateMinInputInicial() {
+            let [dia, mes, ano] = this.proRataInicial.split("/");
+            return `${ano}-${mes}-${dia-1}`
+        },
         
     },
 
@@ -223,7 +239,7 @@ export default {
 
             let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
-
+            debugger;
             if (valorProRata != 0) {
                 valorSimulado = valorProRata;
 
