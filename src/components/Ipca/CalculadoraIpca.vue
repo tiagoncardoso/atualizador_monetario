@@ -53,7 +53,7 @@
                                 <v-col v-show="checkbox" cols="5" sm="5" class="margin-topo">
                                     <input-date v-model="proRataFinal" 
                                     label="Fim"
-                                    :min="dateMinInputInicial"
+                                    :min="dateMinInputFinal"
                                     :max="dateToday"
                                     :dataPadrao="dateToday"
                                     />
@@ -193,18 +193,35 @@ export default {
         },
         dateMaxInputInicial() {
             let [dia, mes, ano] = this.proRataFinal.split("/");
-            console.log(ano, mes, dia-1)
-            debugger;
-            if(dia <= 10){
-                return `${ano}-${mes}-0${dia - 1}`;
+            let data = new Date(ano, mes - 1, dia - 1);
+
+            if(dia == 1 && mes != 1){
+                let anoOk = data.getFullYear().toString();
+                let mesOk = mes - 1;
+                let diaOk = data.getDate().toString();
+                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`
+            }if(dia == 1 && mes == 1){
+                let anoOk = data.getFullYear().toString();
+                let mesOk = 12;
+                let diaOk = data.getDate().toString();
+                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`
             }else {
-                return `${ano}-${mes}-${dia - 1}`
+                let anoOk = data.getFullYear().toString();
+                let mesOk = mes;
+                let diaOk = data.getDate().toString();
+                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`
             }
         },
 
-        dateMinInputInicial() {
-            let [dia, mes, ano] = this.proRataInicial.split("/");
-            return `${ano}-${mes}-${dia-1}`
+        dateMinInputFinal() {
+            debugger;
+            if(this.proRataInicial != null){
+                let [dia, mes, ano] = this.proRataInicial.split("/");
+                dia = parseInt(dia) + 1;
+                let diaTemp = dia.toString()
+                return `${ano}-${mes}-${diaTemp.padStart(2, '0')}`
+            }
+            return this.dateToday;
         },
         
     },
