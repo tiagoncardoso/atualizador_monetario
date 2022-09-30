@@ -10,11 +10,6 @@ const routes = [
         component: () => import(/* webpackChunkName: "login" */ '@/views/login/main'),
     },
     {
-        path: '/indices/Inpc',
-        name: 'indices',
-        component: () => import(/* webpackChunkName: "indices" */ '@/views/indices/IndicesInpc'),
-    },
-    {
         path: '/',
         name: 'base',
         component: () => import(/* webpackChunkName: "base" */ '../views/containerPage'),
@@ -23,6 +18,11 @@ const routes = [
                 path: '/calculadora',
                 name: 'calculadora',
                 component: () => import(/* webpackChunkName: "calculadora" */ '@/views/calculadora/main'),
+            },
+            {
+                path: '/indices/Inpc',
+                name: 'indices',
+                component: () => import(/* webpackChunkName: "indices" */ '@/views/indices/IndicesInpc'),
             },
         ]
     },
