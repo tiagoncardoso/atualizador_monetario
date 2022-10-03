@@ -1,11 +1,11 @@
 <template>
     <v-row>
-        <v-col v-if="pessoa" cols="8" offset="2">
+        <!--<v-col v-if="pessoa" cols="8" offset="2">
             <v-img :src="pessoa.avatar" lazy-src="../../assets/logo.png" max-height="150" max-width="80" />
         </v-col>
         <v-col v-if="pessoa" cols="8" offset="2">
             <h5>Bom dia {{ pessoa.last_name }}, {{ pessoa.first_name }}</h5>
-        </v-col>
+        </v-col>-->
         <v-col cols="8" offset="2">
             <v-card elevation="20" class="blue">
                 <v-card-text class="white">
@@ -45,12 +45,17 @@
                                 <v-col v-show="checkbox" cols="5" sm="5" offset="1">
                                     <p class="letra-pro-rata">Cálculo Pró-rata</p>
                                     <input-date v-model="proRataInicial" 
-                                    label="Início" 
+                                    label="Início"
+                                    min="1994-07"
+                                    :max="dateMaxInputInicial ? dateMaxInputInicial : dateToday"
                                     />
                                 </v-col>
                                 <v-col v-show="checkbox" cols="5" sm="5" class="margin-topo">
                                     <input-date v-model="proRataFinal" 
                                     label="Fim"
+                                    :min="dateMinInputFinal"
+                                    :max="dateToday"
+                                    :dataPadrao="dateToday"
                                     />
                                 </v-col>
                             </v-row>
@@ -118,6 +123,12 @@ import axios from 'axios';
 
 export default {
     name: 'CalculadoraIpca',
+    props: {
+        calculadora: {
+            type: String,
+            default: "ipca",
+        }
+    },
 
     components: {
         InputMonth,
@@ -143,6 +154,7 @@ export default {
             pessoa: null,
             indice: null,
             carregando: true,
+            inputDateFormated: "",
         };
     },
 
@@ -179,6 +191,38 @@ export default {
             }
             return this.dateToday;
         },
+        dateMaxInputInicial() {
+            let [dia, mes, ano] = this.proRataFinal.split("/");
+            let data = new Date(ano, mes - 1, dia - 1);
+
+            if(dia == 1 && mes != 1){
+                let anoOk = data.getFullYear().toString();
+                let mesOk = mes - 1;
+                let diaOk = data.getDate().toString();
+                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`
+            }if(dia == 1 && mes == 1){
+                let anoOk = data.getFullYear().toString();
+                let mesOk = 12;
+                let diaOk = data.getDate().toString();
+                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`
+            }else {
+                let anoOk = data.getFullYear().toString();
+                let mesOk = mes;
+                let diaOk = data.getDate().toString();
+                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`
+            }
+        },
+
+        dateMinInputFinal() {
+            if(this.proRataInicial != null){
+                let [dia, mes, ano] = this.proRataInicial.split("/");
+                dia = parseInt(dia) + 1;
+                let diaTemp = dia.toString()
+                return `${ano}-${mes}-${diaTemp.padStart(2, '0')}`
+            }
+            return this.dateToday;
+        },
+        
     },
 
     watch: {
@@ -196,7 +240,7 @@ export default {
     async mounted() {
         this.dateToday = this.dataHoje;
 
-        await this.buscaInfoPessoa(); 
+        //await this.buscaInfoPessoa(); 
         this.carregando = false
     },
 
@@ -211,7 +255,6 @@ export default {
 
             let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
-
             if (valorProRata != 0) {
                 valorSimulado = valorProRata;
 
@@ -221,7 +264,7 @@ export default {
                 dataFim.setMonth(dataFim.getMonth() - 1);
             }
 
-            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear());
+            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.calculadora);
             let indicesFiltrados = this.indice
 
             if (dataInicio < dataFim) {
@@ -286,10 +329,10 @@ export default {
         limparHistorico() {
             this.historico = [];
         },
-        async buscaInfoPessoa() {
+        /*async buscaInfoPessoa() {
             let resposta = await axios.get('https://random-data-api.com/api/v2/users');
             this.pessoa = resposta.data;
-        },
+        },*/
         async calculoProRata() {
             let [dia, mes, ano] = this.proRataInicial.split('/');
             let dataInicio = new Date(ano, mes - 1, dia);
@@ -303,7 +346,7 @@ export default {
 
             let dataDiaMaximoFinal = new Date(anoFim, mesFim, 0);
 
-            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear());
+            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.calculadora);
 
             let diaSubtraidoIndiceInicial = dataDiaMaximoInicio.getDate() - dataInicio.getDate() + 1;
 
@@ -324,8 +367,8 @@ export default {
 
             this.result = parseFloat(valorProRataAtualizado) * (indiceFinal / 100) + parseFloat(valorProRataAtualizado);
         },
-        async buscaIndices(anoInicial = '2000', anoFinal = '2022') {
-            let resp = await axios.get(`http://localhost:8000/api/ipca/${anoInicial}/${anoFinal}`);
+        async buscaIndices(anoInicial = '2000', anoFinal = '2022', ipcaInpca) {
+            let resp = await axios.get(`http://localhost:8000/api/${ipcaInpca}/${anoInicial}/${anoFinal}`);
             this.indice = resp.data;
         },
     },
