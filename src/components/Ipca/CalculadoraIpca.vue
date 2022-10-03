@@ -214,7 +214,6 @@ export default {
         },
 
         dateMinInputFinal() {
-            debugger;
             if(this.proRataInicial != null){
                 let [dia, mes, ano] = this.proRataInicial.split("/");
                 dia = parseInt(dia) + 1;
@@ -256,7 +255,6 @@ export default {
 
             let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
-            debugger;
             if (valorProRata != 0) {
                 valorSimulado = valorProRata;
 
@@ -302,7 +300,6 @@ export default {
             this.valor = 0;
             this.result = 0;
             this.dateToday = '';
-            console.log(this.calculadora)
         },
 
         acrescentaHistorico(dataInicialCalculo, dataFinalCalculo, valor, result) {
@@ -348,8 +345,6 @@ export default {
             dataFim.setMonth(dataFim.getMonth() - 1);
 
             let dataDiaMaximoFinal = new Date(anoFim, mesFim, 0);
-
-            debugger
 
             await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.calculadora);
 
