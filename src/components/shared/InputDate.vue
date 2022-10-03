@@ -19,6 +19,8 @@
                         dense
                         append-icon="mdi-calendar"
                         v-bind="attrs"
+                        :min="min"
+                        :max="max"
                         background-color="white"
                         color="black"
                         @blur="date = parseDate(dateFormatted)"

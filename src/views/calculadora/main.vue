@@ -25,10 +25,12 @@ import CalculadoraPrincipal from '@/components/calculadora/CalculadoraPrincipal.
 
 export default {
     name: 'CalculadoraPage',
-    components: { CalculadoraPrincipal },
+    components: { CalculadoraIpca, CalculadoraInpc },
     data: () => ({
         currentItem: 'tab-Web',
     }),
+    methods: {
+    }
 };
 </script>
 
