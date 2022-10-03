@@ -73,7 +73,7 @@
                                         dense
                                         background-color="white"
                                         color="black"
-                                        :data-padrao="fim"
+                                        :data-padrao="fim" 
                                         :min="dataMinimaInputFinal"
                                         :max="fim"
                                     />
