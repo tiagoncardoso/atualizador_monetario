@@ -117,8 +117,13 @@ import InputDate from '../shared/InputDate.vue';
 import axios from 'axios';
 
 export default {
-    name: 'Calculadora',
-
+    name: 'CalcuLadora',
+    props: {
+        calculadora: {
+            type: String,
+            default: "",
+        }
+    },
     components: {
         InputMonth,
         InputMoney,
@@ -211,7 +216,8 @@ export default {
 
             let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
-
+            debugger
+            console.log(this.calculadora)
             if (valorProRata != 0) {
                 valorSimulado = valorProRata;
 

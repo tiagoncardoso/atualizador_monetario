@@ -7,10 +7,10 @@
 </template>
 
 <script>
-    import DashBoard from '@components/dashboard/Dashboard.vue'
+    import DashBoard from '@/components/dashboard/DashBoard'
 
     export default {
-        name: 'DashBoard',
+        name: 'HomeInit',
         components: { DashBoard },
         data: () => ({
         currentItem: 'tab-Web',

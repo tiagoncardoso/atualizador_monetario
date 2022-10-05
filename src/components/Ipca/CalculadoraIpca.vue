@@ -126,7 +126,11 @@ export default {
     props: {
         calculadora: {
             type: String,
-            default: "ipca",
+            default: "",
+        },
+        calculadoras: {
+            type: String,
+            default: "",
         }
     },
 
@@ -159,6 +163,9 @@ export default {
     },
 
     computed: {
+        tipoCalculo(){
+            return this.$route.params.tipoCalculo;
+        },
         dataHoje() {
             const dataAtual = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
             return dataAtual;
@@ -263,8 +270,9 @@ export default {
                 dataFim = new Date(diaFimParametro);
                 dataFim.setMonth(dataFim.getMonth() - 1);
             }
+            debugger;
 
-            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.calculadora);
+            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.tipoCalculo);
             let indicesFiltrados = this.indice
 
             if (dataInicio < dataFim) {
@@ -346,7 +354,7 @@ export default {
 
             let dataDiaMaximoFinal = new Date(anoFim, mesFim, 0);
 
-            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.calculadora);
+            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.calculadoras);
 
             let diaSubtraidoIndiceInicial = dataDiaMaximoInicio.getDate() - dataInicio.getDate() + 1;
 

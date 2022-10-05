@@ -78,6 +78,7 @@ export default {
         retornaCadastro(){
             if (this.login == 'Admin' && this.senha == 'Admin'){
                 alert('Login correto')
+                this.$router.push('/home')
             }else{
                 alert('Login incorreto')
             }

@@ -32,7 +32,7 @@
                         <v-list-item-title>Calculadora</v-list-item-title>
                     </v-list-item-content>
                 </template>
-                <v-list-item v-for="(c, i) in calc" :key="i" link>
+                <v-list-item v-for="(c, i) in calc" :key="i" link :to=c.link>
                     <v-list-item-title> {{ c.nome }}</v-list-item-title>
 
                     <v-list-item-icon>
@@ -59,11 +59,12 @@
 </template>
 
 <script>
+
 export default {
     data: () => ({
         calc: [
-            { nome: 'IPCA (IBGE)', icone: 'mdi-calculator' },
-            { nome: 'INPC (IBGE)', icone: 'mdi-calculator' },
+            { nome: 'ipca', icone: 'mdi-calculator', link: '/calculadora/ipca', },
+            { nome: 'inpc', icone: 'mdi-calculator', link: '/calculadora/inpc', },
         ],
         admins: [
             { nome: 'Usuários', icone: 'mdi-account-multiple-outline' },

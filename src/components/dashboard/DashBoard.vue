@@ -1,6 +1,8 @@
 <template>
     <div>
-        <p>50505</p>
+        <p class="margem">50505</p>
+        <br/>
+        <h1 class='margem'>olá</h1>
     </div>
 </template>
 
@@ -11,5 +13,7 @@
 </script>
 
 <style scoped>
-
+.margem {
+    margin-left: 200px;
+}
 </style>
