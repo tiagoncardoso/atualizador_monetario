@@ -15,16 +15,21 @@ const routes = [
         component: () => import(/* webpackChunkName: "base" */ '../views/containerPage'),
         children: [
             {
-                path: '/calculadora',
+                path: '/calculadora/:tipoCalculo',
                 name: 'calculadora',
                 component: () => import(/* webpackChunkName: "calculadora" */ '@/views/calculadora/main'),
             },
             {
-                path: '/indices/Inpc',
-                name: 'indices',
-                component: () => import(/* webpackChunkName: "indices" */ '@/views/indices/IndicesInpc'),
+                path: '/home',
+                name: 'dashboard',
+                component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard'),
             },
         ]
+    },
+    {
+        path: '/indices/Inpc',
+        name: 'indices',
+        component: () => import(/* webpackChunkName: "indices" */ '@/views/indices/IndicesInpc'),
     },
 ];
 

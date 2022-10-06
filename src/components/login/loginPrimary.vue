@@ -78,6 +78,7 @@ export default {
         retornaCadastro(){
             if (this.login == 'Admin' && this.senha == 'Admin'){
                 alert('Login correto')
+                this.$router.push('/home')
             }else{
                 alert('Login incorreto')
             }
@@ -110,5 +111,9 @@ h1 {
     margin-top: 10px;
     padding: 20px;
     font-size: 15px;
+}
+
+.test {
+    background-color: red;
 }
 </style>
