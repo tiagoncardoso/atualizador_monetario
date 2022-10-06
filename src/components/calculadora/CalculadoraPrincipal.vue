@@ -119,6 +119,7 @@
 import InputMonth from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
 import InputDate from '../shared/InputDate.vue';
+import {calcular} from '@/utils/calculadora';
 import axios from 'axios';
 
 export default {
@@ -253,15 +254,15 @@ export default {
 
     methods: {
         async calcular(valorProRata = 0, diaInicioParametro, diaFimParametro) {
-            this.carregando = true;
-            let valorRecebido = this.valor;
             let valorSimulado = this.valor;
+            this.carregando = true;
 
             let [mes, ano] = this.dataInicialCalculo.split('/');
             let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
 
             let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
             let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
+
             if (valorProRata != 0) {
                 valorSimulado = valorProRata;
 
@@ -272,26 +273,16 @@ export default {
             }
 
             await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.tipoCalculo);
-            let indicesFiltrados = this.indice
 
-            if (dataInicio < dataFim) {
-                while (dataInicio < dataFim) {
-                    let indicesAno = indicesFiltrados.filter((filtro) => filtro.ano == dataInicio.getFullYear());
-
-                    let indiceMes = indicesAno[0].indices[dataInicio.getMonth()];
-                    dataInicio.setMonth(dataInicio.getMonth() + 1);
-
-                    let total = parseFloat(valorSimulado) * (indiceMes / 100) + parseFloat(valorSimulado);
-                    valorSimulado = total;
-                }
-                this.result = valorSimulado;
-                valorSimulado = valorRecebido;
-
-                this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, valorSimulado, this.result);
-            } else {
-                this.carregando = false;
-                this.result = '';
+            const params = {
+                valor: this.valor,
+                dataInicialCalculo: this.dataInicialCalculo,
+                dataFinalCalculo: this.dataFinalCalculo,
+                indice: this.indice,
             }
+
+            this.result = calcular(params)
+            this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, valorSimulado, this.result);
             this.carregando = false;
             return this.result;
         },
