@@ -270,7 +270,6 @@ export default {
                 dataFim = new Date(diaFimParametro);
                 dataFim.setMonth(dataFim.getMonth() - 1);
             }
-            debugger;
 
             await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.tipoCalculo);
             let indicesFiltrados = this.indice
