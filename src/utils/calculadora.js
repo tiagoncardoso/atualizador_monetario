@@ -1,5 +1,7 @@
 function calcular (params){
+    debugger;
     let valorSimulado = params.valor;
+    let indiceMes = [];
 
     let [mes, ano] = params.dataInicialCalculo.split('/');
     let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
@@ -11,7 +13,12 @@ function calcular (params){
         while (dataInicio < dataFim){
             let indicesAno = params.indice.filter((filtro) => filtro.ano == dataInicio.getFullYear());
 
-            let indiceMes = indicesAno[0].indices[dataInicio.getMonth()];
+
+            if (params.proRata == 0){
+                indiceMes = indicesAno[0].indices[dataInicio.getMonth()];
+            }else{
+                indiceMes = indicesAno[0].indices[dataInicio.getMonth()];
+            }
             dataInicio.setMonth(dataInicio.getMonth() + 1);
 
             let total = parseFloat(valorSimulado) * (indiceMes / 100) + parseFloat(valorSimulado);
@@ -20,7 +27,7 @@ function calcular (params){
 
         return valorSimulado
     }else{
-        return ''
+        return '13'
     }
 };
 

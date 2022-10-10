@@ -254,6 +254,9 @@ export default {
 
     methods: {
         async calcular(valorProRata = 0, diaInicioParametro, diaFimParametro) {
+            debugger
+            let dataModificadaInicio = '';
+            let dataModificadaFim = '';
             let valorSimulado = this.valor;
             this.carregando = true;
 
@@ -270,18 +273,38 @@ export default {
 
                 dataFim = new Date(diaFimParametro);
                 dataFim.setMonth(dataFim.getMonth() - 1);
-            }
 
+                diaInicioParametro.setMonth(diaInicioParametro.getMonth() + 1);
+                let mes = diaInicioParametro.getMonth();
+                let ano = diaInicioParametro.getFullYear(); 
+                dataModificadaInicio = `${mes}/${ano}`;
+                diaFimParametro.setMonth(diaFimParametro.getMonth());
+                let mesFim = diaFimParametro.getMonth();
+                let anoFim = diaFimParametro.getFullYear(); 
+                dataModificadaFim = `${mesFim}/${anoFim}`;
+            }
+            console.log(dataModificadaInicio, dataModificadaFim)
             await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.tipoCalculo);
 
-            const params = {
+            if (valorProRata == 0){
+                const params = {
                 valor: this.valor,
                 dataInicialCalculo: this.dataInicialCalculo,
                 dataFinalCalculo: this.dataFinalCalculo,
                 indice: this.indice,
+                proRata: 0,
+                }
+                this.result = calcular(params)
+            }else{
+                const params2 = {
+                    valor: valorSimulado,
+                    dataInicialCalculo: dataModificadaInicio,
+                    dataFinalCalculo: dataModificadaFim,
+                    indice: this.indice,
+                    proRata: valorProRata,
+                }
+                this.result = calcular(params2)
             }
-
-            this.result = calcular(params)
             this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, valorSimulado, this.result);
             this.carregando = false;
             return this.result;
@@ -344,7 +367,7 @@ export default {
 
             let dataDiaMaximoFinal = new Date(anoFim, mesFim, 0);
 
-            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.calculadoras);
+            await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.tipoCalculo);
 
             let diaSubtraidoIndiceInicial = dataDiaMaximoInicio.getDate() - dataInicio.getDate() + 1;
 
@@ -355,6 +378,7 @@ export default {
             let indiceProRata = indiceProRataInicio * diaSubtraidoIndiceInicial;
             let valorProRata = parseFloat(this.valor) * (indiceProRata / 100) + parseFloat(this.valor);
 
+            debugger
             let valorProRataAtualizado = await this.calcular(valorProRata, diaInicioParametro, diaFimParametro);
 
             let indiceAnoFinal = this.indice.filter((filtroFinal) => filtroFinal.ano == dataFim.getFullYear());
