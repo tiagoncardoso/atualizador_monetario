@@ -19,10 +19,10 @@
 
             <v-tabs-items v-model="currentItem">
                 <v-tab-item value="tabIpca">
-                    <calculadora-ipca calculadora="ipca"/>
+                    <calculadora-principal calculadora="ipca"/>
                 </v-tab-item>
                 <v-tab-item value="tabInpc">
-                    <calculadora-ipca calculadora="inpc"/>
+                    <calculadora-principal calculadora="inpc"/>
                 </v-tab-item>
             </v-tabs-items>
         </v-main>
@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import CalculadoraIpca from '@/components/Ipca/CalculadoraIpca.vue';
+import CalculadoraPrincipal from '@/components/calculadora/CalculadoraPrincipal.vue';
 
 export default {
     name: 'CalculadoraPage',
-    components: { CalculadoraIpca },
+    components: { CalculadoraPrincipal},
     data: () => ({
         currentItem: 'tab-Web',
     }),
