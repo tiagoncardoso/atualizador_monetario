@@ -1,13 +1,11 @@
+import {converteDataBrParaUs} from './date.js';
+
 function calcular (params){
-    debugger;
     let valorSimulado = params.valor;
     let indiceMes = [];
 
-    let [mes, ano] = params.dataInicialCalculo.split('/');
-    let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
-
-    let [mesFim, anoFim] = params.dataFinalCalculo.split('/');
-    let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
+    let dataInicio = converteDataBrParaUs(params.dataInicialCalculo);
+    let dataFim = converteDataBrParaUs(params.dataFinalCalculo);
 
     if(dataInicio < dataFim){
         while (dataInicio < dataFim){

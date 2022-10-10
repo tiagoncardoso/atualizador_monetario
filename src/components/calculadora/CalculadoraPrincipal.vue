@@ -120,6 +120,7 @@ import InputMonth from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
 import InputDate from '../shared/InputDate.vue';
 import {calcular} from '@/utils/calculadora';
+import {converteDataBrParaUs} from '@/utils/date';
 import axios from 'axios';
 
 export default {
@@ -254,17 +255,14 @@ export default {
 
     methods: {
         async calcular(valorProRata = 0, diaInicioParametro, diaFimParametro) {
-            debugger
+
             let dataModificadaInicio = '';
             let dataModificadaFim = '';
             let valorSimulado = this.valor;
             this.carregando = true;
 
-            let [mes, ano] = this.dataInicialCalculo.split('/');
-            let dataInicio = new Date(ano, parseInt(mes) - 1, 1);
-
-            let [mesFim, anoFim] = this.dataFinalCalculo.split('/');
-            let dataFim = new Date(anoFim, parseInt(mesFim) - 1, 1);
+            let dataInicio = converteDataBrParaUs(this.dataInicialCalculo);
+            let dataFim = converteDataBrParaUs(this.dataFinalCalculo);
 
             if (valorProRata != 0) {
                 valorSimulado = valorProRata;
@@ -378,7 +376,6 @@ export default {
             let indiceProRata = indiceProRataInicio * diaSubtraidoIndiceInicial;
             let valorProRata = parseFloat(this.valor) * (indiceProRata / 100) + parseFloat(this.valor);
 
-            debugger
             let valorProRataAtualizado = await this.calcular(valorProRata, diaInicioParametro, diaFimParametro);
 
             let indiceAnoFinal = this.indice.filter((filtroFinal) => filtroFinal.ano == dataFim.getFullYear());
