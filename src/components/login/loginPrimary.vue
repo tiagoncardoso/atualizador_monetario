@@ -88,11 +88,13 @@ export default {
 </script>
 
 <style scoped>
+
 #principal {
     background-image: url(https://images.pexels.com/photos/373584/pexels-photo-373584.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
     font-family: 'Poppins', sans-serif;
     background-size: cover;
     padding: 50px;
+    width: auto;
 }
 
 #principal::before {
