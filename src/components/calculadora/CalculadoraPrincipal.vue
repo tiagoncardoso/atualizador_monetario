@@ -102,7 +102,7 @@
                         </v-col>
                         <v-col v-show="checkbox" cols="12" class="text-right">
                             <v-btn small class="mr-3" color="primary" @click="calculoProRata()">Calcular</v-btn>
-
+                            <v-btn small color="error" class="mr-3" @click="limpar()">Limpar</v-btn>
                             <v-btn small color="warning" @click="limparHistorico()">Limpar Histórico</v-btn>
                         </v-col>
                     </v-row>
@@ -396,7 +396,7 @@ export default {
 
 <style scoped>
 .v-btn {
-    width: 100px;
+    width: 130px;
     color: #ffff;
 }
 

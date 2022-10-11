@@ -8,7 +8,7 @@
     >
         <v-app-bar-nav-icon> <img src="@/assets/logo.png" width="45" height="45" alt="#" /></v-app-bar-nav-icon>
 
-        <v-spacer>Page title</v-spacer>
+        <v-spacer>CALCULADORA DE ATUALIZAÇÃO MONETÁRIA</v-spacer>
 
         <v-btn icon>
             <v-icon>mdi-heart</v-icon>
