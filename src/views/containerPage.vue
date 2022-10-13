@@ -4,7 +4,7 @@
         <top-bar />
 
         <v-main >
-            <v-container fluid style="padding: 55px 0 0 72px">
+            <v-container fluid style="padding: 40px 90px 0px 0px">
                 <router-view />
             </v-container>
         </v-main>
