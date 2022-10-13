@@ -8,12 +8,12 @@
 import DadosContato from './dadosContato.vue';
 import DadosPessoais from './dadosPessoais.vue';
 
-    export default {
+export default {
     name: 'CadastroUsuario',
     components: {DadosContato, DadosPessoais },
     data: () => ({
     }),
-    }
+}
 </script>
 
 <style scoped>
