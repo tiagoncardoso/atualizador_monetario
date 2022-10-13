@@ -1,12 +1,8 @@
 <template>
-    <div>
+    <v-app>
         <router-view />
-    </div>
+    </v-app>
 </template>
 
 <style lang="scss">
-
-.v-main{
-    padding: 17px 0px 0px 10px !important;
-}
 </style>

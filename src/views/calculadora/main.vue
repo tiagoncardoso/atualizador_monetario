@@ -18,7 +18,9 @@ export default {
 </script>
 
 <style scoped>
+
 .principal{
-    margin-top: 50px !important;
+    margin-top: auto !important;
+    padding: 50px 0px 0px 0px !important;
 }
 </style>
