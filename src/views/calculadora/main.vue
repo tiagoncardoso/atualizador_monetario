@@ -13,10 +13,7 @@ export default {
     name: 'CalculadoraPage',
     components: { CalculadoraPrincipal},
     data: () => ({
-        currentItem: 'tab-Web',
     }),
-    methods: {
-    }
 };
 </script>
 

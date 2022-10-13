@@ -3,8 +3,8 @@
         <menu-lateral />
         <top-bar />
 
-        <v-main style="padding: 72px 0 0 72px">
-            <v-container fluid>
+        <v-main >
+            <v-container fluid style="padding: 55px 0 0 72px">
                 <router-view />
             </v-container>
         </v-main>
