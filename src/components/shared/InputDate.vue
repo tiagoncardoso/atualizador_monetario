@@ -22,9 +22,9 @@
                         :min="min"
                         :max="max"
                         background-color="white"
-                        color="black"
                         @blur="date = parseDate(dateFormatted)"
                         v-on="on"
+                        :rules="[(v) => !!v || 'Campo obrigatório']"
                     />
                 </template>
                 <v-date-picker v-model="date" no-title locale="pt-br" :min="min" :max="max" @input="menu1 = false" />
@@ -62,6 +62,7 @@ export default {
             type: Boolean,
             default: false,
         },
+        rules: Boolean,
     },
     data() {
         return {
