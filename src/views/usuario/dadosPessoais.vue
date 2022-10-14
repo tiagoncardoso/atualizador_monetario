@@ -1,15 +1,11 @@
 <template>
-    <div>
-        dadosPessoais
-    </div>
+    <div>dadosPessoais</div>
 </template>
 
 <script>
-    export default {
-        name: 'DadosPessoais'
-    }
+export default {
+    name: 'DadosPessoais',
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

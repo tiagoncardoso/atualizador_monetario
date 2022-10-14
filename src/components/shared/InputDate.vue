@@ -27,7 +27,14 @@
                         v-on="on"
                     />
                 </template>
-                <v-date-picker v-model="date" no-title locale="pt-br" :min="min" :max="max" @input="menu1 = false" />
+                <v-date-picker 
+                    v-model="date"
+                    no-title 
+                    locale="pt-br"
+                    :min="min" 
+                    :max="max"
+                    @input="menu1 = false" 
+                />
             </v-menu>
         </v-col>
     </v-row>

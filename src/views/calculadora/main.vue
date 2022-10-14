@@ -11,15 +11,13 @@ import CalculadoraPrincipal from '@/components/calculadora/CalculadoraPrincipal.
 
 export default {
     name: 'CalculadoraPage',
-    components: { CalculadoraPrincipal},
-    data: () => ({
-    }),
+    components: { CalculadoraPrincipal },
+    data: () => ({}),
 };
 </script>
 
 <style scoped>
-
-.principal{
+.principal {
     margin-top: auto !important;
     padding: 50px 0px 0px 0px !important;
 }

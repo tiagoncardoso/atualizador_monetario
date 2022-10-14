@@ -74,21 +74,19 @@ export default {
     },
 
     methods: {
-
-        retornaCadastro(){
-            if (this.login == 'Admin' && this.senha == 'Admin'){
-                alert('Login correto')
-                this.$router.push('/home')
-            }else{
-                alert('Login incorreto')
+        retornaCadastro() {
+            if (this.login == 'Admin' && this.senha == 'Admin') {
+                alert('Login correto');
+                this.$router.push('/home');
+            } else {
+                alert('Login incorreto');
             }
-        }
+        },
     },
 };
 </script>
 
 <style scoped>
-
 #principal {
     background-image: url(https://images.pexels.com/photos/373584/pexels-photo-373584.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
     font-family: 'Poppins', sans-serif;

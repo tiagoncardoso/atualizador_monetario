@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
-        <dados-pessoais/>
-        <dados-contato/>
+        <dados-pessoais />
+        <dados-contato />
     </v-container>
 </template>
 <script>
@@ -10,12 +10,9 @@ import DadosPessoais from './dadosPessoais.vue';
 
 export default {
     name: 'CadastroUsuario',
-    components: {DadosContato, DadosPessoais },
-    data: () => ({
-    }),
-}
+    components: { DadosContato, DadosPessoais },
+    data: () => ({}),
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
