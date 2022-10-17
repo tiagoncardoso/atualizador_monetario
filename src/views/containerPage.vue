@@ -3,7 +3,7 @@
         <menu-lateral />
         <top-bar />
 
-        <v-main >
+        <v-main>
             <v-container fluid style="padding: 40px 90px 0px 0px">
                 <router-view />
             </v-container>
@@ -24,6 +24,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

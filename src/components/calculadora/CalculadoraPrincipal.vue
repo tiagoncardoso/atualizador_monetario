@@ -44,18 +44,20 @@
                                 </v-col>
                                 <v-col v-show="checkbox" cols="5" sm="5" offset="1">
                                     <p class="letra-pro-rata">Cálculo Pró-rata</p>
-                                    <input-date v-model="proRataInicial" 
-                                    label="Início"
-                                    min="1994-07"
-                                    :max="dateMaxInputInicial ? dateMaxInputInicial : dateToday"
+                                    <input-date
+                                        v-model="proRataInicial"
+                                        label="Início"
+                                        min="1994-07"
+                                        :max="dateMaxInputInicial ? dateMaxInputInicial : dateToday"
                                     />
                                 </v-col>
                                 <v-col v-show="checkbox" cols="5" sm="5" class="margin-topo">
-                                    <input-date v-model="proRataFinal" 
-                                    label="Fim"
-                                    :min="dateMinInputFinal"
-                                    :max="dateToday"
-                                    :dataPadrao="dateToday"
+                                    <input-date
+                                        v-model="proRataFinal"
+                                        label="Fim"
+                                        :min="dateMinInputFinal"
+                                        :max="dateToday"
+                                        :data-padrao="dateToday"
                                     />
                                 </v-col>
                             </v-row>
@@ -119,27 +121,27 @@
 import InputMonth from '../shared/InputMonth.vue';
 import InputMoney from '../shared/InputMoney.vue';
 import InputDate from '../shared/InputDate.vue';
-import {calcular} from '@/utils/calculadora';
-import {converteDataBrParaUs} from '@/utils/date';
+import { calcular } from '@/utils/calculadora';
+import { converteDataBrParaUs } from '@/utils/date';
 import axios from 'axios';
 
 export default {
     name: 'CalculadoraPrincipal',
-    props: {
-        calculadora: {
-            type: String,
-            default: "",
-        },
-        calculadoras: {
-            type: String,
-            default: "",
-        }
-    },
 
     components: {
         InputMonth,
         InputMoney,
         InputDate,
+    },
+    props: {
+        calculadora: {
+            type: String,
+            default: '',
+        },
+        calculadoras: {
+            type: String,
+            default: '',
+        },
     },
 
     data() {
@@ -160,12 +162,12 @@ export default {
             pessoa: null,
             indice: null,
             carregando: true,
-            inputDateFormated: "",
+            inputDateFormated: '',
         };
     },
 
     computed: {
-        tipoCalculo(){
+        tipoCalculo() {
             return this.$route.params.tipoCalculo;
         },
         dataHoje() {
@@ -201,37 +203,37 @@ export default {
             return this.dateToday;
         },
         dateMaxInputInicial() {
-            let [dia, mes, ano] = this.proRataFinal.split("/");
+            let [dia, mes, ano] = this.proRataFinal.split('/');
             let data = new Date(ano, mes - 1, dia - 1);
 
-            if(dia == 1 && mes != 1){
+            if (dia == 1 && mes != 1) {
                 let anoOk = data.getFullYear().toString();
                 let mesOk = mes - 1;
                 let diaOk = data.getDate().toString();
-                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`
-            }if(dia == 1 && mes == 1){
+                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`;
+            }
+            if (dia == 1 && mes == 1) {
                 let anoOk = data.getFullYear().toString();
                 let mesOk = 12;
                 let diaOk = data.getDate().toString();
-                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`
-            }else {
+                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`;
+            } else {
                 let anoOk = data.getFullYear().toString();
                 let mesOk = mes;
                 let diaOk = data.getDate().toString();
-                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`
+                return `${anoOk}-${mesOk}-${diaOk.padStart(2, '0')}`;
             }
         },
 
         dateMinInputFinal() {
-            if(this.proRataInicial != null){
-                let [dia, mes, ano] = this.proRataInicial.split("/");
+            if (this.proRataInicial != null) {
+                let [dia, mes, ano] = this.proRataInicial.split('/');
                 dia = parseInt(dia) + 1;
-                let diaTemp = dia.toString()
-                return `${ano}-${mes}-${diaTemp.padStart(2, '0')}`
+                let diaTemp = dia.toString();
+                return `${ano}-${mes}-${diaTemp.padStart(2, '0')}`;
             }
             return this.dateToday;
         },
-        
     },
 
     watch: {
@@ -249,13 +251,12 @@ export default {
     async mounted() {
         this.dateToday = this.dataHoje;
 
-        //await this.buscaInfoPessoa(); 
-        this.carregando = false
+        //await this.buscaInfoPessoa();
+        this.carregando = false;
     },
 
     methods: {
         async calcular(valorProRata = 0, diaInicioParametro, diaFimParametro) {
-
             let dataModificadaInicio = '';
             let dataModificadaFim = '';
             let valorSimulado = this.valor;
@@ -274,34 +275,34 @@ export default {
 
                 diaInicioParametro.setMonth(diaInicioParametro.getMonth() + 1);
                 let mes = diaInicioParametro.getMonth();
-                let ano = diaInicioParametro.getFullYear(); 
+                let ano = diaInicioParametro.getFullYear();
                 dataModificadaInicio = `${mes}/${ano}`;
                 diaFimParametro.setMonth(diaFimParametro.getMonth());
                 let mesFim = diaFimParametro.getMonth();
-                let anoFim = diaFimParametro.getFullYear(); 
+                let anoFim = diaFimParametro.getFullYear();
                 dataModificadaFim = `${mesFim}/${anoFim}`;
             }
-            console.log(dataModificadaInicio, dataModificadaFim)
+            console.log(dataModificadaInicio, dataModificadaFim);
             await this.buscaIndices(dataInicio.getFullYear(), dataFim.getFullYear(), this.tipoCalculo);
 
-            if (valorProRata == 0){
+            if (valorProRata == 0) {
                 const params = {
-                valor: this.valor,
-                dataInicialCalculo: this.dataInicialCalculo,
-                dataFinalCalculo: this.dataFinalCalculo,
-                indice: this.indice,
-                proRata: 0,
-                }
-                this.result = calcular(params)
-            }else{
+                    valor: this.valor,
+                    dataInicialCalculo: this.dataInicialCalculo,
+                    dataFinalCalculo: this.dataFinalCalculo,
+                    indice: this.indice,
+                    proRata: 0,
+                };
+                this.result = calcular(params);
+            } else {
                 const params2 = {
                     valor: valorSimulado,
                     dataInicialCalculo: dataModificadaInicio,
                     dataFinalCalculo: dataModificadaFim,
                     indice: this.indice,
                     proRata: valorProRata,
-                }
-                this.result = calcular(params2)
+                };
+                this.result = calcular(params2);
             }
             this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, valorSimulado, this.result);
             this.carregando = false;

@@ -1,20 +1,19 @@
-import {converteDataBrParaUs} from './date.js';
+import { converteDataBrParaUs } from './date.js';
 
-function calcular (params){
+function calcular(params) {
     let valorSimulado = params.valor;
     let indiceMes = [];
 
     let dataInicio = converteDataBrParaUs(params.dataInicialCalculo);
     let dataFim = converteDataBrParaUs(params.dataFinalCalculo);
 
-    if(dataInicio < dataFim){
-        while (dataInicio < dataFim){
+    if (dataInicio < dataFim) {
+        while (dataInicio < dataFim) {
             let indicesAno = params.indice.filter((filtro) => filtro.ano == dataInicio.getFullYear());
 
-
-            if (params.proRata == 0){
+            if (params.proRata == 0) {
                 indiceMes = indicesAno[0].indices[dataInicio.getMonth()];
-            }else{
+            } else {
                 indiceMes = indicesAno[0].indices[dataInicio.getMonth()];
             }
             dataInicio.setMonth(dataInicio.getMonth() + 1);
@@ -23,10 +22,10 @@ function calcular (params){
             valorSimulado = total;
         }
 
-        return valorSimulado
-    }else{
-        return '13'
+        return valorSimulado;
+    } else {
+        return '13';
     }
-};
+}
 
 export { calcular };

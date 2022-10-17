@@ -1,10 +1,9 @@
 <template>
-    <v-app-bar 
+    <v-app-bar
         :clipped-left="$vuetify.breakpoint.lgAndUp"
         dark
-        app 
-        style="background-color: rgb(20, 90, 171); 
-        font-family: arial"
+        app
+        style="background-color: rgb(20, 90, 171); font-family: arial"
     >
         <v-app-bar-nav-icon> <img src="@/assets/logo.png" width="45" height="45" alt="#" /></v-app-bar-nav-icon>
 
@@ -24,5 +23,4 @@
 export default {};
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -8,6 +8,8 @@ import InputFacade from 'vue-input-facade';
 Vue.config.productionTip = false;
 Vue.use(InputFacade, {name: 'mask'});
 
+Vue.use(InputFacade, { name: 'mask' });
+
 new Vue({
     vuetify,
     router,

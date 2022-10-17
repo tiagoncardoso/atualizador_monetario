@@ -3,6 +3,4 @@ function converteDataBrParaUs(strData) {
     return new Date(ano, parseInt(mes) - 1, 1);
 }
 
-export {
-    converteDataBrParaUs
-};
+export { converteDataBrParaUs };

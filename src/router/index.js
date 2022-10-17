@@ -29,7 +29,7 @@ const routes = [
                 name: 'usuario',
                 component: () => import(/* webpackChunkName: "usuario" */ '@/views/usuario/main'),
             },
-        ]
+        ],
     },
     {
         path: '/indices/Inpc',
