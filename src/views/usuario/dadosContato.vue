@@ -11,6 +11,7 @@
                         dense
                         persistent-placeholder
                         placeholder="South Claredon Drive"
+                        :rules="regra.endereco"
                     />
                 </v-col>
                 <v-col cols="2">
@@ -21,10 +22,17 @@
                         dense
                         persistent-placeholder
                         placeholder="45"
+                        :rules="regra.number"
                     />
                 </v-col>
                 <v-col cols="5">
-                    <v-text-field v-model="complemento" label="Complemento" outlined dense />
+                    <v-text-field 
+                        v-model="complemento" 
+                        label="Complemento" 
+                        outlined 
+                        dense
+                        :rules="regra.complement"
+                    />
                 </v-col>
             </v-row>
             <v-row>
@@ -36,6 +44,7 @@
                         dense
                         persistent-placeholder
                         placeholder="New Street"
+                        :rules="regra.neighborhood"
                     />
                 </v-col>
                 <v-col cols="2">
@@ -45,11 +54,19 @@
                         outlined 
                         dense 
                         persistentPlaceholder 
-                        placeholder="16400-001" 
+                        placeholder="16400-001"
                     />
                 </v-col>
                 <v-col cols="2">
-                    <v-select v-model="uf" label="UF" outlined dense persistent-placeholder placeholder="CE" />
+                    <v-select 
+                        v-model="uf" 
+                        label="UF" 
+                        outlined 
+                        dense 
+                        persistent-placeholder 
+                        placeholder="CE"
+                        :rules="regra.estate"
+                    />
                 </v-col>
                 <v-col cols="4">
                     <v-select
@@ -59,6 +76,7 @@
                         dense
                         persistent-placeholder
                         placeholder="Baixio"
+                        :rules="regra.city"
                     />
                 </v-col>
             </v-row>
@@ -85,6 +103,7 @@
                         dense
                         persistent-placeholder
                         placeholder="ryvipiqax@malinator.com"
+                        :rules="regra.mail"
                     />
                 </v-col>
             </v-row>
@@ -110,6 +129,16 @@ export default {
             cidade: '',
             telefone: '',
             email: '',
+            regra: {
+                endereco: [(v) => !!v || "Campo Obrigatório", (v) => v.length <= 150 || "Máximo 150 dígitos"],
+                number: [(v) => !!v || "Campo Obrigatório", (v) => v.length <= 6 || "Máximo 6 dígitos"],
+                complement: [(v) => v.length <= 150 || "Máximo 150 dígitos"],
+                neighborhood: [(v) => !!v || "Campo Obrigatório", (v) => v.length <= 100 || "Máximo 100 dígitos"],
+                estate: [(v) => !!v || "Campo Obrigatório"],
+                city: [(v) => !!v || "Campo Obrigatório"],
+                mail: [(v) => !!v || "Campo Obrigatório", (v) => v.length <= 100 || "Máximo 100 dígitos"]
+            }
+
         };
     },
 };

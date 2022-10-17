@@ -9,6 +9,7 @@
                 :dense="dense"
                 :persistentPlaceholder="persistentPlaceholder"
                 :placeholder="placeholder"
+                :rules="regra.cepi"
             />
         </v-col>
     </v-row>
@@ -42,6 +43,9 @@ export default {
     data() {
         return {
             cep: "",
+            regra: {
+                cepi: [(v) => !!v || "Campo Obrigatório"],
+            }
         }
     },
     watch: {
