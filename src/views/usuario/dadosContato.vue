@@ -21,7 +21,7 @@
                         outlined
                         dense
                         persistent-placeholder
-                        placeholder="45"
+                        placeholder="0"
                         :rules="regra.number"
                     />
                 </v-col>
@@ -86,13 +86,13 @@
 
             <v-row class="mt-5">
                 <v-col cols="4">
-                    <v-text-field
+                    <input-phone
                         v-model="telefone"
                         label="Telefone"
                         outlined
                         dense
                         persistent-placeholder
-                        placeholder="(51) 7664-6841"
+                        placeholder="(051) 7664-6841"
                     />
                 </v-col>
                 <v-col cols="4">
@@ -113,10 +113,12 @@
 
 <script>
 import InputCep from '@/components/shared/InputCep.vue';
+import InputPhone from '@/components/shared/InputPhone.vue';
+
 export default {
     name: 'DadosContato',
     components: {
-        InputCep,
+        InputCep, InputPhone
     },
     data() {
         return {
