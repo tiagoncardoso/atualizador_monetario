@@ -1,11 +1,11 @@
 <template>
     <div>
-        <v-card elevation="11">
+        <v-card elevation="11" class="mt-10">
             <v-toolbar> Endereço </v-toolbar>
             <v-row class="mt-3">
                 <v-col cols="5">
                     <v-text-field
-                        v-model="logradouro"
+                        v-model="dadosContato.logradouro"
                         label="Logradouro"
                         outlined
                         dense
@@ -16,7 +16,7 @@
                 </v-col>
                 <v-col cols="2">
                     <v-text-field
-                        v-model="numero"
+                        v-model="dadosContato.numero"
                         label="Número"
                         outlined
                         dense
@@ -27,10 +27,9 @@
                 </v-col>
                 <v-col cols="5">
                     <v-text-field 
-                        v-model="complemento" 
+                        v-model="dadosContato.complemento"
                         label="Complemento" 
-                        outlined 
-                        dense
+                        outlined dense 
                         :rules="regra.complement"
                     />
                 </v-col>
@@ -38,7 +37,7 @@
             <v-row>
                 <v-col cols="4">
                     <v-text-field
-                        v-model="bairro"
+                        v-model="dadosContato.bairro"
                         label="Bairro"
                         outlined
                         dense
@@ -48,29 +47,29 @@
                     />
                 </v-col>
                 <v-col cols="2">
-                    <input-cep 
-                        v-model="cep"
-                        label="CEP" 
-                        outlined 
-                        dense 
-                        persistentPlaceholder 
+                    <input-cep
+                        v-model="dadosContato.cep"
+                        label="CEP"
+                        outlined
+                        dense
+                        persistent-placeholder
                         placeholder="16400-001"
                     />
                 </v-col>
                 <v-col cols="2">
-                    <v-select 
-                        v-model="uf" 
-                        label="UF" 
-                        outlined 
-                        dense 
-                        persistent-placeholder 
+                    <v-select
+                        v-model="dadosContato.uf"
+                        label="UF"
+                        outlined
+                        dense
+                        persistent-placeholder
                         placeholder="CE"
                         :rules="regra.estate"
                     />
                 </v-col>
                 <v-col cols="4">
                     <v-select
-                        v-model="cidade"
+                        v-model="dadosContato.cidade"
                         label="Cidade"
                         outlined
                         dense
@@ -87,7 +86,7 @@
             <v-row class="mt-5">
                 <v-col cols="4">
                     <input-phone
-                        v-model="telefone"
+                        v-model="dadosContato.telefone"
                         label="Telefone"
                         outlined
                         dense
@@ -97,7 +96,7 @@
                 </v-col>
                 <v-col cols="4">
                     <v-text-field
-                        v-model="email"
+                        v-model="dadosContato.email"
                         label="Email"
                         outlined
                         dense
@@ -114,33 +113,30 @@
 <script>
 import InputCep from '@/components/shared/InputCep.vue';
 import InputPhone from '@/components/shared/InputPhone.vue';
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'DadosContato',
     components: {
-        InputCep, InputPhone
+        InputCep,
+        InputPhone,
     },
+    
+    computed: {
+        ...mapGetters('usuario', ['dadosContato']),
+    },
+
     data() {
         return {
-            logradouro: '',
-            numero: "",
-            complemento: '',
-            bairro: '',
-            cep: '',
-            uf: '',
-            cidade: '',
-            telefone: '',
-            email: '',
             regra: {
-                endereco: [(v) => !!v || "Campo Obrigatório", (v) => v.length <= 150 || "Máximo 150 dígitos"],
-                number: [(v) => !!v || "Campo Obrigatório", (v) => v.length <= 6 || "Máximo 6 dígitos"],
-                complement: [(v) => v.length <= 150 || "Máximo 150 dígitos"],
-                neighborhood: [(v) => !!v || "Campo Obrigatório", (v) => v.length <= 100 || "Máximo 100 dígitos"],
-                estate: [(v) => !!v || "Campo Obrigatório"],
-                city: [(v) => !!v || "Campo Obrigatório"],
-                mail: [(v) => !!v || "Campo Obrigatório", (v) => v.length <= 100 || "Máximo 100 dígitos"]
-            }
-
+                endereco: [(v) => !!v || 'Campo Obrigatório', (v) => v.length <= 150 || 'Máximo 150 dígitos'],
+                number: [(v) => !!v || 'Campo Obrigatório', (v) => v.length <= 6 || 'Máximo 6 dígitos'],
+                complement: [(v) => v.length <= 150 || 'Máximo 150 dígitos'],
+                neighborhood: [(v) => !!v || 'Campo Obrigatório', (v) => v.length <= 100 || 'Máximo 100 dígitos'],
+                estate: [(v) => !!v || 'Campo Obrigatório'],
+                city: [(v) => !!v || 'Campo Obrigatório'],
+                mail: [(v) => !!v || 'Campo Obrigatório', (v) => v.length <= 100 || 'Máximo 100 dígitos'],
+            },
         };
     },
 };
