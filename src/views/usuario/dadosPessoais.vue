@@ -2,16 +2,14 @@
     <div>
         <v-form>
             <v-card elevation="12">
-                <v-toolbar>
-                    Dados pessoais
-                </v-toolbar>
+                <v-toolbar> Dados pessoais </v-toolbar>
                 <v-container>
                     <v-row>
                         <v-col cols="12">
-                            <v-text-field 
-                                v-model="nome" 
-                                label="Nome*" 
-                                required 
+                            <v-text-field
+                                v-model="dadosPessoais.nome"
+                                label="Nome*"
+                                required
                                 outlined
                                 dense
                                 persistent-placeholder
@@ -21,11 +19,11 @@
                         </v-col>
 
                         <v-col cols="6">
-                            <v-text-field 
-                                v-model="email" 
+                            <v-text-field
+                                v-model="dadosPessoais.email"
                                 label="E-mail*"
                                 :rules="emailRules"
-                                required 
+                                required
                                 outlined
                                 dense
                                 persistent-placeholder
@@ -35,7 +33,7 @@
 
                         <v-col cols="6">
                             <v-text-field
-                                v-model="outroEmail"
+                                v-model="dadosPessoais.outroEmail"
                                 label="Outro e-mail"
                                 required
                                 outlined
@@ -46,16 +44,16 @@
                         </v-col>
 
                         <v-col cols="6">
-                            <input-date
-                                v-model="dataNascimento"
-                                label="Data de nascimento"
-                                rules
+                            <input-date 
+                                v-model="dadosPessoais.dataNascimento" 
+                                label="Data de nascimento" 
+                                rules 
                             />
                         </v-col>
 
                         <v-col cols="6">
                             <v-select
-                                v-model="genero"
+                                v-model="dadosPessoais.genero"
                                 :items="itemsGenero"
                                 :rules="[(v) => !!v || 'Campo obrigatório']"
                                 label="Gênero"
@@ -66,19 +64,18 @@
                         </v-col>
 
                         <v-col cols="5">
-                            <input-cpf
-                                v-model="cpf"
-                                label="CPF (apenas digitos)*"
-                                dense
-                                outlined
-                                counter="14"
-                                rules
-                            />
+                            <input-cpf 
+                            v-model="dadosPessoais.cpf" 
+                            label="CPF (apenas digitos)*" 
+                            dense 
+                            outlined 
+                            counter="14" 
+                            rules />
                         </v-col>
 
                         <v-col cols="5">
                             <v-text-field
-                                v-model="rg"
+                                v-model="dadosPessoais.rg"
                                 :rules="itemsRg"
                                 :counter="7"
                                 label="RG (apenas digitos)*"
@@ -92,7 +89,7 @@
 
                         <v-col cols="2">
                             <v-select
-                                v-model="ufEmissor"
+                                v-model="dadosPessoais.ufEmissor"
                                 :rules="[(v) => !!v || 'Campo obrigatório']"
                                 label="UF Emissor*"
                                 required
@@ -110,31 +107,37 @@
 <script>
 import InputDate from '@/components/shared/InputDate.vue';
 import InputCpf from '@/components/shared/InputCpf.vue';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
     name: 'DadosPessoais',
-    data() {
-        return{
-            nome: '',
-            email: '',
-            outroEmail: '',
-            dataNascimento: '',
-            genero: '',
-            cpf: '',
-            rg: '',
-            ufEmissor: '',
-            nomePessoa: [(v) => !!v || 'O nome é obrigatório', (v) => v.length <= 100 || 'Digite o seu nome completo'],
-            itemsRg: [(v) => !!v || 'O RG é obrigatório', (v) => v.length <= 7 || 'Digite apenas 7 dígitos'],
-            emailRules: [(v) => !!v || 'Campo obrigatório', (v) => /.+@.+/.test(v) || 'E-mail inválido'],
-            itemsGenero: ['Masculino', 'Feminino', 'Outros'],
-        }
-    },
     components: {
         InputDate,
         InputCpf,
     },
+    computed: {
+        ...mapGetters('usuario', ['dadosPessoais']),
+    },
+
+    data() {
+        return {
+            nomePessoa: [(v) => !!v || 'O nome é obrigatório', (v) => v.length <= 100 || 'Digite o seu nome completo'],
+            itemsRg: [(v) => !!v || 'O RG é obrigatório', (v) => v.length <= 7 || 'Digite apenas 7 dígitos'],
+            emailRules: [(v) => !!v || 'Campo obrigatório', (v) => /.+@.+/.test(v) || 'E-mail inválido'],
+            itemsGenero: ['Masculino', 'Feminino', 'Outros'],
+        };
+    },
+
+    methods: {
+        ...mapMutations('usuario', ['syncEmail'])
+    },
+
+    watch: {
+        'dadosPessoais.email'() {
+            this.syncEmail()
+        },
+    }
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

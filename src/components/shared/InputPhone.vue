@@ -7,7 +7,7 @@
                 :label="label"
                 :outlined="outlined"
                 :dense="dense"
-                :persistentPlaceholder="persistentPlaceholder"
+                :persistent-placeholder="persistentPlaceholder"
                 :placeholder="placeholder"
                 :rules="regra.phone"
             />
@@ -16,46 +16,44 @@
 </template>
 
 <script>
-    export default {
-        name: 'InputPhone',
-        props: {
-            label: {
-                type: String,
-                default: '',
-            },
-            outlined: {
-                type: Boolean,
-                default: true,
-            },
-            dense: {
-                type: Boolean,
-                default: true,
-            },
-            persistentPlaceholder: {
-                type: Boolean,
-                default: false,
-            },
-            placeholder: {
-                type: String,
-                default: '',
-            },
+export default {
+    name: 'InputPhone',
+    props: {
+        label: {
+            type: String,
+            default: '',
         },
-        data() {
-            return {
-                fone: '',
-                regra: {
-                    phone: [(v) => !!v || "Campo Obrigatório"]
-                }
-            }
+        outlined: {
+            type: Boolean,
+            default: true,
         },
-        watch: {
-            fone(v){
-                this.$emit('input', v);
-            }
-        }
-    }
+        dense: {
+            type: Boolean,
+            default: true,
+        },
+        persistentPlaceholder: {
+            type: Boolean,
+            default: false,
+        },
+        placeholder: {
+            type: String,
+            default: '',
+        },
+    },
+    data() {
+        return {
+            fone: '',
+            regra: {
+                phone: [(v) => !!v || 'Campo Obrigatório'],
+            },
+        };
+    },
+    watch: {
+        fone(v) {
+            this.$emit('input', v);
+        },
+    },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

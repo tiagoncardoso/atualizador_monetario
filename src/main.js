@@ -4,14 +4,16 @@ import vuetify from './plugins/vuetify';
 import './plugins/vuetify-money.js';
 import router from './router';
 import InputFacade from 'vue-input-facade';
+import store from './store';
 
 Vue.config.productionTip = false;
-Vue.use(InputFacade, {name: 'mask'});
+Vue.use(InputFacade, { name: 'mask' });
 
 Vue.use(InputFacade, { name: 'mask' });
 
 new Vue({
     vuetify,
     router,
+    store,
     render: (h) => h(App),
 }).$mount('#app');

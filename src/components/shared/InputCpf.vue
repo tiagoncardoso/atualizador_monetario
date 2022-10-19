@@ -15,7 +15,6 @@
 </template>
 
 <script>
-
 export default {
     name: 'InputCpf',
     props: {
@@ -29,7 +28,7 @@ export default {
         counter: {
             type: String,
             default: '',
-        }
+        },
     },
     data() {
         return {
@@ -41,13 +40,7 @@ export default {
             this.$emit('input', novoCpf);
         },
     },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
-
-
-                     
-                            
+<style scoped></style>

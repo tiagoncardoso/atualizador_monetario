@@ -7,7 +7,7 @@
                 :label="label"
                 :outlined="outlined"
                 :dense="dense"
-                :persistentPlaceholder="persistentPlaceholder"
+                :persistent-placeholder="persistentPlaceholder"
                 :placeholder="placeholder"
                 :rules="regra.cepi"
             />
@@ -42,17 +42,17 @@ export default {
     },
     data() {
         return {
-            cep: "",
+            cep: '',
             regra: {
-                cepi: [(v) => !!v || "Campo Obrigatório"],
-            }
-        }
+                cepi: [(v) => !!v || 'Campo Obrigatório'],
+            },
+        };
     },
     watch: {
-        cep(novoCep){
+        cep(novoCep) {
             this.$emit('input', novoCep);
-        }
-    }
+        },
+    },
 };
 </script>
 

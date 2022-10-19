@@ -1,8 +1,8 @@
 <template>
     <v-container fluid>
-        <dados-pessoais/>
-        <dados-contato/>
-        <dados-usuario/>
+        <dados-pessoais />
+        <dados-contato />
+        <dados-usuario />
     </v-container>
 </template>
 <script>
@@ -12,10 +12,9 @@ import DadosUsuario from './dadosUsuario.vue';
 
 export default {
     name: 'CadastroUsuario',
-    components: {DadosContato, DadosPessoais, DadosUsuario },
-    data: () => ({
-    }),
-}
+    components: { DadosContato, DadosPessoais, DadosUsuario },
+    data: () => ({}),
+};
 </script>
 
 <style scoped></style>
