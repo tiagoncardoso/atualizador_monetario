@@ -27,6 +27,10 @@ let state = () => ({
         senha: '',
         confirmacaoSenha: '',
     },
+
+    api: {
+        estado: ['', '', ''],
+    }
 });
 
 const getters = {
@@ -41,6 +45,10 @@ const getters = {
     dadosUsuario: (state) => {
         return state.dadosUsuario;
     },
+
+    api: (state) => {
+        return state.api;
+    },
 };
 
 const mutations = {
@@ -51,7 +59,7 @@ const mutations = {
 
 const actions = {
     cadastro() {
-        alert("Confirmado");
+        
     }
 };
 

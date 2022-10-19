@@ -59,7 +59,7 @@
                 <v-col cols="2">
                     <v-select
                         v-model="dadosContato.uf"
-                        :items="filtroUf"
+                        :items="api.estado"
                         label="UF"
                         outlined
                         dense
@@ -115,7 +115,6 @@
 import InputCep from '@/components/shared/InputCep.vue';
 import InputPhone from '@/components/shared/InputPhone.vue';
 import { mapGetters } from 'vuex';
-import axios from 'axios';
 
 export default {
     name: 'DadosContato',
@@ -126,12 +125,11 @@ export default {
     
     computed: {
         ...mapGetters('usuario', ['dadosContato']),
+        ...mapGetters('usuario', ['api']),
     },
 
     data() {
         return {
-            estado: {},
-            filtroUf: [],
             regra: {
                 endereco: [(v) => !!v || 'Campo Obrigatório', (v) => v.length <= 150 || 'Máximo 150 dígitos'],
                 number: [(v) => !!v || 'Campo Obrigatório', (v) => v.length <= 6 || 'Máximo 6 dígitos'],
@@ -143,24 +141,6 @@ export default {
             },
         };
     },
-    methods: {
-        async buscaUf() {
-            let valor = await axios.get('http://localhost:8000/api/estado');
-            this.estado = valor.data.estados;
-        },
-        formataUf() {
-            let laco = []
-            for(let c = 0; c < this.estado.length; c++){
-                laco[c] = this.estado[c].uf
-            }
-            return laco;
-        }
-    },
-
-    async mounted() {
-        await this.buscaUf();
-        this.filtroUf = this.formataUf();
-    }
 };
 </script>
 
