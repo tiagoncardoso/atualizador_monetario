@@ -58,7 +58,8 @@
                 </v-col>
                 <v-col cols="2">
                     <v-select
-                        :items="esta"
+                        v-model="dadosContato.uf"
+                        :items="filtroUf"
                         label="UF"
                         outlined
                         dense
@@ -130,8 +131,7 @@ export default {
     data() {
         return {
             estado: {},
-            filtro: [],
-            esta: [],
+            filtroUf: [],
             regra: {
                 endereco: [(v) => !!v || 'Campo Obrigatório', (v) => v.length <= 150 || 'Máximo 150 dígitos'],
                 number: [(v) => !!v || 'Campo Obrigatório', (v) => v.length <= 6 || 'Máximo 6 dígitos'],
@@ -149,18 +149,17 @@ export default {
             this.estado = valor.data.estados;
         },
         formataUf() {
-            debugger
+            let laco = []
             for(let c = 0; c < this.estado.length; c++){
-                this.filtro[c] = this.estado[c].uf
+                laco[c] = this.estado[c].uf
             }
-            return this.filtro
+            return laco;
         }
     },
 
     async mounted() {
-        debugger
         await this.buscaUf();
-        this.esta = this.formataUf();
+        this.filtroUf = this.formataUf();
     }
 };
 </script>
