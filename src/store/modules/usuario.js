@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 let state = () => ({
     dadosPessoais: {
         nome: '',
@@ -29,7 +31,7 @@ let state = () => ({
     },
 
     api: {
-        estado: ['', '', ''],
+        estados: [],
     }
 });
 
@@ -46,8 +48,11 @@ const getters = {
         return state.dadosUsuario;
     },
 
-    api: (state) => {
-        return state.api;
+    listaUfs: (state) => {
+        return state.api.estados.map((estado) => ({
+            id: estado.id,
+            uf: estado.uf
+        }));
     },
 };
 
@@ -58,8 +63,19 @@ const mutations = {
 };
 
 const actions = {
-    cadastro() {
-        
+    async fetchUfs({state}) {
+        let valor = await axios.get('http://localhost:8000/api/estado');
+        state.api.estados = valor.data.estados
+    },
+
+    async formataUf(laco) {
+        let salva = await laco.getters.api.estado
+        console.log(salva)
+        let temp = []
+        for(let c = 0; c < salva.length; c++){
+            temp[c] = salva[c].uf
+        }
+        return temp;
     }
 };
 
