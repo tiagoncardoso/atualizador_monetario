@@ -67,16 +67,6 @@ const actions = {
         let valor = await axios.get('http://localhost:8000/api/estado');
         state.api.estados = valor.data.estados
     },
-
-    async formataUf(laco) {
-        let salva = await laco.getters.api.estado
-        console.log(salva)
-        let temp = []
-        for(let c = 0; c < salva.length; c++){
-            temp[c] = salva[c].uf
-        }
-        return temp;
-    }
 };
 
 export default {

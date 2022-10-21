@@ -21,7 +21,7 @@ export default {
     components: { TopBar, MenuLateral },
     data: () => ({
         currentItem: 'tab-Web',
-        estado: [],
+        
     }),
  
     computed: {

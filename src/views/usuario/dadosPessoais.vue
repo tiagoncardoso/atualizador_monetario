@@ -95,6 +95,10 @@
                                 required
                                 outlined
                                 dense
+                                :items="listaUfs"
+                                return-object
+                                item-value="id"
+                                item-text="uf"
                             />
                         </v-col>
                     </v-row>
@@ -116,7 +120,7 @@ export default {
         InputCpf,
     },
     computed: {
-        ...mapGetters('usuario', ['dadosPessoais']),
+        ...mapGetters('usuario', ['dadosPessoais', 'listaUfs']),
     },
 
     data() {
@@ -129,7 +133,7 @@ export default {
     },
 
     methods: {
-        ...mapMutations('usuario', ['syncEmail'])
+        ...mapMutations('usuario', ['syncEmail, listaUfs'])
     },
 
     watch: {
