@@ -59,12 +59,16 @@
                 <v-col cols="2">
                     <v-select
                         v-model="dadosContato.uf"
+                        :items="listaUfs"
                         label="UF"
                         outlined
                         dense
                         persistent-placeholder
                         placeholder="CE"
                         :rules="regra.estate"
+                        return-object
+                        item-value="id"
+                        item-text="uf"
                     />
                 </v-col>
                 <v-col cols="4">
@@ -123,7 +127,7 @@ export default {
     },
     
     computed: {
-        ...mapGetters('usuario', ['dadosContato']),
+        ...mapGetters('usuario', ['dadosContato', 'listaUfs']),
     },
 
     data() {

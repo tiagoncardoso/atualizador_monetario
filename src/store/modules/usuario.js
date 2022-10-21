@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 let state = () => ({
     dadosPessoais: {
         nome: '',
@@ -27,6 +29,10 @@ let state = () => ({
         senha: '',
         confirmacaoSenha: '',
     },
+
+    api: {
+        estados: [],
+    }
 });
 
 const getters = {
@@ -41,6 +47,13 @@ const getters = {
     dadosUsuario: (state) => {
         return state.dadosUsuario;
     },
+
+    listaUfs: (state) => {
+        return state.api.estados.map((estado) => ({
+            id: estado.id,
+            uf: estado.uf
+        }));
+    },
 };
 
 const mutations = {
@@ -50,9 +63,10 @@ const mutations = {
 };
 
 const actions = {
-    cadastro() {
-        alert("Confirmado");
-    }
+    async fetchUfs({state}) {
+        let valor = await axios.get('http://localhost:8000/api/estado');
+        state.api.estados = valor.data.estados
+    },
 };
 
 export default {
