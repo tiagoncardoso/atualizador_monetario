@@ -32,6 +32,7 @@ let state = () => ({
 
     api: {
         estados: [],
+        cidade: [],
     }
 });
 
@@ -67,6 +68,11 @@ const actions = {
         let valor = await axios.get('http://localhost:8000/api/estado');
         state.api.estados = valor.data.estados
     },
+
+    async fetchCity( {state} ) {
+        let valor = await axios.get(`http://localhost:8000/api/4/cidades`);
+        state.api.cidade = valor.data.cidades
+    }
 };
 
 export default {

@@ -143,7 +143,14 @@ export default {
             },
         };
     },
-};
+    watch: {
+        'dadosContato.uf'() {
+            debugger
+            this.regra.endereco = false;
+            console.log(this.dadosContato.uf.uf);
+        }
+    }
+};  
 </script>
 
 <style scoped></style>
