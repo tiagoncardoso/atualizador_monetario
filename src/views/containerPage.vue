@@ -30,10 +30,12 @@ export default {
 
     methods: {
         ...mapActions('usuario', ['fetchUfs']),
+        ...mapActions('usuario', ['fetchCidades'])
     },
 
     async mounted() {
         await this.fetchUfs();
+        await this.fetchCidades();
     }
 };
 </script>

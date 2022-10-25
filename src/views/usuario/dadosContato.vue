@@ -127,7 +127,7 @@ export default {
     },
     
     computed: {
-        ...mapGetters('usuario', ['dadosContato', 'listaUfs']),
+        ...mapGetters('usuario', ['dadosContato', 'listaUfs', 'listaCidades' ]),
     },
 
     data() {
@@ -143,6 +143,12 @@ export default {
             },
         };
     },
+
+    watch: {
+        'dadosContatos.uf'(){
+            this.resposta.cidades = estado_id;
+        },
+    }
 };
 </script>
 
