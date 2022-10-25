@@ -4,7 +4,7 @@
         <top-bar />
 
         <v-main>
-            <v-container fluid style="padding: 40px 90px 0px 0px">
+            <v-container fluid>
                 <router-view />
             </v-container>
         </v-main>
@@ -30,10 +30,12 @@ export default {
 
     methods: {
         ...mapActions('usuario', ['fetchUfs']),
+        ...mapActions('usuario', ['fetchCidades'])
     },
 
     async mounted() {
         await this.fetchUfs();
+        await this.fetchCidades();
     }
 };
 </script>

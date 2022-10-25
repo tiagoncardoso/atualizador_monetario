@@ -32,6 +32,7 @@ let state = () => ({
 
     api: {
         estados: [],
+        cidades: [],
     }
 });
 
@@ -54,18 +55,29 @@ const getters = {
             uf: estado.uf
         }));
     },
+
+    listaCidades: (state) => {
+        return state.api.cidades.map((cidade) => ({
+            id: cidade.id,
+            nome: cidade.nome
+        }));
+    },
 };
 
 const mutations = {
     syncEmail(state){
         state.dadosContato.email = state.dadosPessoais.email;
-    }
+    },
 };
 
 const actions = {
     async fetchUfs({state}) {
         let valor = await axios.get('http://localhost:8000/api/estado');
         state.api.estados = valor.data.estados
+    },
+    async fetchCidades({state}, city = 4) {
+        let resp = await axios.get(`http://localhost:8000/api/${city}/cidades`);
+        state.api.cidades = resp.data.cidades
     },
 };
 
