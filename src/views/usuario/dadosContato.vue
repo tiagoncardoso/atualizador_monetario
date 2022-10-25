@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card elevation="11" class="mt-10">
+        <v-card elevation="12" class="mt-10">
             <v-toolbar> Endereço </v-toolbar>
             <v-row class="mt-3">
                 <v-col cols="5">
@@ -26,10 +26,11 @@
                     />
                 </v-col>
                 <v-col cols="5">
-                    <v-text-field 
+                    <v-text-field
                         v-model="dadosContato.complemento"
-                        label="Complemento" 
-                        outlined dense 
+                        label="Complemento"
+                        outlined
+                        dense
                         :rules="regra.complement"
                     />
                 </v-col>
@@ -80,11 +81,17 @@
                         persistent-placeholder
                         placeholder="Baixio"
                         :rules="regra.city"
+                        :items="listaCidades"
+                        return-object
+                        item-value="nome"
+                        item-text="nome"
+                        :disabled="regra.disabled"
+                        :loading="regra.disabled"
                     />
                 </v-col>
             </v-row>
         </v-card>
-        <v-card class="mt-10" elevation="16">
+        <v-card class="mt-10" elevation="12">
             <v-toolbar> Contato </v-toolbar>
 
             <v-row class="mt-5">
@@ -117,7 +124,7 @@
 <script>
 import InputCep from '@/components/shared/InputCep.vue';
 import InputPhone from '@/components/shared/InputPhone.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     name: 'DadosContato',
@@ -125,9 +132,9 @@ export default {
         InputCep,
         InputPhone,
     },
-    
+
     computed: {
-        ...mapGetters('usuario', ['dadosContato', 'listaUfs', 'listaCidades' ]),
+        ...mapGetters('usuario', ['dadosContato', 'listaUfs', 'listaCidades']),
     },
 
     data() {
@@ -140,15 +147,21 @@ export default {
                 estate: [(v) => !!v || 'Campo Obrigatório'],
                 city: [(v) => !!v || 'Campo Obrigatório'],
                 mail: [(v) => !!v || 'Campo Obrigatório', (v) => v.length <= 100 || 'Máximo 100 dígitos'],
+                disabled: true,
             },
         };
     },
 
+    methods: {
+        ...mapActions('usuario', ['fetchCidades']),
+    },
+
     watch: {
-        'dadosContatos.uf'(){
-            this.resposta.cidades = estado_id;
+        async 'dadosContato.uf'() {
+            await this.fetchCidades(this.dadosContato.uf.id);
+            this.regra.disabled = false;
         },
-    }
+    },
 };
 </script>
 

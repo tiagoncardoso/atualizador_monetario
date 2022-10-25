@@ -6,8 +6,8 @@
         <v-col v-if="pessoa" cols="8" offset="2">
             <h5>Bom dia {{ pessoa.last_name }}, {{ pessoa.first_name }}</h5>
         </v-col>-->
-        <v-col cols="8" offset="2">
-            <v-card elevation="20" class="blue">
+        <v-col cols="10">
+            <v-card elevation="12" class="blue">
                 <v-card-text class="white">
                     <v-row>
                         <v-col cols="8" class="top-line">
@@ -396,6 +396,11 @@ export default {
 </script>
 
 <style scoped>
+
+*{
+  padding: -20px 5px!important;  
+}
+
 .v-btn {
     width: 130px;
     color: #ffff;
