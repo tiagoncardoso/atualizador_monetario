@@ -133,7 +133,7 @@ export default {
     },
 
     methods: {
-        ...mapMutations('usuario', ['syncEmail, listaUfs'])
+        ...mapMutations('usuario', ['syncEmail'])
     },
 
     watch: {
