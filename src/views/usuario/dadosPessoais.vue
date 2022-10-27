@@ -46,7 +46,7 @@
                                 outlined 
                                 counter="14" 
                                 rules 
-                                placeholder="000.000.000-00"
+                                placeholder
                                 persistent-placeholder
                             />
                         </v-col>

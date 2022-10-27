@@ -81,6 +81,15 @@ const mutations = {
     paraOverlay(state){
         state.overlay = false;
     },
+
+    reset(state){
+        state.dadosPessoais.nome = '';
+        state.dadosPessoais.dataNascimento= '';
+        state.dadosPessoais.genero= '';
+        state.dadosPessoais.cpf= '';
+        state.dadosPessoais.rg= '';
+        state.dadosPessoais.ufEmissor= '';
+    }
 };
 
 const actions = {
