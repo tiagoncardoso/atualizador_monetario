@@ -111,9 +111,6 @@
                 </v-card-actions>
             </v-card>
         </v-col>
-        <v-overlay :value="carregando">
-            <v-progress-circular indeterminate size="64" />
-        </v-overlay>
     </v-row>
 </template>
 
@@ -161,7 +158,6 @@ export default {
             proRataFinal: '',
             pessoa: null,
             indice: null,
-            carregando: true,
             inputDateFormated: '',
         };
     },
@@ -252,7 +248,6 @@ export default {
         this.dateToday = this.dataHoje;
 
         //await this.buscaInfoPessoa();
-        this.carregando = false;
     },
 
     methods: {
@@ -260,7 +255,6 @@ export default {
             let dataModificadaInicio = '';
             let dataModificadaFim = '';
             let valorSimulado = this.valor;
-            this.carregando = true;
 
             let dataInicio = converteDataBrParaUs(this.dataInicialCalculo);
             let dataFim = converteDataBrParaUs(this.dataFinalCalculo);
@@ -305,7 +299,6 @@ export default {
                 this.result = calcular(params2);
             }
             this.acrescentaHistorico(this.dataInicialCalculo, this.dataFinalCalculo, valorSimulado, this.result);
-            this.carregando = false;
             return this.result;
         },
 

@@ -3,26 +3,29 @@
         <dados-pessoais />
         <dados-contato />
         <dados-usuario />
-        <v-btn 
-            class="botao"
-            elevation="2"
-            color="primary"
-            @click="saveUsuario()"
-        >Salvar</v-btn>
+        <v-btn elevation="2" color="primary" @click="salvar()">Salvar </v-btn>
     </v-container>
 </template>
 <script>
-import { mapActions } from 'vuex';
 import DadosContato from './dadosContato.vue';
 import DadosPessoais from './dadosPessoais.vue';
 import DadosUsuario from './dadosUsuario.vue';
+import { mapActions, mapMutations } from 'vuex';
 
 export default {
     name: 'CadastroUsuario',
     components: { DadosContato, DadosPessoais, DadosUsuario },
-    data: () => ({}),
+    data: () => ({
+    }),
     methods: {
-        ...mapActions('usuario', ['saveUsuario'])
+        ...mapActions('usuario', ['saveUsuario']),
+        ...mapMutations('usuario', ['mostraOverlay', 'paraOverlay']),
+
+        async salvar() {
+            this.mostraOverlay();
+            await this.saveUsuario();
+            this.paraOverlay();
+        },
     },
 };
 </script>

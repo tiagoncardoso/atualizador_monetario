@@ -3,8 +3,6 @@ import axios from 'axios';
 let state = () => ({
     dadosPessoais: {
         nome: '',
-        email: '',
-        outroEmail: '',
         dataNascimento: '',
         genero: '',
         cpf: '',
@@ -22,6 +20,7 @@ let state = () => ({
         cidade: '',
         telefone: '',
         email: '',
+        email2: '',
     },
 
     dadosUsuario: {
@@ -33,7 +32,9 @@ let state = () => ({
     api: {
         estados: [],
         cidades: [],
-    }
+    },
+
+    overlay: false,
 });
 
 const getters = {
@@ -62,11 +63,23 @@ const getters = {
             nome: cidade.nome
         }));
     },
+
+    loading: (state) => {
+        return state.overlay
+    },
 };
 
 const mutations = {
     syncEmail(state){
         state.dadosContato.email = state.dadosPessoais.email;
+    },
+
+    mostraOverlay(state){
+        state.overlay = true;
+    },
+
+    paraOverlay(state){
+        state.overlay = false;
     },
 };
 
@@ -83,8 +96,6 @@ const actions = {
         const payload = {
             pessoa: {
                 nome: state.dadosPessoais.nome,
-                email: state.dadosPessoais.email,
-                outroEmail: state.dadosPessoais.outroEmail,
                 dataNascimento: state.dadosPessoais.dataNascimento,
                 genero: state.dadosPessoais.genero,
                 cpf: state.dadosPessoais.cpf,
@@ -102,6 +113,7 @@ const actions = {
                 cidade: state.dadosContato.cidade,
                 telefone: state.dadosContato.telefone,
                 email: state.dadosContato.email,
+                email2: state.dadosContato.email2,
             },
         
             usuario: {
