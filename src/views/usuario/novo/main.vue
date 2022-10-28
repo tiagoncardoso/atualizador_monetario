@@ -30,7 +30,12 @@ export default {
             this.mostraOverlay();
             await this.saveUsuario();
             this.paraOverlay();
-            this.reset();
+            //this.reset();
+            this.$swal({
+                icon: 'success',
+                title: 'Cadastro de Usuário',
+                text: 'Usuário cadastrado !',
+            });
         },
     },
 };
