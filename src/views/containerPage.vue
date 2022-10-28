@@ -4,6 +4,9 @@
         <top-bar />
 
         <v-main>
+            <v-overlay :value="loading">
+                <v-progress-circular indeterminate size="64" />
+            </v-overlay>
             <v-container fluid>
                 <router-view />
             </v-container>
@@ -21,22 +24,21 @@ export default {
     components: { TopBar, MenuLateral },
     data: () => ({
         currentItem: 'tab-Web',
-        
     }),
- 
+
     computed: {
-        ...mapGetters('usuario', ['api']),
+        ...mapGetters('usuario', ['api', 'loading']),
     },
 
     methods: {
-        ...mapActions('usuario', ['fetchUfs']),
-        ...mapActions('usuario', ['fetchCidades'])
+        ...mapActions('usuario', ['fetchUfs', 'fetchCidades', 'saveUsuario']),
+
     },
 
     async mounted() {
         await this.fetchUfs();
         await this.fetchCidades();
-    }
+    },
 };
 </script>
 

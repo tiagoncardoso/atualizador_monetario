@@ -19,31 +19,6 @@
                         </v-col>
 
                         <v-col cols="6">
-                            <v-text-field
-                                v-model="dadosPessoais.email"
-                                label="E-mail*"
-                                :rules="emailRules"
-                                required
-                                outlined
-                                dense
-                                persistent-placeholder
-                                placeholder="usuario@usuario.com"
-                            />
-                        </v-col>
-
-                        <v-col cols="6">
-                            <v-text-field
-                                v-model="dadosPessoais.outroEmail"
-                                label="Outro e-mail"
-                                required
-                                outlined
-                                dense
-                                persistent-placeholder
-                                placeholder="usuario@usuario.com"
-                            />
-                        </v-col>
-
-                        <v-col cols="6">
                             <input-date 
                                 v-model="dadosPessoais.dataNascimento" 
                                 label="Data de nascimento" 
@@ -65,12 +40,15 @@
 
                         <v-col cols="5">
                             <input-cpf 
-                            v-model="dadosPessoais.cpf" 
-                            label="CPF (apenas digitos)*" 
-                            dense 
-                            outlined 
-                            counter="14" 
-                            rules />
+                                v-model="dadosPessoais.cpf" 
+                                label="CPF (apenas digitos)*" 
+                                dense 
+                                outlined 
+                                counter="14" 
+                                rules 
+                                placeholder
+                                persistent-placeholder
+                            />
                         </v-col>
 
                         <v-col cols="5">
@@ -127,13 +105,12 @@ export default {
         return {
             nomePessoa: [(v) => !!v || 'O nome é obrigatório', (v) => v.length <= 100 || 'Digite o seu nome completo'],
             itemsRg: [(v) => !!v || 'O RG é obrigatório', (v) => v.length <= 7 || 'Digite apenas 7 dígitos'],
-            emailRules: [(v) => !!v || 'Campo obrigatório', (v) => /.+@.+/.test(v) || 'E-mail inválido'],
             itemsGenero: ['Masculino', 'Feminino', 'Outros'],
         };
     },
 
     methods: {
-        ...mapMutations('usuario', ['syncEmail, listaUfs'])
+        ...mapMutations('usuario', ['syncEmail'])
     },
 
     watch: {

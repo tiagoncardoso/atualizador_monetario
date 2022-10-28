@@ -5,7 +5,7 @@
                 <v-toolbar> Dados do usuário </v-toolbar>
                 <v-container>
                     <v-row>
-                        <v-col cols="7">
+                        <v-col cols="4">
                             <v-text-field
                                 v-model="dadosUsuario.usuario"
                                 label="Usuário*"
@@ -13,12 +13,12 @@
                                 outlined
                                 dense
                                 persistent-placeholder
-                                placeholder=""
+                                placeholder="usuario_usuario"
                                 :rules="nomePessoa"
                             />
                         </v-col>
 
-                        <v-col cols="6">
+                        <v-col cols="4">
                             <v-text-field
                                 v-model="dadosUsuario.senha"
                                 label="Senha*"
@@ -35,7 +35,7 @@
                             />
                         </v-col>
 
-                        <v-col cols="6">
+                        <v-col cols="4">
                             <v-text-field
                                 v-model="dadosUsuario.confirmacaoSenha"
                                 label="Confirmação de senha*"
@@ -74,14 +74,14 @@ export default {
     data() {
         return {
             show1: false,
-            nomePessoa: [(v) => !!v || 'O usuário é obrigatório', (v) => v.length <= 100 || 'Digite o seu usuário'],
-            senhaPessoa: [(v) => !!v || 'A senha é obrigatória', (v) => v.length >= 6 || 'No mínimo 6 dígitos'],
+            nomePessoa: [(v) => !!v || 'Campo Obrigatório', (v) => v.length <= 100 || 'Digite o seu usuário'],
+            senhaPessoa: [(v) => !!v || 'Campo Obrigatório', (v) => v.length >= 6 || 'No mínimo 6 dígitos'],
             rulesSenha: {
-                required: (value) => !!value || 'A senha é obrigatória.',
+                required: (value) => !!value || 'Campo Obrigatório',
                 min: (v) => v.length >= 6 || 'Mínimo 6 dígitos',
             },
             rulesConfirmacaoSenha: {
-                required: (value) => !!value || 'A senha é obrigatória.',
+                required: (value) => !!value || 'Campo Obrigatório',
                 min: (v) => v.length >= 6 || 'Mínimo 6 dígitos',
                 valid: (v) => this.senha == v || 'Senhas não coincidem',
             },

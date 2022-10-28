@@ -7,8 +7,10 @@
                 :label="label"
                 :outlined="outlined"
                 :dense="dense"
-                :rules="[(v) => !!v || 'O CPF é obrigatório', (v) => v.length <= 14]"
+                :rules="[(v) => !!v || 'Campo Obrigatório', (v) => v.length <= 14]"
                 :counter="counter"
+                :placeholder="placeholder"
+                :persistent-placeholder="persistentPlaceholder"
             />
         </v-col>
     </v-row>
@@ -28,6 +30,14 @@ export default {
         counter: {
             type: String,
             default: '',
+        },
+        placeholder: {
+            type: String,
+            default: '',
+        },
+        persistentPlaceholder: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {
