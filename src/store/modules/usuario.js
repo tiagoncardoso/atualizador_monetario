@@ -89,6 +89,21 @@ const mutations = {
         state.dadosPessoais.cpf= '';
         state.dadosPessoais.rg= '';
         state.dadosPessoais.ufEmissor= '';
+
+        state.dadosContato.logradouro= '';
+        state.dadosContato.numero= '';
+        state.dadosContato.complemento= '';
+        state.dadosContato.bairro= '';
+        state.dadosContato.cep= '';
+        state.dadosContato.uf= '';
+        state.dadosContato.cidade= '';
+        state.dadosContato.telefone= '';
+        state.dadosContato.email= '';
+        state.dadosContato.email2= '';
+
+        state.dadosUsuario.usuario= '';
+        state.dadosUsuario.senha= '';
+        state.dadosUsuario.confirmacaoSenha= '';
     }
 };
 
