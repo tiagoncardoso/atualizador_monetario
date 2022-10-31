@@ -24,7 +24,7 @@
                 <v-list-item-icon>
                     <v-icon>mdi-home</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title>Home</v-list-item-title>
+                <v-list-item v-for="(home, i) in home" :key="i" link :to="home.link">Home</v-list-item>
             </v-list-item>
             <v-list-group :value="true" no-action sub-group>
                 <template #activator>
@@ -46,7 +46,7 @@
                         <v-list-item-title>Administração</v-list-item-title>
                     </v-list-item-content>
                 </template>
-                <v-list-item v-for="(admin, i) in admins" :key="i" link>
+                <v-list-item v-for="(admin, i) in admins" :key="i" link :to="admin.link">
                     <v-list-item-title> {{ admin.nome }}</v-list-item-title>
 
                     <v-list-item-icon>
@@ -66,9 +66,12 @@ export default {
             { nome: 'inpc', icone: 'mdi-calculator', link: '/calculadora/inpc' },
         ],
         admins: [
-            { nome: 'Usuários', icone: 'mdi-account-multiple-outline' },
+            { nome: 'Usuários', icone: 'mdi-account-multiple-outline', link: '/usuario' },
             { nome: 'Índices', icone: 'mdi-list-box' },
         ],
+        home: [
+            {link: '/home'},
+        ]
     }),
 };
 </script>

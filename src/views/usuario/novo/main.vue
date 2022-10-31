@@ -3,7 +3,7 @@
         <dados-pessoais />
         <dados-contato />
         <dados-usuario />
-        <v-btn elevation="2" color="primary" @click="salvar()">Salvar </v-btn>
+        <v-btn class="botao" elevation="2" color="primary" @click="salvar()">Salvar </v-btn>
     </v-container>
 </template>
 <script>
@@ -30,6 +30,11 @@ export default {
             this.mostraOverlay();
             await this.saveUsuario();
             this.paraOverlay();
+            this.$swal({
+                icon: 'success',
+                title: 'Cadastro de usuário',
+                text: 'Cadastro realizado com sucesso!',
+            });
             this.reset();
         },
     },
@@ -39,8 +44,8 @@ export default {
 <style scoped>
 
 .botao{
-    text-align: center !important;
-    margin-top: 10px;
-    justify-content: center !important;
+    margin: 10px 500px;
+    width: 100px;
 }
+
 </style>

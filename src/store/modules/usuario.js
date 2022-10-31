@@ -124,7 +124,7 @@ const actions = {
                 genero: state.dadosPessoais.genero,
                 cpf: state.dadosPessoais.cpf,
                 rg: state.dadosPessoais.rg,
-                ufEmissor: state.dadosPessoais.ufEmissor,
+                ufEmissor: state.dadosPessoais.ufEmissor.id,
             },
         
             contato: {
@@ -133,8 +133,8 @@ const actions = {
                 complemento: state.dadosContato.complemento,
                 bairro: state.dadosContato.bairro,
                 cep: state.dadosContato.cep,
-                uf: state.dadosContato.uf,
-                cidade: state.dadosContato.cidade,
+                uf: state.dadosContato.uf.id,
+                cidade: state.dadosContato.cidade.id,
                 telefone: state.dadosContato.telefone,
                 email: state.dadosContato.email,
                 email2: state.dadosContato.email2,

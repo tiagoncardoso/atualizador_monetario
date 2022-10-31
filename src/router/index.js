@@ -26,8 +26,13 @@ const routes = [
             },
             {
                 path: '/usuario/novo',
+                name: 'usuario novo',
+                component: () => import(/* webpackChunkName: "usuario novo" */ '@/views/usuario/novo/main'),
+            },
+            {
+                path: '/usuario',
                 name: 'usuario',
-                component: () => import(/* webpackChunkName: "usuario" */ '@/views/usuario/main'),
+                component: () => import(/* webpackChunkName: "usuario" */ '@/views/usuario/indexPage'),
             },
         ],
     },
