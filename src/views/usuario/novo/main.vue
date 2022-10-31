@@ -3,7 +3,7 @@
         <dados-pessoais />
         <dados-contato />
         <dados-usuario />
-        <v-btn class="botao" elevation="2" color="primary" @click="salvar()">Salvar </v-btn>
+        <v-btn class="botao" elevation="2" color="primary" @click="salvar()" :to="link">Salvar </v-btn>
     </v-container>
 </template>
 <script>
@@ -15,8 +15,11 @@ import { mapActions, mapMutations, mapGetters } from 'vuex';
 export default {
     name: 'CadastroUsuario',
     components: { DadosContato, DadosPessoais, DadosUsuario },
-    data: () => ({
-    }),
+    data(){
+        return{
+            link: '/usuario',
+        }
+    },
 
     computed: {
         ...mapGetters('usuario', ['dadosPessoais']),
