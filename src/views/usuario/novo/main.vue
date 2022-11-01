@@ -3,7 +3,7 @@
         <dados-pessoais />
         <dados-contato />
         <dados-usuario />
-        <v-btn class="botao" elevation="2" color="primary" @click="salvar()" :to="link">Salvar </v-btn>
+        <v-btn :to="link" class="botao" elevation="2" color="primary" @click="salvar()">salvar</v-btn>
     </v-container>
 </template>
 <script>
@@ -41,6 +41,10 @@ export default {
             this.reset();
         },
     },
+    
+    mounted() {
+        this.reset();
+    }
 };
 </script>
 

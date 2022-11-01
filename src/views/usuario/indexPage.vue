@@ -4,12 +4,16 @@
             <v-card-title>
                 Usuários
             </v-card-title>
-            <v-btn class="botao" :to="link" color="primary">Novo</v-btn>
+            <v-btn class="botao" :to="link" color="primary" >Novo</v-btn>
             <v-data-table 
                 :headers="headers" 
                 :items="buscaPessoa" 
                 :items-per-page="5" 
-                class="elevation-1" />
+                class="elevation-1">
+                <template v-slot:item.cidade="{ item }">
+                    {{item.cidade}}/{{item.uf}}
+                </template>  
+            </v-data-table>
         </v-card>
     </div>
 </template>
@@ -31,6 +35,7 @@ export default {
                 { text: 'Cidade/UF', value: 'cidade' },
                 { text: 'E-mail', value: 'email' },
                 { text: 'Status', value: 'status' },
+                { text: 'Ações', value: '#'},
             ],
             buscaPessoa: [],
             link:'usuario/novo',
