@@ -67,8 +67,27 @@ import { mapGetters } from 'vuex';
 
 export default {
     name: 'DadosUsuario',
+    
+    props:{
+        dados: {
+            type: [Object, Array],
+        }
+    },
+
     computed: {
         ...mapGetters('usuario', ['dadosUsuario']),
+    },
+
+    methods: {
+        teste(){
+            debugger
+            const test = this.dados;
+            console.log(test)
+        }
+    },
+
+    mounted(){
+        this.teste();
     },
 
     data() {

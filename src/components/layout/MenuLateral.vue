@@ -69,9 +69,7 @@ export default {
             { nome: 'Usuários', icone: 'mdi-account-multiple-outline', link: '/usuario' },
             { nome: 'Índices', icone: 'mdi-list-box' },
         ],
-        home: [
-            {link: '/home'},
-        ]
+        home: [{ link: '/home' }],
     }),
 };
 </script>

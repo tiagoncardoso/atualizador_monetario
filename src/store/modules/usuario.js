@@ -53,70 +53,70 @@ const getters = {
     listaUfs: (state) => {
         return state.api.estados.map((estado) => ({
             id: estado.id,
-            uf: estado.uf
+            uf: estado.uf,
         }));
     },
 
     listaCidades: (state) => {
         return state.api.cidades.map((cidade) => ({
             id: cidade.id,
-            nome: cidade.nome
+            nome: cidade.nome,
         }));
     },
 
     loading: (state) => {
-        return state.overlay
+        return state.overlay;
     },
 };
 
 const mutations = {
-    syncEmail(state){
+    syncEmail(state) {
         state.dadosContato.email = state.dadosPessoais.email;
     },
 
-    mostraOverlay(state){
+    mostraOverlay(state) {
         state.overlay = true;
     },
 
-    paraOverlay(state){
+    paraOverlay(state) {
         state.overlay = false;
     },
 
-    reset(state){
+    reset(state) {
         state.dadosPessoais.nome = '';
-        state.dadosPessoais.dataNascimento= '';
-        state.dadosPessoais.genero= '';
-        state.dadosPessoais.cpf= '';
-        state.dadosPessoais.rg= '';
-        state.dadosPessoais.ufEmissor= '';
+        state.dadosPessoais.dataNascimento = '';
+        state.dadosPessoais.genero = '';
+        state.dadosPessoais.cpf = '';
+        state.dadosPessoais.rg = '';
+        state.dadosPessoais.ufEmissor = '';
 
-        state.dadosContato.logradouro= '';
-        state.dadosContato.numero= '';
-        state.dadosContato.complemento= '';
-        state.dadosContato.bairro= '';
-        state.dadosContato.cep= '';
-        state.dadosContato.uf= '';
-        state.dadosContato.cidade= '';
-        state.dadosContato.telefone= '';
-        state.dadosContato.email= '';
-        state.dadosContato.email2= '';
+        state.dadosContato.logradouro = '';
+        state.dadosContato.numero = '';
+        state.dadosContato.complemento = '';
+        state.dadosContato.bairro = '';
+        state.dadosContato.cep = '';
+        state.dadosContato.uf = '';
+        state.dadosContato.cidade = '';
+        state.dadosContato.telefone = '';
+        state.dadosContato.email = '';
+        state.dadosContato.email2 = '';
 
-        state.dadosUsuario.usuario= '';
-        state.dadosUsuario.senha= '';
-        state.dadosUsuario.confirmacaoSenha= '';
-    }
+        state.dadosUsuario.usuario = '';
+        state.dadosUsuario.senha = '';
+        state.dadosUsuario.confirmacaoSenha = '';
+    },
 };
 
 const actions = {
-    async fetchUfs({state}) {
+    async fetchUfs({ state }) {
         let valor = await axios.get('http://localhost:8000/api/estado');
-        state.api.estados = valor.data.estados
+        state.api.estados = valor.data.estados;
     },
-    async fetchCidades({state}, city = 4) {
+    async fetchCidades({ state }, city = 4) {
         let resp = await axios.get(`http://localhost:8000/api/${city}/cidades`);
-        state.api.cidades = resp.data.cidades
+        state.api.cidades = resp.data.cidades;
     },
-    async saveUsuario({state}){
+    async saveUsuario({ state }) {
         const payload = {
             pessoa: {
                 nome: state.dadosPessoais.nome,
@@ -126,7 +126,7 @@ const actions = {
                 rg: state.dadosPessoais.rg,
                 ufEmissor: state.dadosPessoais.ufEmissor.id,
             },
-        
+
             contato: {
                 logradouro: state.dadosContato.logradouro,
                 numero: state.dadosContato.numero,
@@ -139,7 +139,7 @@ const actions = {
                 email: state.dadosContato.email,
                 email2: state.dadosContato.email2,
             },
-        
+
             usuario: {
                 usuario: state.dadosUsuario.usuario,
                 senha: state.dadosUsuario.senha,
@@ -155,4 +155,4 @@ export default {
     getters,
     mutations,
     actions,
-}
+};

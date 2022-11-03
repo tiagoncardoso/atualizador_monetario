@@ -389,9 +389,8 @@ export default {
 </script>
 
 <style scoped>
-
-*{
-  padding: -20px 5px!important;  
+* {
+    padding: -20px 5px !important;
 }
 
 .v-btn {
