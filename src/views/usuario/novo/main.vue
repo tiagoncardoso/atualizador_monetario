@@ -2,7 +2,7 @@
     <v-container fluid>
         <dados-pessoais />
         <dados-contato />
-        <dados-usuario />
+        <dados-usuario :dados="dadosProps" />
         <v-btn :to="link" class="botao" elevation="2" color="primary" @click="salvar()">salvar</v-btn>
     </v-container>
 </template>
@@ -11,6 +11,7 @@ import DadosContato from './dadosContato.vue';
 import DadosPessoais from './dadosPessoais.vue';
 import DadosUsuario from './dadosUsuario.vue';
 import { mapActions, mapMutations, mapGetters } from 'vuex';
+import axios from 'axios';
 
 export default {
     name: 'CadastroUsuario',
@@ -18,11 +19,16 @@ export default {
     data(){
         return{
             link: '/usuario',
+            dadosProps: [],
         }
     },
 
     computed: {
         ...mapGetters('usuario', ['dadosPessoais']),
+
+        idCadastro() {
+            return this.$route.params.id;
+        }
     },
 
     methods: {
@@ -40,10 +46,16 @@ export default {
             });
             this.reset();
         },
+
+        async buscaDados() {
+            let resp = await axios.get(`http://localhost:8000/api/${this.idCadastro}/usuario`);
+            return resp.data.usuario;
+        }
     },
     
-    mounted() {
+    async mounted() {
         this.reset();
+        this.dadosProps = await this.buscaDados();
     }
 };
 </script>

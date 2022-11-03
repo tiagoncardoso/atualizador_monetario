@@ -71,6 +71,12 @@ export default {
         ...mapGetters('usuario', ['dadosUsuario']),
     },
 
+    props: {
+        dados: {
+            type: [Object, Array]
+        }
+    },
+
     data() {
         return {
             show1: false,

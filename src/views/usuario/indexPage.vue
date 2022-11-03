@@ -12,7 +12,15 @@
                 class="elevation-1">
                 <template v-slot:item.cidade="{ item }">
                     {{item.cidade}}/{{item.uf}}
-                </template>  
+                </template>
+                <template v-slot:item.acoes="{ item }">
+                    <v-btn :to="idUrlEdit(item)" class="mr-1" small color="yellow">
+                        <v-icon>mdi-account-edit</v-icon>
+                    </v-btn>
+                    <v-btn color="red" small @click="item">
+                        <v-icon>mdi-delete-outline</v-icon>
+                    </v-btn>
+                </template>
             </v-data-table>
         </v-card>
     </div>
@@ -35,7 +43,7 @@ export default {
                 { text: 'Cidade/UF', value: 'cidade' },
                 { text: 'E-mail', value: 'email' },
                 { text: 'Status', value: 'status' },
-                { text: 'Ações', value: '#'},
+                { text: 'Ações', value: 'acoes'},
             ],
             buscaPessoa: [],
             link:'usuario/novo',
@@ -46,6 +54,10 @@ export default {
             let resp = await axios.get(`http://localhost:8000/api/usuario`);
             this.buscaPessoa = resp.data.usuarios;
         },
+
+        idUrlEdit(idParams) {
+            return `/usuario/edit/${idParams.id}`
+        }
     },
 
     async mounted() {
