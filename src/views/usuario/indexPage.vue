@@ -4,7 +4,7 @@
             <v-card-title>
                 Usuários
             </v-card-title>
-            <v-btn class="botao" :to="link" color="primary" >Novo</v-btn>
+            <v-btn class="botao" to="usuario/novo" color="primary" >Novo</v-btn>
             <v-data-table 
                 :headers="headers" 
                 :items="buscaPessoa" 
@@ -46,11 +46,10 @@ export default {
                 { text: 'Ações', value: 'acoes'},
             ],
             buscaPessoa: [],
-            link:'usuario/novo',
         };
     },
     methods: {
-        async buscaUsuario() {
+        async buscaUsuarios() {
             let resp = await axios.get(`http://localhost:8000/api/usuario`);
             this.buscaPessoa = resp.data.usuarios;
         },
@@ -61,7 +60,7 @@ export default {
     },
 
     async mounted() {
-        await this.buscaUsuario();
+        await this.buscaUsuarios();
     },
 };
 </script>

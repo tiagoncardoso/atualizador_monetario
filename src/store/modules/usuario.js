@@ -104,7 +104,11 @@ const mutations = {
         state.dadosUsuario.usuario= '';
         state.dadosUsuario.senha= '';
         state.dadosUsuario.confirmacaoSenha= '';
-    }
+    },
+
+    setDadosPessoais(state, setting) {
+        state.dadosPessoais.nome = setting.nome;
+    },
 };
 
 const actions = {

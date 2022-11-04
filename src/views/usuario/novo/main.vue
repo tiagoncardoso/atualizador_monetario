@@ -2,7 +2,7 @@
     <v-container fluid>
         <dados-pessoais />
         <dados-contato />
-        <dados-usuario :dados="dadosProps" />
+        <dados-usuario />
         <v-btn :to="link" class="botao" elevation="2" color="primary" @click="salvar()">salvar</v-btn>
     </v-container>
 </template>
@@ -19,7 +19,6 @@ export default {
     data(){
         return{
             link: '/usuario',
-            dadosProps: [],
         }
     },
 
@@ -33,7 +32,7 @@ export default {
 
     methods: {
         ...mapActions('usuario', ['saveUsuario']),
-        ...mapMutations('usuario', ['mostraOverlay', 'paraOverlay', 'reset']),
+        ...mapMutations('usuario', ['mostraOverlay', 'paraOverlay', 'reset', 'setDadosPessoais']),
 
         async salvar() {
             this.mostraOverlay();
@@ -49,13 +48,12 @@ export default {
 
         async buscaDados() {
             let resp = await axios.get(`http://localhost:8000/api/${this.idCadastro}/usuario`);
-            return resp.data.usuario;
+            this.setDadosPessoais(resp.data.usuario);
         }
     },
     
     async mounted() {
-        this.reset();
-        this.dadosProps = await this.buscaDados();
+        await this.buscaDados();
     }
 };
 </script>

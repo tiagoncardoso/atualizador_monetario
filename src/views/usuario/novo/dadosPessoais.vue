@@ -110,7 +110,8 @@ export default {
     },
 
     methods: {
-        ...mapMutations('usuario', ['syncEmail'])
+        ...mapMutations('usuario', ['syncEmail']),
+        
     },
 
     watch: {
