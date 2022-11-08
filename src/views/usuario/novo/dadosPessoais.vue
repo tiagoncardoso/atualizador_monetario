@@ -110,7 +110,7 @@ export default {
     },
 
     methods: {
-        ...mapMutations('usuario', ['syncEmail']),
+        ...mapMutations('usuario', ['syncEmail', 'padrao']),
         
     },
 
@@ -118,6 +118,11 @@ export default {
         'dadosPessoais.email'() {
             this.syncEmail()
         },
+
+        'dadosPessoais.dataNascimento'() {
+            debugger
+            this.padrao()
+        }
     }
 };
 </script>

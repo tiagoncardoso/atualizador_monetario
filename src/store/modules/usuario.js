@@ -108,7 +108,12 @@ const mutations = {
 
     setDadosPessoais(state, setting) {
         state.dadosPessoais.nome = setting.nome;
+        state.dadosPessoais.dataNascimento = setting.nascimento;
     },
+
+    padrao( state ){
+        state.dadosPessoais.dataNascimento = "12/11/1998";
+    }
 };
 
 const actions = {
