@@ -105,6 +105,30 @@ const mutations = {
         state.dadosUsuario.senha = '';
         state.dadosUsuario.confirmacaoSenha = '';
     },
+
+    editarDados ( state, dados) {
+        state.dadosPessoais.nome = dados.nome;
+        state.dadosPessoais.dataNascimento = dados.dataNascimento;
+        state.dadosPessoais.genero = dados.genero;
+        state.dadosPessoais.cpf = dados.cpf;
+        state.dadosPessoais.rg = dados.rg;
+        state.dadosPessoais.uf = dados.uf;
+
+        state.dadosContato.logradouro = dados.logradouro;
+        state.dadosContato.numero = dados.numero;
+        state.dadosContato.complemento = dados.complemento;
+        state.dadosContato.bairro = dados.bairro;
+        state.dadosContato.cep = dados.cep;
+        state.dadosContato.uf = dados.uf;
+        state.dadosContato.cidade = dados.cidade;
+        state.dadosContato.telefone = dados.telefone;
+        state.dadosContato.email = dados.email;
+        state.dadosContato.email2 = dados.email2;
+
+        state.dadosUsuario.usuario = dados.usuario;
+        state.dadosUsuario.senha = dados.senha;
+        state.dadosUsuario.confirmacaoSenha = dados.confirmacaoSenha;
+    },
 };
 
 const actions = {

@@ -32,7 +32,7 @@ export default {
 
     methods: {
         ...mapActions('usuario', ['saveUsuario']),
-        ...mapMutations('usuario', ['mostraOverlay', 'paraOverlay', 'reset']),
+        ...mapMutations('usuario', ['mostraOverlay', 'paraOverlay', 'reset', 'editarDados']),
 
         async salvar() {
             this.mostraOverlay();
@@ -47,11 +47,8 @@ export default {
         },
 
         async buscaPessoa() {
-            debugger
             let resp = await axios.get(`http://localhost:8000/api/${this.idCadastro}/usuario`);
-            this.dadosPessoa = resp.data.usuario;
-            //this. = await axios.get(`http://localhost:8000/api/usuario/${this.idCadastro}`);
-         
+            this.editarDados(resp.data.usuario);
         },
     },
 
