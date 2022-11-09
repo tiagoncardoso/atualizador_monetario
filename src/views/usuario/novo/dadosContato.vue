@@ -143,8 +143,6 @@
     </div>
 </template>
 
-
-
 <script>
 import InputCep from '@/components/shared/InputCep.vue';
 import InputPhone from '@/components/shared/InputPhone.vue';

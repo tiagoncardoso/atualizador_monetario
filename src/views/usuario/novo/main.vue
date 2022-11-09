@@ -11,20 +11,28 @@ import DadosContato from './dadosContato.vue';
 import DadosPessoais from './dadosPessoais.vue';
 import DadosUsuario from './dadosUsuario.vue';
 import { mapActions, mapMutations, mapGetters } from 'vuex';
+import axios from 'axios';
 
 export default {
     name: 'CadastroUsuario',
     components: { DadosContato, DadosPessoais, DadosUsuario },
-    data: () => ({
-    }),
+
+    data() {
+        return {
+            dadosPessoa:[],
+        };
+    },
 
     computed: {
         ...mapGetters('usuario', ['dadosPessoais']),
+        idCadastro() {
+            return parseInt(this.$route.params.id);
+        },
     },
 
     methods: {
         ...mapActions('usuario', ['saveUsuario']),
-        ...mapMutations('usuario', ['mostraOverlay', 'paraOverlay', 'reset']),
+        ...mapMutations('usuario', ['mostraOverlay', 'paraOverlay', 'reset', 'editarDados']),
 
         async salvar() {
             this.mostraOverlay();
@@ -37,15 +45,22 @@ export default {
             });
             this.reset();
         },
+
+        async buscaPessoa() {
+            let resp = await axios.get(`http://localhost:8000/api/${this.idCadastro}/usuario`);
+            this.editarDados(resp.data.usuario);
+        },
+    },
+
+    async mounted() {
+        await this.buscaPessoa();
     },
 };
 </script>
 
 <style scoped>
-
-.botao{
+.botao {
     margin: 10px 500px;
     width: 100px;
 }
-
 </style>

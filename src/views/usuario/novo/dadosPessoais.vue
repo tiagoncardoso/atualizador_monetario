@@ -19,11 +19,7 @@
                         </v-col>
 
                         <v-col cols="6">
-                            <input-date 
-                                v-model="dadosPessoais.dataNascimento" 
-                                label="Data de nascimento" 
-                                rules 
-                            />
+                            <input-date v-model="dadosPessoais.dataNascimento" label="Data de nascimento" rules />
                         </v-col>
 
                         <v-col cols="6">
@@ -39,13 +35,13 @@
                         </v-col>
 
                         <v-col cols="5">
-                            <input-cpf 
-                                v-model="dadosPessoais.cpf" 
-                                label="CPF (apenas digitos)*" 
-                                dense 
-                                outlined 
-                                counter="14" 
-                                rules 
+                            <input-cpf
+                                v-model="dadosPessoais.cpf"
+                                label="CPF (apenas digitos)*"
+                                dense
+                                outlined
+                                counter="14"
+                                rules
                                 placeholder
                                 persistent-placeholder
                             />
@@ -110,14 +106,14 @@ export default {
     },
 
     methods: {
-        ...mapMutations('usuario', ['syncEmail'])
+        ...mapMutations('usuario', ['syncEmail']),
     },
 
     watch: {
         'dadosPessoais.email'() {
-            this.syncEmail()
+            this.syncEmail();
         },
-    }
+    },
 };
 </script>
 

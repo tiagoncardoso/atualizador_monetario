@@ -32,7 +32,6 @@ export default {
 
     methods: {
         ...mapActions('usuario', ['fetchUfs', 'fetchCidades', 'saveUsuario']),
-
     },
 
     async mounted() {

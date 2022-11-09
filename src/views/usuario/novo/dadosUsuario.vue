@@ -67,6 +67,7 @@ import { mapGetters } from 'vuex';
 
 export default {
     name: 'DadosUsuario',
+
     computed: {
         ...mapGetters('usuario', ['dadosUsuario']),
     },
