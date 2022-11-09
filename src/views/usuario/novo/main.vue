@@ -1,8 +1,8 @@
 <template>
     <v-container fluid>
-        <dados-pessoais :dados='dadosPessoa' />
-        <dados-contato :dados='dadosPessoa' />
-        <dados-usuario :dados='dadosPessoa' />
+        <dados-pessoais />
+        <dados-contato />
+        <dados-usuario />
         <v-btn class="botao" elevation="2" color="primary" @click="salvar()">Salvar </v-btn>
     </v-container>
 </template>

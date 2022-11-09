@@ -12,7 +12,7 @@
             >
                 <template #activator="{ on, attrs }">
                     <v-text-field
-                        v-model="dateFormatted"
+                        v-model="atualizarDate"
                         :label="label"
                         hint="MM/DD/YYYY"
                         outlined
@@ -36,6 +36,11 @@
 <script>
 export default {
     name: 'InputDate',
+
+    model:{
+        prop: 'inputVal',
+        event: 'change',
+    },
 
     props: {
         label: {
@@ -63,6 +68,9 @@ export default {
             default: false,
         },
         rules: Boolean,
+        inputVal: {
+            type: String,
+        },
     },
     data() {
         return {
@@ -76,13 +84,29 @@ export default {
         computedDateFormatted() {
             return this.formatDate(this.date);
         },
+
+        parsedDate: {
+            get(){
+                return this.inputVal;
+            },
+            set(value){
+                this.$emit('change', value);
+            },
+        },
+
+        atualizarDate(){
+            if(this.date != ''){
+                return this.computedDateFormatted;
+            }else{
+                return this.parsedDate;
+            }
+        },
     },
 
     watch: {
         date() {
             this.dateFormatted = this.formatDate(this.date);
         },
-
         dateFormatted(novaData) {
             this.$emit('input', novaData);
         },

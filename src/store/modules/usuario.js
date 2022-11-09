@@ -108,7 +108,7 @@ const mutations = {
 
     editarDados ( state, dados) {
         state.dadosPessoais.nome = dados.nome;
-        state.dadosPessoais.dataNascimento = dados.dataNascimento;
+        state.dadosPessoais.dataNascimento = dados.nascimento;
         state.dadosPessoais.genero = dados.genero;
         state.dadosPessoais.cpf = dados.cpf;
         state.dadosPessoais.rg = dados.rg;
@@ -127,7 +127,6 @@ const mutations = {
 
         state.dadosUsuario.usuario = dados.usuario;
         state.dadosUsuario.senha = dados.senha;
-        state.dadosUsuario.confirmacaoSenha = dados.confirmacaoSenha;
     },
 };
 
