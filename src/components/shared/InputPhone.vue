@@ -2,7 +2,7 @@
     <v-row>
         <v-col>
             <v-text-field
-                v-model="fone"
+                v-model="parsedDate"
                 v-mask="'(###) #####-####'"
                 :label="label"
                 :outlined="outlined"
@@ -18,6 +18,12 @@
 <script>
 export default {
     name: 'InputPhone',
+
+    model:{
+        prop: 'inputVal',
+        event: 'change',
+    },
+
     props: {
         label: {
             type: String,
@@ -39,7 +45,11 @@ export default {
             type: String,
             default: '',
         },
+        inputVal: {
+            type: String,
+        },
     },
+
     data() {
         return {
             fone: '',
@@ -48,6 +58,18 @@ export default {
             },
         };
     },
+
+    computed:{
+        parsedDate: {
+            get(){
+                return this.inputVal;
+            },
+            set(value){
+                this.$emit('change', value);
+            },
+        },
+    },
+
     watch: {
         fone(v) {
             this.$emit('input', v);

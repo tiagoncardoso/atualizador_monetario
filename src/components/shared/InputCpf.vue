@@ -2,7 +2,7 @@
     <v-row>
         <v-col>
             <v-text-field
-                v-model="cpf"
+                v-model="parsedDate"
                 v-mask="'###.###.###-##'"
                 :label="label"
                 :outlined="outlined"
@@ -19,6 +19,12 @@
 <script>
 export default {
     name: 'InputCpf',
+
+    model:{
+        prop: 'inputVal',
+        event: 'change',
+    },
+
     props: {
         label: {
             type: String,
@@ -39,12 +45,28 @@ export default {
             type: Boolean,
             default: false,
         },
+        inputVal: {
+            type: String
+        },
     },
+
     data() {
         return {
             cpf: '',
         };
     },
+
+    computed: {
+        parsedDate: {
+            get(){
+                return this.inputVal;
+            },
+            set(value){
+                this.$emit('change', value);
+            },
+        },
+    },
+
     watch: {
         cpf(novoCpf) {
             this.$emit('input', novoCpf);

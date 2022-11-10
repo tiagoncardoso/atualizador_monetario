@@ -112,7 +112,7 @@ const mutations = {
         state.dadosPessoais.genero = dados.genero;
         state.dadosPessoais.cpf = dados.cpf;
         state.dadosPessoais.rg = dados.rg;
-        state.dadosPessoais.uf = dados.uf;
+        state.dadosPessoais.ufEmissor = dados.uf;
 
         state.dadosContato.logradouro = dados.logradouro;
         state.dadosContato.numero = dados.numero;
