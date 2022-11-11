@@ -107,20 +107,11 @@ const mutations = {
     },
 
     editarDados ( state, dados) {
-        debugger
         state.dadosPessoais.nome = dados.nome;
         state.dadosPessoais.dataNascimento = dados.nascimento;
         state.dadosPessoais.genero = dados.genero;
         state.dadosPessoais.cpf = dados.cpf;
         state.dadosPessoais.rg = dados.rg;
-
-        
-        // state.api.estados.map((estado) => [
-        //     filtroEstado = estado.uf
-        // ])
-
-        // console.log(filtroEstado)
-        // let ufFiltro = state.api.estados.filter((filtro) => filtro == dados.uf);
         state.dadosPessoais.ufEmissor = getItemByUf(dados.uf_rg, state);
 
         state.dadosContato.logradouro = dados.logradouro;
@@ -182,7 +173,6 @@ const actions = {
 };
 
 function getItemByUf(ufStr, state) {
-    debugger
     const estados = state.api.estados
     return estados
             .filter((item) => item.uf === ufStr)
