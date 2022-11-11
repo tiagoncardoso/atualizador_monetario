@@ -34,9 +34,8 @@ export default {
         ...mapActions('usuario', ['fetchUfs', 'fetchCidades', 'saveUsuario']),
     },
 
-    async mounted() {
+    async created() {
         await this.fetchUfs();
-        await this.fetchCidades();
     },
 };
 </script>

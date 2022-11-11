@@ -2,7 +2,7 @@
     <v-row>
         <v-col>
             <v-text-field
-                v-model="cep"
+                v-model="parsedCep"
                 v-mask="'#####-###'"
                 :label="label"
                 :outlined="outlined"
@@ -18,6 +18,12 @@
 <script>
 export default {
     name: 'InputCep',
+
+    model: {
+        prop: 'inputVal',
+        event: 'change',
+    },
+
     props: {
         label: {
             type: String,
@@ -39,6 +45,9 @@ export default {
             type: String,
             default: '',
         },
+        inputVal: {
+            type: String,
+        }
     },
     data() {
         return {
@@ -48,6 +57,19 @@ export default {
             },
         };
     },
+
+    computed: {
+        parsedCep: {
+            get() {
+                return this.inputVal;
+            },
+            
+            set(value) {
+                this.$emit('change', value);
+            }
+        }
+    },
+
     watch: {
         cep(novoCep) {
             this.$emit('input', novoCep);

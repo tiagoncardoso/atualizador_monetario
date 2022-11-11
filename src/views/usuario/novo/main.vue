@@ -28,6 +28,10 @@ export default {
         idCadastro() {
             return parseInt(this.$route.params.id);
         },
+
+        isEdit() {
+            return !!this.$route.params.id
+        },
     },
 
     methods: {
