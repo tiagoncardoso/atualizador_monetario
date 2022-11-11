@@ -107,19 +107,28 @@ const mutations = {
     },
 
     editarDados ( state, dados) {
+        debugger
         state.dadosPessoais.nome = dados.nome;
         state.dadosPessoais.dataNascimento = dados.nascimento;
         state.dadosPessoais.genero = dados.genero;
         state.dadosPessoais.cpf = dados.cpf;
         state.dadosPessoais.rg = dados.rg;
-        state.dadosPessoais.uf = dados.uf;
+
+        
+        // state.api.estados.map((estado) => [
+        //     filtroEstado = estado.uf
+        // ])
+
+        // console.log(filtroEstado)
+        // let ufFiltro = state.api.estados.filter((filtro) => filtro == dados.uf);
+        state.dadosPessoais.ufEmissor = getItemByUf(dados.uf_rg, state);
 
         state.dadosContato.logradouro = dados.logradouro;
         state.dadosContato.numero = dados.numero;
         state.dadosContato.complemento = dados.complemento;
         state.dadosContato.bairro = dados.bairro;
         state.dadosContato.cep = dados.cep;
-        state.dadosContato.uf = dados.uf;
+        state.dadosContato.uf = getItemByUf(dados.uf, state);;
         state.dadosContato.cidade = dados.cidade;
         state.dadosContato.telefone = dados.telefone;
         state.dadosContato.email = dados.email;
@@ -171,6 +180,14 @@ const actions = {
         return await axios.post('http://localhost:8000/api/usuario', payload);
     },
 };
+
+function getItemByUf(ufStr, state) {
+    debugger
+    const estados = state.api.estados
+    return estados
+            .filter((item) => item.uf === ufStr)
+            .map((item) => ({ id: item.id, uf: item.uf }))[0]
+}
 
 export default {
     namespaced: true,
