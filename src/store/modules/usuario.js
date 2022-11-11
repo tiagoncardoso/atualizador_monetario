@@ -112,7 +112,7 @@ const mutations = {
         state.dadosPessoais.genero = dados.genero;
         state.dadosPessoais.cpf = dados.cpf;
         state.dadosPessoais.rg = dados.rg;
-        state.dadosPessoais.ufEmissorEmissor = getItemByUf(dados.uf_rg, state);
+        state.dadosPessoais.ufEmissor = getItemByUf(dados.uf_rg, state);
 
         state.dadosContato.logradouro = dados.logradouro;
         state.dadosContato.numero = dados.numero;
@@ -169,6 +169,38 @@ const actions = {
             },
         };
         return await axios.post('http://localhost:8000/api/usuario', payload);
+    },
+
+    async editUsuario({ state }, id) {
+        debugger
+        const edit = {
+            pessoa: {
+                nome: state.dadosPessoais.nome,
+                dataNascimento: state.dadosPessoais.dataNascimento,
+                genero: state.dadosPessoais.genero,
+                cpf: state.dadosPessoais.cpf,
+                rg: state.dadosPessoais.rg,
+                ufEmissor: state.dadosPessoais.ufEmissor.id,
+            },
+
+            contato: {
+                logradouro: state.dadosContato.logradouro,
+                numero: state.dadosContato.numero,
+                complemento: state.dadosContato.complemento,
+                bairro: state.dadosContato.bairro,
+                cep: state.dadosContato.cep,
+                uf: state.dadosContato.uf.id,
+                cidade: state.dadosContato.cidade.id,
+                telefone: state.dadosContato.telefone,
+                email: state.dadosContato.email,
+                email2: state.dadosContato.email2,
+            },
+
+            usuario: {
+                usuario: state.dadosUsuario.usuario,
+            },
+        };
+        return await axios.put(`http://localhost:8000/api/usuario/${id}`, edit);
     },
 };
 

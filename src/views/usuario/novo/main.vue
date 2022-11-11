@@ -2,8 +2,9 @@
     <v-container fluid>
         <dados-pessoais />
         <dados-contato />
-        <dados-usuario />
-        <v-btn class="botao" elevation="2" color="primary" @click="salvar()">Salvar </v-btn>
+        <dados-usuario :saveOrEdit="isEdit" />
+        <v-btn v-if="!isEdit" class="botao" elevation="2" color="primary" @click="salvar()">Salvar </v-btn>
+        <v-btn v-else class="botao" elevation="2" color="primary" @click="edicao()">Edição </v-btn>
     </v-container>
 </template>
 <script>
@@ -36,20 +37,33 @@ export default {
 
     methods: {
         ...mapActions('usuario', ['saveUsuario']),
+        ...mapActions('usuario', ['editUsuario']),
         ...mapMutations('usuario', ['mostraOverlay', 'paraOverlay', 'reset', 'editarDados']),
 
         async salvar() {
             this.mostraOverlay();
-            await this.saveUsuario();
+            const resp = await this.saveUsuario();
+            this.popout('Cadastro!', resp.data.message);
             this.paraOverlay();
-            this.$swal({
-                icon: 'success',
-                title: 'Cadastro de usuário',
-                text: 'Cadastro realizado com sucesso!',
-            });
             this.reset();
         },
 
+        async edicao() {
+            this.mostraOverlay();
+            const resp = await this.editUsuario(this.idCadastro);
+            this.popout('Edição!', resp.data.message);
+            this.paraOverlay();
+            this.reset();
+        },
+
+        popout(titulo, texto) {
+            this.$swal({
+                icon: 'success',
+                title: titulo,
+                text: texto,
+            });
+        },
+        
         async buscaPessoa() {
             let resp = await axios.get(`http://localhost:8000/api/${this.idCadastro}/usuario`);
             this.editarDados(resp.data.usuario);
@@ -57,7 +71,9 @@ export default {
     },
 
     async mounted() {
-        await this.buscaPessoa();
+        if(this.idCadastro){
+            await this.buscaPessoa();
+        }
     },
 };
 </script>

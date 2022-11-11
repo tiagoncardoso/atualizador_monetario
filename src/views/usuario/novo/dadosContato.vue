@@ -154,7 +154,7 @@ export default {
         InputCep,
         InputPhone,
     },
-
+    
     computed: {
         ...mapGetters('usuario', ['dadosContato', 'listaUfs', 'listaCidades']),
     },

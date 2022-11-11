@@ -18,7 +18,7 @@
                             />
                         </v-col>
 
-                        <v-col cols="4">
+                        <v-col v-show="!saveOrEdit" cols="4">
                             <v-text-field
                                 v-model="dadosUsuario.senha"
                                 label="Senha*"
@@ -35,7 +35,7 @@
                             />
                         </v-col>
 
-                        <v-col cols="4">
+                        <v-col v-show="!saveOrEdit" cols="4">
                             <v-text-field
                                 v-model="dadosUsuario.confirmacaoSenha"
                                 label="Confirmação de senha*"
@@ -70,6 +70,12 @@ export default {
 
     computed: {
         ...mapGetters('usuario', ['dadosUsuario']),
+    },
+
+    props:{
+        saveOrEdit: {
+            type: Boolean
+        }
     },
 
     data() {
