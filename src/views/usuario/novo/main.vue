@@ -36,8 +36,7 @@ export default {
     },
 
     methods: {
-        ...mapActions('usuario', ['saveUsuario']),
-        ...mapActions('usuario', ['editUsuario']),
+        ...mapActions('usuario', ['saveUsuario', 'editUsuario']),
         ...mapMutations('usuario', ['mostraOverlay', 'paraOverlay', 'reset', 'editarDados']),
 
         async salvar() {
@@ -54,6 +53,7 @@ export default {
             this.popout('Edição!', resp.data.message);
             this.paraOverlay();
             this.reset();
+            
         },
 
         popout(titulo, texto) {
@@ -61,6 +61,9 @@ export default {
                 icon: 'success',
                 title: titulo,
                 text: texto,
+            }).then(() => {
+                this.$router.push('/usuario');
+                this.reset;
             });
         },
         
@@ -75,6 +78,10 @@ export default {
             await this.buscaPessoa();
         }
     },
+
+    beforeDestroy() {
+        this.reset;
+    }
 };
 </script>
 

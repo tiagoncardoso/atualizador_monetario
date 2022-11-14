@@ -12,7 +12,7 @@
                     <v-btn :to="linkEdicao(item)" color="yellow" class="pequeno">
                         <v-icon small> mdi-pencil </v-icon>
                     </v-btn>
-                    <v-btn color="red" class="pequeno">
+                    <v-btn @click="deletar(item)" color="red" class="pequeno">
                         <v-icon small> mdi-delete </v-icon>
                     </v-btn>
                 </template>
@@ -52,6 +52,26 @@ export default {
         },
         linkEdicao(objPessoa) {
             return `usuario/edit/${objPessoa.id}`;
+        },
+
+        async deletar(rota) {
+            this.popout(rota.id);
+        },
+
+        popout(id) {
+            this.$swal({
+                title: 'Tem certeza que deseja deletar ?',
+                showDenyButton: true,
+                confirmButtonText: 'Deletar',
+                denyButtonText: `Cancelar`,
+            }).then( async (result) => {
+                if(result.isConfirmed){
+                    await axios.delete(`http://localhost:8000/api/usuario/${id}`)
+                    this.$swal('Deletado!', '', 'success').then(() => {
+                        this.buscaUsuario(); 
+                    })
+                }
+            });
         },
     },
 
