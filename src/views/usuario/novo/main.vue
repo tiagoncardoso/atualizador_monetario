@@ -8,7 +8,7 @@
     </v-container>
 </template>
 <script>
-import DadosContato from './dadosContato.vue';
+import DadosContato from '.z/dadosContato.vue';
 import DadosPessoais from './dadosPessoais.vue';
 import DadosUsuario from './dadosUsuario.vue';
 import { mapActions, mapMutations, mapGetters } from 'vuex';
